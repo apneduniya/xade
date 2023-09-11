@@ -1,0 +1,9 @@
+.css-10mozfj {
+  display: none !important;
+}
+
+@media(max-width : 804px) {
+  .css-10mozfj {
+    display: flex !important;
+  }
+}

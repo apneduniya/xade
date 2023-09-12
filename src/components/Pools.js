@@ -95,6 +95,7 @@ const Pools = () => {
     },
   ];
 
+
   function valuetext(value) {
     return `${value}°C`;
   }
@@ -105,13 +106,6 @@ const Pools = () => {
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    // console.log('newValue',newValue)
-    // if(idActive === 1){
-    //   setValue(80);
-    // }
-    // else{
-    //   setValue(20);
-    // }
   };
 
   return (
@@ -450,7 +444,7 @@ const Pools = () => {
                                 }}
                                 track={idActive === 1 ? "" : 'inverted'}
                                 aria-label="Restricted values"
-                                defaultValue={idActive === 1 ? 80 : 20}
+                                defaultValue={value}
                                 getAriaValueText={valuetext}
                                 onChange={handleSliderChange}
                                 step={null}
@@ -478,7 +472,12 @@ const Pools = () => {
                                 </span>
                                 <div className="amtm">
                                   <div className="amtm1" style={{border:'1px solid #383737', padding:'0 8px'}}>
-                                    <div className="amtm1lo"></div>
+                                  <div 
+                                    className="amtm1lo" 
+                                    style={{width:'28px', backgroundImage:'none', display:'flex', alignItem:'center'}}
+                                    >
+                                    <img style={{width:'24px'}} src="https://app.perp.com/assets/coins/usd.svg" alt="usdImg" />
+                                    </div>
                                     <div className="amtm1in">
                                       <input
                                         style={{ color: "white" }}
@@ -795,13 +794,15 @@ const Pools = () => {
                                   </div>
                                   <input type="text" />
                                 </div>
-                                <div
-                                  className="bumain1"
-                                  style={{ border: "none" }}
-                                >
-                                  <div className="bm1cont" style={{width:'15%', marginLeft:'7px'}}>
+                                <div className="bumain1" style={{borderBottom: '2px solid rgb(51, 51, 51)'}}>
+                                  <div className="bm1cont" style={{width:'15%', marginLeft:'9px'}}>
                                     {/* <div className="mbtn"> */}
-                                    <div className="amtm1lo" style={{height:'28px', width:'28px', marginRight:'2px'}}></div>
+                                    <div 
+                                    className="amtm1lo" 
+                                    style={{width:'28px', backgroundImage:'none'}}
+                                    >
+                                    <img style={{width:'24px'}} src="https://app.perp.com/assets/coins/usd.svg" alt="usdImg" />
+                                    </div>
                                     {/* </div> */}
                                     
                                     <div className="mbtn-t">

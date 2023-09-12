@@ -135,3 +135,36 @@
     background: #9e68e9;
     cursor: pointer;
 }
+.transactionHistoryContainer{
+    width: 60%;
+    border: 1px solid #232325;
+    height: inherit;
+}
+.blogNewsContainer{
+    width: 40%;
+    border: 1px solid #232325;
+    height: inherit;
+}
+.blogNewsHeader{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    height: 54px;
+    justify-content: center;
+    border-bottom: 1px solid #232325;
+    width: 100%;
+}
+.newsBlock{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #232325;
+    padding: 3px 12px;
+}
+.newsHeading{
+    font-size: 18px;
+    font-family: math;
+}
+.newsTimestamp{
+    font-family: fangsong;
+    color: gray;
+}

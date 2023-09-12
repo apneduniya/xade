@@ -79,6 +79,40 @@ const Derivex = () => {
     }
 };
 
+const API_KEY = '9dd9f0cf-1bdf-437b-93f9-05a7bc164f57'; // Replace with your CoinMarketCap API key
+const BASE_URL = 'https://pro-api.coinmarketcap.com';
+
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'X-CMC_PRO_API_KEY': API_KEY,
+  },
+});
+
+// Define a function for making a GET request to a specific endpoint
+ const getNewsData = async () => {
+  try {
+    const response = await api.get('/v1/cryptocurrency/listings/latest'); // Example endpoint
+    console.log('response.data',response.data)
+    // return response.data; // Return the response data
+  } catch (error) {
+    // throw error; // Handle errors as needed
+    console.log('error',error)
+  }
+  finally{
+
+  }
+};
+
+const newsValues = [
+  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
+  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
+  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
+  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
+  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
+  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
+]
+
 // const tradeSelector = () => {
 //   if (value < 10){
 //     setTabActive(true);
@@ -92,7 +126,7 @@ const Derivex = () => {
 useEffect(() => {
   // Fetch data initially
   fetchbtcdata();
-
+  getNewsData();
   // Set up an interval to fetch data every minute (60,000 milliseconds)
   const fetchInterval = setInterval(fetchbtcdata, 60000);
 
@@ -544,7 +578,7 @@ useEffect(() => {
                 <TradingViewWidget />
                 <div className="marketNewsContainer" style={{height:'22rem'}}>
 
-                <div className="tvwnshmt1" style={{borderRight:'1px solid #232325', maxHeight:'100%', height:'inherit'}}>
+                <div className="tvwnshmt1" style={{borderRight:'1px solid #232325', maxHeight:'none', height:'inherit'}}>
                   <div
                     className="tvwnshl"
                     id="tvwnshm1"
@@ -558,7 +592,7 @@ useEffect(() => {
                 </div>
 
                 <div className="tvwns" style={{height:'inherit', borderBottom:'1px solid #232325'}}>
-              <div className="tvwnsh">
+              <div className="transactionHistoryContainer">
                 <div className="tvwnshl">
                   &nbsp;&nbsp;&nbsp;
                   <button
@@ -790,7 +824,7 @@ useEffect(() => {
                   </Drawer>
                 )}
               </div>
-              <div className="tvwnshm">
+              {/* <div className="tvwnshm">
                 <div
                   className="tvwnshl"
                   id="tvwnshm1"
@@ -801,11 +835,30 @@ useEffect(() => {
                 <div className="tablecontainer">
                   <Table data={rows} />
                 </div>
-              </div>
+              </div> */}
             
+                <div className="blogNewsContainer">
+                  <div className="blogNewsHeader">
+                    <span>Market Updates</span>
+                  </div>
+
+                  <div className="blogNewsBody" style={{overflow:'scroll', height:'calc(100% - 54px)'}}>
+                  {newsValues && newsValues.map((item) => {
+                    return (
+                      <div className="newsBlock">
+                    <span className="newsHeading">
+                    {item.label}
+                    </span>
+                    <span className="newsTimestamp">{item.value}</span>
+                    </div>
+                    )
+                  })}
+                    
+                  </div>
+
+                </div>
             </div>
 
-                <div className="blogNewsContainer"></div>
 
                 </div>
               </div>
@@ -1280,13 +1333,15 @@ useEffect(() => {
             value={typeof value === 'number' ? value : 0}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
-            valueLabelDisplay="auto"
+            valueLabelDisplay="off"
             marks={leverageMarks}
             getAriaValueText={(e)=> e}
             
+            
             sx={{
               " .MuiSlider-markLabel": {
-                color: "#82828F", // Set the desired mark label color here
+                 color: "#82828F", // Set the desired mark label color here
+                
               },
               ".MuiSlider-rail": {
                 color: "#282C3B",
@@ -1299,9 +1354,9 @@ useEffect(() => {
                 color: "#282C3B",
               },
               "	.MuiSlider-track": {
-                backgroundColor: "#3CDF60",
                 height: "10px",
                 border: "0px",
+                background: 'linear-gradient(90deg, #E72654, #3CDF60)', // Apply a gradient for multicolor effect
               },
               ".MuiSlider-valueLabel:before": {
                 width: "0px",

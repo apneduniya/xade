@@ -3,8 +3,6 @@
   src: url("https://res.cloudinary.com/xade-finance/raw/upload/v1684691512/Euclid_Circular_A_Medium_tq5qyw.ttf");
 }
 
-
-
 .header {
   font-size: 2.7rem;
   font-family: NeueMontreal-Bold;
@@ -23,7 +21,6 @@ div.tvwhm {
 }
 
 .tvwnshr {
- 
   height: 59px;
   display: flex;
   flex-direction: row;
@@ -45,7 +42,6 @@ div.tvwhm {
   padding: 5px 7px;
   cursor: pointer;
 }
-
 
 .tvwnshr button:focus {
   background-color: rgb(30, 30, 30);
@@ -72,7 +68,7 @@ div.tvwhm {
 }
 
 .CardbuttonContainer button {
-  background-color: #2D2D2D;
+  background-color: #2d2d2d;
   border-style: none;
   font-weight: bold;
   color: white;
@@ -93,7 +89,6 @@ div.tvwhm {
   justify-content: center;
   align-items: center;
 }
-
 
 .boxgfather {
   display: flex;
@@ -125,7 +120,7 @@ div.tvwhm {
 }
 
 .betterbox1 {
-  background: linear-gradient(113.01deg, #8C46FF -2.72%, #B080FF 111.29%);
+  background: linear-gradient(113.01deg, #8c46ff -2.72%, #b080ff 111.29%);
   background-image: url(https://res.cloudinary.com/xade-finance/image/upload/v1684747054/Real_world_use_pgdual.png);
 }
 
@@ -168,7 +163,6 @@ div.tvwhm {
 }
 
 .tvwnshm {
-
   width: 18em;
   max-height: 320.86px;
   display: none;
@@ -220,7 +214,6 @@ thead {
 .table2 tr td {
   font-size: small;
   padding: 7px 15px;
-
 }
 
 .table2 tr {
@@ -232,7 +225,6 @@ thead {
   justify-content: center;
   height: 93px;
 }
-
 
 .theadm {
   padding-bottom: 20px;
@@ -251,21 +243,21 @@ thead {
   width: 100%;
   height: 36px;
   display: flex;
-  flex-direction:  bottom;
+  flex-direction: bottom;
   justify-content: center;
   align-items: end;
 }
 
 .sharebtn button {
-  color: #ADADBB;
+  color: #adadbb;
   font-weight: 500;
   background-color: #121216;
-  border-radius: 7px 7px 0 0 ;
+  border-radius: 7px 7px 0 0;
   border-style: none;
   border-left: 1px solid #27272b;
   border-top: 1px solid #27272b;
   border-right: 1px solid #27272b;
-  padding: 5px 18px 0px 18px
+  padding: 5px 18px 0px 18px;
 }
 .maincontentdrawer {
   height: 100%;
@@ -279,18 +271,19 @@ thead {
   width: 100%;
 }
 
-.drawertable td{
+.drawertable td {
   text-align: right;
-  width : 100%
+  width: 100%;
 }
 
-.drawertable th,td {
+.drawertable th,
+td {
   color: white;
 }
 
 .drawertable tbody tr th {
   font-weight: normal;
-  color:  #ADADBB;
+  color: #adadbb;
   width: 100%;
 }
 
@@ -310,7 +303,7 @@ thead {
   color: #3deca7;
 }
 
-.dh1  div{
+.dh1 div {
   color: #3deca7;
   font-size: 1.4em;
   font-weight: 500;
@@ -318,7 +311,7 @@ thead {
   flex-direction: row;
 }
 
-.dh1  div img {
+.dh1 div img {
   width: 26px;
 }
 
@@ -381,8 +374,7 @@ thead {
 }
 
 .tradingview-widget-container {
-  height: 350px;
-  width: 55em;
+  width: 100%;
   border-right: 1px solid #232325;
 }
 
@@ -429,14 +421,12 @@ thead {
 
 .tvwch-2 span {
   font-size: 12px;
-
 }
 
 .tvwch-2 .oi {
-
-  color: #82828F;
+  color: #82828f;
   width: 93px;
-  border-bottom: 0.5px dashed #82828F;
+  border-bottom: 0.5px dashed #82828f;
 }
 
 .tvwch-2 .oid {
@@ -474,7 +464,6 @@ thead {
   color: white;
   font-size: larger;
   font-weight: bold;
-
 }
 
 .tvwch-2-2 {
@@ -485,10 +474,9 @@ thead {
   padding-right: 12px;
 }
 
-
 .tvwch-2-2 span {
   margin-left: 20px;
-  color: #3DECA7;
+  color: #3deca7;
 }
 
 /* 
@@ -503,18 +491,15 @@ thead {
   align-items: center;
 }
 
-
-
 .tvwch-3-1 span {
   font-size: small;
   width: 81px;
-  color: #82828F;
-  border-bottom: 0.5px dashed #82828F;
+  color: #82828f;
+  border-bottom: 0.5px dashed #82828f;
 }
 
 #vq1 {
   width: 100%;
-  
 }
 
 .tvwch-3-2 {
@@ -540,7 +525,6 @@ thead {
 .tvwch-4-2 span {
   font-size: small;
   width: 69%;
-
 }
 
 .tvwch-5-2 {
@@ -554,22 +538,21 @@ thead {
 .tvwch-5-2 span {
   font-size: small;
   padding-left: 4px;
-  color: #3DECA7;
+  color: #3deca7;
 }
 
 /*  */
 
 .poolsbtn {
-  padding : 0px 10px;
+  padding: 0px 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 88px;
- cursor: pointer;
-  
+  cursor: pointer;
 }
-.poolsbtn span{
+.poolsbtn span {
   width: 100%;
   height: 100%;
   display: flex;
@@ -577,8 +560,10 @@ thead {
   justify-content: center;
 }
 
-
 #tradingview_159b9 {
+  height: 100%;
+}
+#tradingview_87f1e {
   height: 100%;
 }
 
@@ -591,8 +576,6 @@ thead {
   margin-top: 6.8em;
   font-family: "Medium";
 }
-
-
 
 .tvwc {
   height: 60%;
@@ -633,18 +616,18 @@ thead {
 }
 
 .tvwnshr1 {
- height: 259.86px;
- padding-left: 6px;
+  height: 259.86px;
+  padding-left: 6px;
   width: 100%;
 }
 
 .tvwnshr12321 {
   height: 259.86px;
   padding-left: 6px;
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .tdclose {
@@ -652,7 +635,6 @@ thead {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
 }
 
 .tdclose button {
@@ -674,18 +656,16 @@ thead {
   color: rgb(116, 118, 119);
 }
 
-
 .tvwnshl {
   width: 100%;
   height: 54px;
   border-bottom: 1px solid #232325;
   display: flex;
   flex-direction: row;
-
 }
 
 .tvwnshl button {
-  color: #ADADBB;
+  color: #adadbb;
   background-color: black;
   border-style: none;
   padding: 0px 10px;
@@ -720,10 +700,7 @@ thead {
 
 #tvwp2 {
   height: 743px;
-
 }
-
-
 
 .tvwpht {
   width: 100%;
@@ -754,7 +731,7 @@ thead {
 }
 
 #tvwphtll {
-  border-bottom: 3px solid #3DECA7;
+  border-bottom: 3px solid #3deca7;
   color: white;
   background-color: rgb(17, 17, 17);
 }
@@ -764,12 +741,10 @@ thead {
 }
 
 #tvwphtls {
-  border-bottom: 3px solid #D34A4A;
+  border-bottom: 3px solid #d34a4a;
   color: white;
   background-color: rgb(17, 17, 17);
 }
-
-
 
 .tvwpht2 {
   height: 93.3%;
@@ -779,28 +754,24 @@ thead {
 
 .tvwpht2-m {
   height: 30px;
-    width: 18rem;
-    /* justify-content: space-around; */
-    /* background-color: #1A1A22; */
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
+  width: 18rem;
+  /* justify-content: space-around; */
+  /* background-color: #1A1A22; */
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
 }
-
-
 
 .tvwpht2-m button {
   height: 100%;
-    border-style: solid;
-    outline: none;
-    border: none;
-    color: #82828F;
-    background-color: #201f1f;
-    margin-right: 35px;
-    padding: 0 9px;
+  border-style: solid;
+  outline: none;
+  border: none;
+  color: #82828f;
+  background-color: #111;
+  margin-right: 35px;
+  padding: 0 9px;
 }
-
-
 
 .tvwpht2-m button:hover {
   color: #5f5f62;
@@ -809,25 +780,24 @@ thead {
 
 #tvwpht2-mb {
   background-color: #383737;
-    border-radius: 9px;
-    color: white;
-    display: flex;
-    align-items: center;
+  border-radius: 9px;
+  color: white;
+  display: flex;
+  align-items: center;
 }
 
 .tvwpht2-c {
   background-color: black;
-    margin: 10px 0px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 11px;
-    border: 1px solid #383737;
-    padding: 6px 10px;
-    line-height: 18px;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 11px;
+  border: 1px solid #383737;
+  padding: 6px 10px;
+  line-height: 18px;
 }
 
 .tvwpht2-c1 {
-
   height: 40%;
   /* padding: 5px; */
   padding-left: 10px;
@@ -835,7 +805,7 @@ thead {
 
 .tvwpht2-c1 span {
   font-size: small;
-  color: #82828F;
+  color: #82828f;
 }
 
 .tvwpht2-c2 {
@@ -845,30 +815,29 @@ thead {
 
 .tvwpht2-c2 input {
   width: 80%;
-    font-size: large;
-    background-color: transparent;
-    color: white;
-    border-style: none;
-    padding-left: 10px;
+  font-size: large;
+  background-color: transparent;
+  color: white;
+  border-style: none;
+  padding-left: 10px;
 }
 
 .tvwpht2-c2 input:focus {
   outline: none;
-
 }
 
 .tvwpht2-r {
   margin: 8px 0px;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .tvwpht2-r1 {
   height: 40%;
-    width: 99%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  width: 99%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .tvwpht2-r1-1 {
@@ -878,12 +847,11 @@ thead {
 
 .tvwpht2-r1-1 span {
   font-size: small;
-  color: #82828F;
+  color: #82828f;
   margin-left: 4px;
 }
 
 .tvwpht2-r1-1 {
-
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -923,7 +891,6 @@ thead {
 }
 
 #r2-2r {
-
   margin-left: 10px;
   background-color: white;
 }
@@ -1000,7 +967,7 @@ thead {
 
 .tvwpht2-s1-span {
   font-size: small;
-  color: #D33E2C;
+  color: #d33e2c;
 }
 
 .tvwpht2-s2 {
@@ -1031,8 +998,8 @@ button.tvwpht2-s2-1-c {
   height: auto;
   font-size: smaller;
   cursor: pointer;
-  background-color: #1A1A22;
-  color: #425F62;
+  background-color: #1a1a22;
+  color: #425f62;
 }
 
 button.tvwpht2-s2-1-c:hover {
@@ -1050,27 +1017,26 @@ input.tvwpht2-s2-1-c {
   border-bottom: none;
   border-left: 1px solid black;
   outline: none;
-  background-color: #1A1A22;
+  background-color: #1a1a22;
   color: white;
   padding-left: 4px;
 }
 
 input.tvwpht2-s2-1-c::placeholder {
   font-size: smaller;
-  background-color: #1A1A22;
+  background-color: #1a1a22;
   text-align: center;
   align-self: center;
   align-content: center;
   border-style: none;
   outline: none;
-  color: #425F62;
-
+  color: #425f62;
 }
 
 /*  */
 
 .table1 {
-  width:100%;
+  width: 100%;
 }
 
 .tvwpht2-btn {
@@ -1088,8 +1054,8 @@ input.tvwpht2-s2-1-c::placeholder {
   background-color: #404046;
   outline: none;
   border-style: none;
-  color: #8D8D9C;
-  border: 0.5px solid #5C5B64;
+  color: #8d8d9c;
+  border: 0.5px solid #5c5b64;
 }
 
 /* .tvwpht2-btn #button1 {
@@ -1109,33 +1075,32 @@ input.tvwpht2-s2-1-c::placeholder {
 } */
 
 .bcont {
-  width : 100%;
+  width: 100%;
   height: 37px;
-    background-image:linear-gradient(45deg, #FC66FF, #FEC5FF);
-    border-radius: 10px;
-    box-sizing: border-box;
-    display: block;
-    letter-spacing: 1px;
-    margin: 0 auto;
-    padding: 1px;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
+  background-image: linear-gradient(45deg, #fc66ff, #fec5ff);
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: block;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  padding: 1px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .bcont span {
   align-items: center;
-	background: black;
-	border-radius: 10px;
-	display: flex;
-	justify-content: center;
-	height: 100%;
-  color: #FE9EFF;
-	transition: background .5s ease;
-	width: 100%;
-  
+  background: black;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  color: #fe9eff;
+  transition: background 0.5s ease;
+  width: 100%;
 }
 
 .bcont #button1 {
@@ -1147,7 +1112,6 @@ input.tvwpht2-s2-1-c::placeholder {
   contain: content;
 }
 
-
 .tscsn {
   display: none;
 }
@@ -1158,14 +1122,11 @@ input.tvwpht2-s2-1-c::placeholder {
   margin-top: 149px;
   flex-direction: row;
   justify-content: center;
-
 }
-
 
 .tvwphtcontainer23 {
   display: none;
 }
-
 
 .tvwpht2-t {
   height: 83px;
@@ -1174,7 +1135,6 @@ input.tvwpht2-s2-1-c::placeholder {
   flex-direction: column;
   background-color: #101010ad;
   margin: 8px 0px;
-
 }
 
 .tvwpht2-t1 {
@@ -1197,7 +1157,7 @@ input.tvwpht2-s2-1-c::placeholder {
 
 .tvwpht2-t1-span {
   font-size: small;
-  color: #3DECA7;
+  color: #3deca7;
 }
 
 .tvwpht2-t2 {
@@ -1228,8 +1188,8 @@ button.tvwpht2-t2-1-c {
   height: auto;
   font-size: smaller;
   cursor: pointer;
-  background-color: #1A1A22;
-  color: #425F62;
+  background-color: #1a1a22;
+  color: #425f62;
 }
 
 button.tvwpht2-t2-1-c:hover {
@@ -1247,21 +1207,20 @@ input.tvwpht2-t2-1-c {
   border-bottom: none;
   border-left: 1px solid black;
   outline: none;
-  background-color: #1A1A22;
+  background-color: #1a1a22;
   color: white;
   padding-left: 4px;
 }
 
 input.tvwpht2-t2-1-c::placeholder {
   font-size: smaller;
-  background-color: #1A1A22;
+  background-color: #1a1a22;
   text-align: center;
   align-self: center;
   align-content: center;
   border-style: none;
   outline: none;
-  color: #425F62;
-
+  color: #425f62;
 }
 
 .tvwphyt2-mc {
@@ -1285,9 +1244,8 @@ input.tvwpht2-t2-1-c::placeholder {
 .tvwphyt2-m-spanl {
   text-align: center;
   align-items: center;
-  color: #82828F;
-  border-bottom: 0.5px dashed #82828F;
-
+  color: #82828f;
+  border-bottom: 0.5px dashed #82828f;
 }
 
 #tvwphyt2-m-spanl-hl {
@@ -1300,7 +1258,6 @@ input.tvwpht2-t2-1-c::placeholder {
   color: rgb(192, 0, 0);
   font-size: 0.75rem;
   font-weight: bold;
-
 }
 
 .tvwphyt2-m-spanr {
@@ -1308,8 +1265,6 @@ input.tvwpht2-t2-1-c::placeholder {
   font-size: 0.75rem;
   text-align: center;
 }
-
-
 
 .image {
   width: 50%;
@@ -1335,7 +1290,6 @@ input.tvwpht2-t2-1-c::placeholder {
   display: none;
   flex-direction: row;
   justify-content: center;
-
 }
 
 .blogvtbutton .bvtb1 {
@@ -1354,9 +1308,7 @@ input.tvwpht2-t2-1-c::placeholder {
   padding-right: 3px;
 }
 
-
 .buttonstuff {
-
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
@@ -1478,9 +1430,6 @@ input.tvwpht2-t2-1-c::placeholder {
 .tvhmn div.tvwhm {
   display: none;
 }
-
-
-
 
 .imagecard {
   width: 50%;
@@ -1621,7 +1570,7 @@ input.tvwpht2-t2-1-c::placeholder {
 
 } */
 
-@media (max-width :1260px) {
+@media (max-width: 1260px) {
   #derivexlol {
     margin-top: 7.7rem;
     height: 88vw;
@@ -1630,7 +1579,6 @@ input.tvwpht2-t2-1-c::placeholder {
   #tvwnshm1 {
     margin: 0px;
   }
-
 }
 
 /* @media (max-width : 1025px) {
@@ -1669,7 +1617,7 @@ input.tvwpht2-t2-1-c::placeholder {
   }
 } */
 
-@media (max-width : 1025px) {
+@media (max-width: 1025px) {
   #tvwp2 {
     display: none;
   }
@@ -1728,7 +1676,6 @@ input.tvwpht2-t2-1-c::placeholder {
     height: 146vw;
   }
 
-
   .tvwap {
     width: 100%;
     height: 45vw;
@@ -1758,7 +1705,6 @@ input.tvwpht2-t2-1-c::placeholder {
   .tvwnshm1 {
     margin: 0px;
   }
-
 
   .tvwpht {
     width: 100%;
@@ -1798,8 +1744,6 @@ input.tvwpht2-t2-1-c::placeholder {
     /* padding-top: 20px; */
   }
 
-
-
   .tvwnshl {
     width: 177px;
     height: 100%;
@@ -1808,7 +1752,6 @@ input.tvwpht2-t2-1-c::placeholder {
     flex-direction: row;
     margin: 0 8px 0 16px;
     justify-content: space-around;
-
   }
 
   #tvwnshm1 {
@@ -1821,14 +1764,11 @@ input.tvwpht2-t2-1-c::placeholder {
   }
 
   .tvwnshmt1 {
-    display:none;
+    display: none;
   }
-
 }
 
-@media (max-width : 804px) {
-
-
+@media (max-width: 804px) {
   #tvwp2 {
     display: none;
   }
@@ -1850,11 +1790,8 @@ input.tvwpht2-t2-1-c::placeholder {
 
   .tvwnshm {
     margin-top: 16em;
-    width : 100%
+    width: 100%;
   }
-
-
-
 
   #derivexlol {
     height: 100vw;
@@ -1869,7 +1806,7 @@ input.tvwpht2-t2-1-c::placeholder {
 
   .tvwch-2-2 span {
     margin-left: 20px;
-    color: #3DECA7;
+    color: #3deca7;
     font-size: medium;
   }
 
@@ -1890,14 +1827,12 @@ input.tvwpht2-t2-1-c::placeholder {
   .tvwch-4-2 span {
     font-size: small;
     padding-left: 11px;
-    color: #D33E2C;
+    color: #d33e2c;
   }
-
 
   #tvwp1 {
     display: block;
   }
-
 
   #tvwp1 {
     display: block;
@@ -1908,8 +1843,8 @@ input.tvwpht2-t2-1-c::placeholder {
   .tvwnsh {
     width: 100%;
     height: 53px;
-    border-bottom: 1px solid #363C4E;
-    border-top: 1px solid #363C4E;
+    border-bottom: 1px solid #363c4e;
+    border-top: 1px solid #363c4e;
     margin-top: 12em;
   }
 
@@ -1918,7 +1853,6 @@ input.tvwpht2-t2-1-c::placeholder {
     width: 100%;
     display: flex;
     flex-direction: column;
-
   }
 
   .tvwnshl {
@@ -1926,7 +1860,7 @@ input.tvwpht2-t2-1-c::placeholder {
     height: 100%;
     display: flex;
     flex-direction: row;
-    margin:  0px;
+    margin: 0px;
     justify-content: space-around;
   }
 
@@ -1941,18 +1875,18 @@ input.tvwpht2-t2-1-c::placeholder {
   .table2 tr td {
     font-size: small;
     padding: 7px 56px;
+  }
+
+  .table2 thead tr th {
+    padding: 7px 56px;
+    font-size: smaller;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: rgba(145, 153, 167, 1);
+  }
 }
 
-.table2 thead tr th {
-  padding: 7px 56px;
-  font-size: smaller;
-  text-transform: uppercase;
-  font-weight: normal;
-  color: rgba(145, 153, 167, 1);
-}
-}
-
-@media(max-width : 768px) {
+@media (max-width: 768px) {
   #derivexlol {
     margin-top: 6rem;
   }
@@ -1965,7 +1899,7 @@ input.tvwpht2-t2-1-c::placeholder {
   }
 }
 
-@media (max-width : 660px) {
+@media (max-width: 660px) {
   .tvwap {
     width: 100%;
     height: 180%;
@@ -1973,14 +1907,12 @@ input.tvwpht2-t2-1-c::placeholder {
     flex-direction: row;
   }
   table.table1 td {
-      padding: 7px 11px;
+    padding: 7px 11px;
   }
 
-  .table1 th  {
+  .table1 th {
     padding: 7px 10px;
   }
-
-
 
   .pt-6,
   .py-6 {
@@ -2009,7 +1941,6 @@ input.tvwpht2-t2-1-c::placeholder {
   }
 
   .tvwch-2-1 {
-
     flex-direction: row;
     justify-content: flex-end;
     padding-right: 5px;
@@ -2019,9 +1950,8 @@ input.tvwpht2-t2-1-c::placeholder {
     padding-right: 5px;
   }
 
-
   .tvhmn div.tvwhm {
-    display: flex
+    display: flex;
   }
 
   .tvhmn {
@@ -2045,16 +1975,13 @@ input.tvwpht2-t2-1-c::placeholder {
   }
 }
 
-@media (max-width :450px) {
+@media (max-width: 450px) {
   .tvwap {
     width: 100%;
     height: 300%;
     display: flex;
     flex-direction: row;
   }
-
-  
-
 
   .container-fluid {
     padding-right: 0px;
@@ -2072,7 +1999,7 @@ input.tvwpht2-t2-1-c::placeholder {
   .tvwns {
     height: 100%;
     width: 100%;
-    border-right: 1px solid #363C4E;
+    border-right: 1px solid #363c4e;
     margin-top: 10em;
   }
 
@@ -2096,5 +2023,4 @@ input.tvwpht2-t2-1-c::placeholder {
   .tvwnsh {
     margin-top: 5em;
   }
-
 }

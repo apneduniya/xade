@@ -21,8 +21,8 @@ import { encodeErrorResult, parseEther, stringToHex } from "viem";
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
 import { ethers } from "ethers";
-import axios from 'axios';
-import ReactPlayer from 'react-player';
+import axios from "axios";
+import ReactPlayer from "react-player";
 
 import {
   CLEARING_HOUSE_ADDRESS,
@@ -52,7 +52,7 @@ const Derivex = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const { open, close } = useWeb3Modal();
   const [tohmenu, setTohmenu] = useState(1);
-  const [btcprice,setBtcprice] = useState(30083.4)
+  const [btcprice, setBtcprice] = useState(30083.4);
   const [tabActive, setTabActive] = useState(true);
   const [summaryActive, setSummaryActive] = useState(false);
 
@@ -60,79 +60,118 @@ const Derivex = () => {
   const deadline = 1912176727;
   // const amount = BigInt("0.000034")
 
-
   // btc price fetching funcion
   const fetchbtcdata = async () => {
     try {
-        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd", {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json"
-            }
-        });
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
 
-        const data = await response.json();
-        setBtcprice(data.bitcoin.usd)
-       
+      const data = await response.json();
+      setBtcprice(data.bitcoin.usd);
     } catch (error) {
-        console.error("An error occurred:", error);
+      console.error("An error occurred:", error);
     }
-};
+  };
 
-const API_KEY = '9dd9f0cf-1bdf-437b-93f9-05a7bc164f57'; // Replace with your CoinMarketCap API key
-const BASE_URL = 'https://pro-api.coinmarketcap.com';
+  //   const getNewsData = async () => {
+  //     try {
+  //         const response = await fetch("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=9dd9f0cf-1bdf-437b-93f9-05a7bc164f57", {
+  //             method: "GET",
+  //             headers: {
+  //                 "Content-type": "application/json"
+  //             }
+  //         });
 
-const api = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    'X-CMC_PRO_API_KEY': API_KEY,
-  },
-});
+  //         console.log('response.data',response.data)
 
-// Define a function for making a GET request to a specific endpoint
- const getNewsData = async () => {
-  try {
-    const response = await api.get('/v1/cryptocurrency/listings/latest'); // Example endpoint
-    console.log('response.data',response.data)
-    // return response.data; // Return the response data
-  } catch (error) {
-    // throw error; // Handle errors as needed
-    console.log('error',error)
-  }
-  finally{
+  //     } catch (error) {
+  //         console.error("An error occurred:", error);
+  //     }
+  // };
 
-  }
-};
+  // const [cryptoData, setCryptoData] = useState([]);
 
-const newsValues = [
-  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
-  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
-  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
-  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
-  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
-  {label: 'Crypto news: Coinbase chooses Truflation as investment of inaugural fund', value:'September 12, 2023, 2:27:38 PM'},
-]
+  //   const apiUrl = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${apiKey}`;
 
-// const tradeSelector = () => {
-//   if (value < 10){
-//     setTabActive(true);
-//   }
-//   else{
-//     setTabActive(false);
-//   }
-// }
+  //   useEffect(() => {
+  //     // Function to fetch cryptocurrency data
+  //     const fetchCryptoData = async () => {
+  //       try {
+  //         const response = await fetch(apiUrl);
+  //         if (!response.ok) {
+  //           throw new Error('Network response was not ok');
+  //         }
+  //         const data = await response.json();
+  //         setCryptoData(data.data);
+  //         console.log('data.data',data.data);
+  //       } catch (error) {
+  //         console.error('Error fetching cryptocurrency data:', error);
+  //       }
+  //     };
 
+  // Call the fetchCryptoData function when the component mounts
+  //   fetchCryptoData();
+  // }, []);
 
-useEffect(() => {
-  // Fetch data initially
-  fetchbtcdata();
-  getNewsData();
-  // Set up an interval to fetch data every minute (60,000 milliseconds)
-  const fetchInterval = setInterval(fetchbtcdata, 60000);
+  const newsValues = [
+    {
+      label:
+        "Crypto news: Coinbase chooses Truflation as investment of inaugural fund",
+      value: "September 12, 2023, 2:27:38 PM",
+    },
+    {
+      label:
+        "Crypto news: Coinbase chooses Truflation as investment of inaugural fund",
+      value: "September 12, 2023, 2:27:38 PM",
+    },
+    {
+      label:
+        "Crypto news: Coinbase chooses Truflation as investment of inaugural fund",
+      value: "September 12, 2023, 2:27:38 PM",
+    },
+    {
+      label:
+        "Crypto news: Coinbase chooses Truflation as investment of inaugural fund",
+      value: "September 12, 2023, 2:27:38 PM",
+    },
+    {
+      label:
+        "Crypto news: Coinbase chooses Truflation as investment of inaugural fund",
+      value: "September 12, 2023, 2:27:38 PM",
+    },
+    {
+      label:
+        "Crypto news: Coinbase chooses Truflation as investment of inaugural fund",
+      value: "September 12, 2023, 2:27:38 PM",
+    },
+  ];
 
-  // Clean up the interval when the component unmounts
-  return () => clearInterval(fetchInterval);
-}, []);
+  // const tradeSelector = () => {
+  //   if (value < 10){
+  //     setTabActive(true);
+  //   }
+  //   else{
+  //     setTabActive(false);
+  //   }
+  // }
+
+  useEffect(() => {
+    // Fetch data initially
+    fetchbtcdata();
+    // getNewsData();
+    // Set up an interval to fetch data every minute (60,000 milliseconds)
+    const fetchInterval = setInterval(fetchbtcdata, 60000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(fetchInterval);
+  }, []);
 
   const params = {
     baseToken: BTC_BASE_TOKEN_ADDRESS,
@@ -323,7 +362,6 @@ useEffect(() => {
   }
 
   useEffect(() => {
-    
     const computedStyle = window.getComputedStyle(outerRef.current);
     const displayStatus = computedStyle.getPropertyValue("display");
     const bodyWidth = document.body.clientWidth;
@@ -383,10 +421,9 @@ useEffect(() => {
       setValue(100);
     }
 
-    if (value < 10){
+    if (value < 10) {
       setTabActive(true);
-    }
-    else{
+    } else {
       setTabActive(false);
     }
   };
@@ -412,7 +449,6 @@ useEffect(() => {
 
   const onChange = (newValue) => {
     setInputValue(newValue);
-    
   };
 
   const marks = [
@@ -425,7 +461,7 @@ useEffect(() => {
       label: "3",
     },
     {
-      value:33.33333333333334,
+      value: 33.33333333333334,
       label: "5",
     },
     {
@@ -441,7 +477,7 @@ useEffect(() => {
       label: "100",
     },
     {
-      value:100,
+      value: 100,
       label: "125",
     },
   ];
@@ -478,10 +514,9 @@ useEffect(() => {
     setValue(newValue);
     // setValue(Math.floor(event.target.value/10));
     // console.log('Math.floor(event.target.value/10)',Math.floor(event.target.value/10))
-    if (newValue < 10){
+    if (newValue < 10) {
       setTabActive(true);
-    }
-    else{
+    } else {
       setTabActive(false);
     }
   };
@@ -574,52 +609,77 @@ useEffect(() => {
                   <RightButton show={showRight} onClick={handleRightScroll} />
                 ) : null}
               </div>
-              <div className="tvwamtc" style={{flexDirection:'column'}}>
-                <TradingViewWidget />
-                <div className="marketNewsContainer" style={{height:'22rem'}}>
+              <div className="tvwamtc" style={{ flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  {/* MARKET TRADES SECTION START */}
 
-                <div className="tvwnshmt1" style={{borderRight:'1px solid #232325', maxHeight:'none', height:'inherit'}}>
                   <div
-                    className="tvwnshl"
-                    id="tvwnshm1"
-                    style={{ textAlign: "center", alignItems: "center", height:'125px'}}
+                    className="tvwnshmt1"
+                    style={{
+                      borderRight: "1px solid #232325",
+                      maxHeight: "none",
+                      height: "inherit",
+                    }}
                   >
-                    Market Trades
+                    <div
+                      className="tvwnshl"
+                      id="tvwnshm1"
+                      style={{
+                        textAlign: "center",
+                        alignItems: "center",
+                        height: "125px",
+                      }}
+                    >
+                      Market Trades
+                    </div>
+                    <div className="tablecontainer">
+                      <Table data={rows} />
+                    </div>
                   </div>
-                  <div className="tablecontainer">
-                    <Table data={rows} />
-                  </div>
-                </div>
+                  {/* SECTION END */}
 
-                <div className="tvwns" style={{height:'inherit', borderBottom:'1px solid #232325'}}>
-              <div className="transactionHistoryContainer">
-                <div className="tvwnshl">
-                  &nbsp;&nbsp;&nbsp;
-                  <button
-                    onClick={() => {
-                      setTohmenu(1);
-                    }}
-                  >
-                    Trades
-                  </button>
-                  <button
-                    onClick={() => {
-                      setTohmenu(2);
-                    }}
-                  >
-                    Orders
-                  </button>
-                  <button
-                    onClick={() => {
-                      setTohmenu(3);
-                    }}
-                  >
-                    History
-                  </button>
+                  <TradingViewWidget />
                 </div>
+                <div
+                  className="marketNewsContainer"
+                  style={{ height: "22rem" }}
+                >
+                  <div
+                    className="tvwns"
+                    style={{
+                      height: "inherit",
+                      borderBottom: "1px solid #232325",
+                    }}
+                  >
+                    <div className="transactionHistoryContainer">
+                      <div className="tvwnshl">
+                        &nbsp;&nbsp;&nbsp;
+                        <button
+                          onClick={() => {
+                            setTohmenu(1);
+                          }}
+                        >
+                          Trades
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTohmenu(2);
+                          }}
+                        >
+                          Orders
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTohmenu(3);
+                          }}
+                        >
+                          History
+                        </button>
+                      </div>
 
-                {isConnected ? (<>
-                  {/* <div className="tvwnshr1" id={tohmenu === 1 ? "q" : "were"}>
+                      {isConnected ? (
+                        <>
+                          {/* <div className="tvwnshr1" id={tohmenu === 1 ? "q" : "were"}>
                     <table className="table1">
                       <thead>
                         <tr>
@@ -719,112 +779,111 @@ useEffect(() => {
                       </tbody>
                     </table>
                   </div> */}
-                  <div className="tvwnshr">
-                    <span style={{ color: "#82828F" }}>
-                      No Trades
-                    </span>
-                   
-                  
-                  </div>
-                  
-                  </>
-                ) : (
-                  <div className="tvwnshr">
-                    <span style={{ color: "#82828F" }}>
-                      Wallet not connected
-                    </span>{" "}
-                    &nbsp;&nbsp;{" "}
-                    <button
-                      onClick={() => {
-                        open();
-                      }}
-                    >
-                      Connect
-                    </button>
-                  </div>
-                )}
-
-                {isNarrowScreen && (
-                  <Drawer
-                    anchor="bottom"
-                    open={isDrawerOpen}
-                    onClose={handleDrawerClose}
-                    sx={{
-                      "& .MuiDrawer-paper": {
-                        borderRadius: "15px 15px 0 0",
-                        borderColor: "#121216",
-                        outline: "none",
-                        borderTop: "0.5px solid #3deca7;",
-                      },
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        backgroundColor: "#121216",
-                        width: "100%",
-                        padding: 16,
-                        paddingBottom: 6,
-                        height: "70vh",
-                      }}
-                    >
-                      <div className="drawerheader">
-                        <div className="dh1">
-                          <div>
-                            <img src="https://gains.trade//_next/static/media/btc.fdaa3ece.svg" />
-                            &nbsp;<span>BTC/USD</span>
+                          <div className="tvwnshr">
+                            <span style={{ color: "#82828F" }}>No Trades</span>
                           </div>
+                        </>
+                      ) : (
+                        <div className="tvwnshr">
+                          <span style={{ color: "#82828F" }}>
+                            Wallet not connected
+                          </span>{" "}
+                          &nbsp;&nbsp;{" "}
+                          <button
+                            onClick={() => {
+                              open();
+                            }}
+                          >
+                            Connect
+                          </button>
                         </div>
-                        <span>LONG</span>
-                      </div>
-                      <div className="maincontentdrawer">
-                        <table className="drawertable">
-                          <tbody>
-                            {selectedRow && (
-                              <>
-                                <tr>
-                                  <th>Type</th> <td>{selectedRow.type}</td>
-                                </tr>
+                      )}
 
-                                <tr>
-                                  <th>Leverage</th>{" "}
-                                  <td>{selectedRow.leverage}</td>
-                                </tr>
-                                <tr>
-                                  <th>Collateral</th>{" "}
-                                  <td>{selectedRow.collateral}</td>
-                                </tr>
-                                <tr>
-                                  <th>Open Price</th>{" "}
-                                  <td>{selectedRow.openPrice}</td>
-                                </tr>
-                                <tr>
-                                  <th>Price</th> <td>{selectedRow.price}</td>
-                                </tr>
-                                <tr>
-                                  <th>Liq/SL</th> <td>{selectedRow.liqSl}</td>
-                                </tr>
-                                <tr>
-                                  <th>Take Profit</th>{" "}
-                                  <td>{selectedRow.takeProfit}</td>
-                                </tr>
-                                <tr>
-                                  <th>Net Pnl</th> <td>{selectedRow.netPnl}</td>
-                                </tr>
-                              </>
-                            )}
-                          </tbody>
-                        </table>
-                        <div className="sharebtn">
-                          <button>Share Trade</button>
-                        </div>
-                      </div>
+                      {isNarrowScreen && (
+                        <Drawer
+                          anchor="bottom"
+                          open={isDrawerOpen}
+                          onClose={handleDrawerClose}
+                          sx={{
+                            "& .MuiDrawer-paper": {
+                              borderRadius: "15px 15px 0 0",
+                              borderColor: "#121216",
+                              outline: "none",
+                              borderTop: "0.5px solid #3deca7;",
+                            },
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              backgroundColor: "#121216",
+                              width: "100%",
+                              padding: 16,
+                              paddingBottom: 6,
+                              height: "70vh",
+                            }}
+                          >
+                            <div className="drawerheader">
+                              <div className="dh1">
+                                <div>
+                                  <img src="https://gains.trade//_next/static/media/btc.fdaa3ece.svg" />
+                                  &nbsp;<span>BTC/USD</span>
+                                </div>
+                              </div>
+                              <span>LONG</span>
+                            </div>
+                            <div className="maincontentdrawer">
+                              <table className="drawertable">
+                                <tbody>
+                                  {selectedRow && (
+                                    <>
+                                      <tr>
+                                        <th>Type</th>{" "}
+                                        <td>{selectedRow.type}</td>
+                                      </tr>
+
+                                      <tr>
+                                        <th>Leverage</th>{" "}
+                                        <td>{selectedRow.leverage}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Collateral</th>{" "}
+                                        <td>{selectedRow.collateral}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Open Price</th>{" "}
+                                        <td>{selectedRow.openPrice}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Price</th>{" "}
+                                        <td>{selectedRow.price}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Liq/SL</th>{" "}
+                                        <td>{selectedRow.liqSl}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Take Profit</th>{" "}
+                                        <td>{selectedRow.takeProfit}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Net Pnl</th>{" "}
+                                        <td>{selectedRow.netPnl}</td>
+                                      </tr>
+                                    </>
+                                  )}
+                                </tbody>
+                              </table>
+                              <div className="sharebtn">
+                                <button>Share Trade</button>
+                              </div>
+                            </div>
+                          </div>
+                        </Drawer>
+                      )}
                     </div>
-                  </Drawer>
-                )}
-              </div>
-              {/* <div className="tvwnshm">
+                    {/* <div className="tvwnshm">
                 <div
                   className="tvwnshl"
                   id="tvwnshm1"
@@ -836,30 +895,35 @@ useEffect(() => {
                   <Table data={rows} />
                 </div>
               </div> */}
-            
-                <div className="blogNewsContainer">
-                  <div className="blogNewsHeader">
-                    <span>Market Updates</span>
-                  </div>
 
-                  <div className="blogNewsBody" style={{overflow:'scroll', height:'calc(100% - 54px)'}}>
-                  {newsValues && newsValues.map((item) => {
-                    return (
-                      <div className="newsBlock">
-                    <span className="newsHeading">
-                    {item.label}
-                    </span>
-                    <span className="newsTimestamp">{item.value}</span>
+                    <div className="blogNewsContainer">
+                      <div className="blogNewsHeader">
+                        <span>Market Updates</span>
+                      </div>
+
+                      <div
+                        className="blogNewsBody"
+                        style={{
+                          overflow: "scroll",
+                          height: "calc(100% - 54px)",
+                        }}
+                      >
+                        {newsValues &&
+                          newsValues.map((item) => {
+                            return (
+                              <div className="newsBlock">
+                                <span className="newsHeading">
+                                  {item.label}
+                                </span>
+                                <span className="newsTimestamp">
+                                  {item.value}
+                                </span>
+                              </div>
+                            );
+                          })}
+                      </div>
                     </div>
-                    )
-                  })}
-                    
                   </div>
-
-                </div>
-            </div>
-
-
                 </div>
               </div>
               <div className="tvhmn" ref={outerRef}>
@@ -1032,37 +1096,36 @@ useEffect(() => {
                             }}
                           /> */}
                           <Slider
-            value={typeof value === 'number' ? value : 0}
-            onChange={handleSliderChange}
-            aria-labelledby="input-slider"
-            valueLabelDisplay="auto"
-            marks={marks}
-            getAriaValueText={(e)=> e}
-            
-            sx={{
-              " .MuiSlider-markLabel": {
-                color: "#82828F", // Set the desired mark label color here
-              },
-              ".MuiSlider-rail": {
-                color: "#282C3B",
-                height: "10px",
-              },
-              "& .MuiSlider-thumb": {
-                width: 15,
-                height: 15,
-                border: " 2px solid white",
-                color: "#282C3B",
-              },
-              "	.MuiSlider-track": {
-                backgroundColor: "#D65CD9",
-                height: "10px",
-                border: "0px",
-              },
-              ".MuiSlider-valueLabel:before": {
-                width: "0px",
-              },
-            }}
-          />
+                            value={typeof value === "number" ? value : 0}
+                            onChange={handleSliderChange}
+                            aria-labelledby="input-slider"
+                            valueLabelDisplay="auto"
+                            marks={marks}
+                            getAriaValueText={(e) => e}
+                            sx={{
+                              " .MuiSlider-markLabel": {
+                                color: "#82828F", // Set the desired mark label color here
+                              },
+                              ".MuiSlider-rail": {
+                                color: "#282C3B",
+                                height: "10px",
+                              },
+                              "& .MuiSlider-thumb": {
+                                width: 15,
+                                height: 15,
+                                border: " 2px solid white",
+                                color: "#282C3B",
+                              },
+                              "	.MuiSlider-track": {
+                                backgroundColor: "#D65CD9",
+                                height: "10px",
+                                border: "0px",
+                              },
+                              ".MuiSlider-valueLabel:before": {
+                                width: "0px",
+                              },
+                            }}
+                          />
                         </div>
                       </div>
 
@@ -1219,30 +1282,44 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-            
-           {/* removed tvwns frome here */}
+
+            {/* removed tvwns frome here */}
           </div>
 
-          <div className="tvwp newTradeHolder" id="tvwp2" style={{height:'611px'}}>
+          <div
+            className="tvwp newTradeHolder"
+            id="tvwp2"
+            style={{ height: "611px" }}
+          >
             <div className="tvwpht newTradeContainer">
               <div className="tvwpht1 newTradeHeading">
-
-               <div className="tradeHeadingHolder">
-                <span>Actions</span>
-               </div>
-               <div className="tradeTabHolder">
-               {/* <div onClick={() => setTab(true)} id={tab ? "tvwphtll" : ""}> */}
-               <div className={`cursor ${!tabActive && "tradeTabs longTradeTab"}`} onClick={() => setTabActive(false)}>
-                  <span style={{margin:'3px', fontSize:'13px'}}>Long</span>
+                <div className="tradeHeadingHolder">
+                  <span>Actions</span>
                 </div>
-                <div
-                  className={`cursor ${tabActive && "tradeTabs shortTradeTab"}`}
-                  style={{}}
-                  onClick={() => setTabActive(true)}
+                <div className="tradeTabHolder">
+                  {/* <div onClick={() => setTab(true)} id={tab ? "tvwphtll" : ""}> */}
+                  <div
+                    className={`cursor ${
+                      !tabActive && "tradeTabs longTradeTab"
+                    }`}
+                    onClick={() => setTabActive(false)}
                   >
-                  <span style={{margin:'3px', fontSize:'13px'}}>Short</span>
+                    <span style={{ margin: "3px", fontSize: "13px" }}>
+                      Long
+                    </span>
+                  </div>
+                  <div
+                    className={`cursor ${
+                      tabActive && "tradeTabs shortTradeTab"
+                    }`}
+                    style={{}}
+                    onClick={() => setTabActive(true)}
+                  >
+                    <span style={{ margin: "3px", fontSize: "13px" }}>
+                      Short
+                    </span>
+                  </div>
                 </div>
-               </div>
               </div>
               <div className="tvwpht2">
                 <div className="tvwpht2-m">
@@ -1250,9 +1327,8 @@ useEffect(() => {
                     onClick={() => setMenu(1)}
                     id={Menu === 1 ? "tvwpht2-mb" : ""}
                   >
-                  <span className={`${Menu === 1 && "greenDot"}`}></span>
-                  <span>Market</span>
-                    
+                    <span className={`${Menu === 1 && "greenDot"}`}></span>
+                    <span>Market</span>
                   </button>
                   <button
                     onClick={() => setMenu(2)}
@@ -1279,7 +1355,7 @@ useEffect(() => {
                 >
                   <div className="tvwpht2-c">
                     <div className="tvwpht2-c1">
-                      <span style={{marginRight:'3px'}}>Collateral</span> 
+                      <span style={{ marginRight: "3px" }}>Collateral</span>
                       <span>(50-250k)</span>
                     </div>
                     <div className="tvwpht2-c2">
@@ -1294,7 +1370,7 @@ useEffect(() => {
                       <div className="tvwpht2-r1-2">
                         <Col span={4}>
                           <Input
-                            value={Math.floor(value/10)}
+                            value={Math.floor(value / 10)}
                             size="small"
                             onChange={onChange}
                             onBlur={handleBlur}
@@ -1320,7 +1396,6 @@ useEffect(() => {
                               "&.MuiInputBase-root": {
                                 width: 48,
                                 marginTop: 0.5,
-                                
                               },
                             }}
                           />
@@ -1328,55 +1403,52 @@ useEffect(() => {
                       </div>
                     </div>
                     <div className="tvwpht2-r2">
-                      
                       <Slider
-            value={typeof value === 'number' ? value : 0}
-            onChange={handleSliderChange}
-            aria-labelledby="input-slider"
-            valueLabelDisplay="off"
-            marks={leverageMarks}
-            getAriaValueText={(e)=> e}
-            
-            
-            sx={{
-              " .MuiSlider-markLabel": {
-                 color: "#82828F", // Set the desired mark label color here
-                
-              },
-              ".MuiSlider-rail": {
-                color: "#282C3B",
-                height: "10px",
-              },
-              "& .MuiSlider-thumb": {
-                width: 15,
-                height: 15,
-                border: " 2px solid white",
-                color: "#282C3B",
-              },
-              "	.MuiSlider-track": {
-                height: "10px",
-                border: "0px",
-                background: 'linear-gradient(90deg, #E72654, #3CDF60)', // Apply a gradient for multicolor effect
-              },
-              ".MuiSlider-valueLabel:before": {
-                width: "0px",
-              },
-            }}
-          />
+                        value={typeof value === "number" ? value : 0}
+                        onChange={handleSliderChange}
+                        aria-labelledby="input-slider"
+                        valueLabelDisplay="off"
+                        marks={leverageMarks}
+                        getAriaValueText={(e) => e}
+                        sx={{
+                          " .MuiSlider-markLabel": {
+                            color: "#82828F", // Set the desired mark label color here
+                          },
+                          ".MuiSlider-rail": {
+                            color: "#282C3B",
+                            height: "10px",
+                          },
+                          "& .MuiSlider-thumb": {
+                            width: 15,
+                            height: 15,
+                            border: " 2px solid white",
+                            color: "#282C3B",
+                          },
+                          "	.MuiSlider-track": {
+                            height: "10px",
+                            border: "0px",
+                            background:
+                              "linear-gradient(90deg, #E72654, #3CDF60)", // Apply a gradient for multicolor effect
+                          },
+                          ".MuiSlider-valueLabel:before": {
+                            width: "0px",
+                          },
+                        }}
+                      />
                     </div>
                   </div>
 
                   <div className="priceSlippageContainer">
                     <div className="priceContainer">
-                      <span className="smallText" >Price</span>
-                        <span>$30,415.4</span>
+                      <span className="smallText">Price</span>
+                      <span>$30,415.4</span>
                     </div>
                     <div className="slippageContainer">
                       <div className="smallText">
-                      <span>Slippage</span>
+                        <span>Slippage</span>
                       </div>
                       <div>
-                      {/* <Col span={4}>
+                        {/* <Col span={4}>
                           <Input
                             value={value}
                             size="small"
@@ -1413,9 +1485,9 @@ useEffect(() => {
                           id="p2-2i"
                           defaultValue={1}
                           style={{
-                            width: '3rem',
-                            height:27,
-                            display: 'flex',
+                            width: "3rem",
+                            height: 27,
+                            display: "flex",
                             alignSelf: "center",
                             backgroundColor: "black",
                             outline: "none",
@@ -1475,9 +1547,25 @@ useEffect(() => {
                                     </div>
 
                                 </div> */}
-                  <div style={{display:'flex', margin:'23px 0px', justifyContent:'center'}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      margin: "23px 0px",
+                      justifyContent: "center",
+                    }}
+                  >
                     {isConnected ? (
-                      <span className="confirmTradeButton cursor" style={{color:'#232325', backgroundColor:`${tabActive ? '#cd2c27' : '#3CDF60'}`}}>Confirm {tabActive ? "Short" : "Long"}</span>
+                      <span
+                        className="confirmTradeButton cursor"
+                        style={{
+                          color: "#232325",
+                          backgroundColor: `${
+                            tabActive ? "#cd2c27" : "#3CDF60"
+                          }`,
+                        }}
+                      >
+                        Confirm {tabActive ? "Short" : "Long"}
+                      </span>
                     ) : (
                       <div
                         className="bcont"
@@ -1489,72 +1577,103 @@ useEffect(() => {
                       </div>
                     )}
                   </div>
-                  <div className="tradeSummaryHolder cursor" onClick={() => setSummaryActive((prev) => !prev)}>
-                    <span style={{marginRight:'6px'}}>
-                      {summaryActive ? <svg width="10" height="10" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.95752 5.40234L5.1488 1.21094L9.34021 5.40234" stroke="#82828F" stroke-linecap="round"/>
-                      </svg>
-                      : <svg width="10" height="10" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0.95752 0.770508L5.1488 4.96191L9.34021 0.770508" stroke="#82828F" stroke-linecap="round"/>
-                    </svg>}
-                    </span>
-                    <span className="smallText">{summaryActive ? "Hide Summary" : "Click to see Summary"}</span>
-                  </div>
-                  {summaryActive && <div className="clickSummaryContainer" style={{marginTop:'1rem'}}>
-                    <div className="tvwphyt2-m">
-                      <span
-                        className="tvwphyt2-m-spanl"
-                        id="tvwphyt2-m-spanl-hl"
-                      >
-                        BTC/USD
-                      </span>
-                      {isConnected ? (
-                        <span
-                          className="tvwphyt2-m-spanr"
-                          id="tvwphyt2-m-spanl-hr"
+                  <div
+                    className="tradeSummaryHolder cursor"
+                    onClick={() => setSummaryActive((prev) => !prev)}
+                  >
+                    <span style={{ marginRight: "6px" }}>
+                      {summaryActive ? (
+                        <svg
+                          width="10"
+                          height="10"
+                          viewBox="0 0 10 6"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          POSITION SIZE {"<"} {"  "} 1,500 DAI
-                        </span>
+                          <path
+                            d="M0.95752 5.40234L5.1488 1.21094L9.34021 5.40234"
+                            stroke="#82828F"
+                            stroke-linecap="round"
+                          />
+                        </svg>
                       ) : (
-                        <span
-                          className="tvwphyt2-m-spanr"
-                          id="tvwphyt2-m-spanl-hr"
+                        <svg
+                          width="10"
+                          height="10"
+                          viewBox="0 0 10 6"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          WALLET NOT CONNECTED
-                        </span>
+                          <path
+                            d="M0.95752 0.770508L5.1488 4.96191L9.34021 0.770508"
+                            stroke="#82828F"
+                            stroke-linecap="round"
+                          />
+                        </svg>
                       )}
+                    </span>
+                    <span className="smallText">
+                      {summaryActive ? "Hide Summary" : "Click to see Summary"}
+                    </span>
+                  </div>
+                  {summaryActive && (
+                    <div
+                      className="clickSummaryContainer"
+                      style={{ marginTop: "1rem" }}
+                    >
+                      <div className="tvwphyt2-m">
+                        <span
+                          className="tvwphyt2-m-spanl"
+                          id="tvwphyt2-m-spanl-hl"
+                        >
+                          BTC/USD
+                        </span>
+                        {isConnected ? (
+                          <span
+                            className="tvwphyt2-m-spanr"
+                            id="tvwphyt2-m-spanl-hr"
+                          >
+                            POSITION SIZE {"<"} {"  "} 1,500 DAI
+                          </span>
+                        ) : (
+                          <span
+                            className="tvwphyt2-m-spanr"
+                            id="tvwphyt2-m-spanl-hr"
+                          >
+                            WALLET NOT CONNECTED
+                          </span>
+                        )}
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">
+                          EST. EXECUTION PRICE
+                        </span>
+                        <span className="tvwphyt2-m-spanr">30740.6</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">SPREAD</span>
+                        <span className="tvwphyt2-m-spanr">0.04%</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
+                        <span className="tvwphyt2-m-spanr">100 DAI</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">FEES</span>
+                        <span className="tvwphyt2-m-spanr">0.1 DAI</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
+                        <span className="tvwphyt2-m-spanr">16907.6</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">
+                          EST. BORROWING FEE / H
+                        </span>
+                        <span className="tvwphyt2-m-spanr">0.0 DAI</span>
+                      </div>
                     </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">
-                        EST. EXECUTION PRICE
-                      </span>
-                      <span className="tvwphyt2-m-spanr">30740.6</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">SPREAD</span>
-                      <span className="tvwphyt2-m-spanr">0.04%</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
-                      <span className="tvwphyt2-m-spanr">100 DAI</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">FEES</span>
-                      <span className="tvwphyt2-m-spanr">0.1 DAI</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
-                      <span className="tvwphyt2-m-spanr">16907.6</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">
-                        EST. BORROWING FEE / H
-                      </span>
-                      <span className="tvwphyt2-m-spanr">0.0 DAI</span>
-                    </div>
-                    
-                  </div>}
-                  
+                  )}
                 </div>
               </div>
             </div>

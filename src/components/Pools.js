@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import "../styles/pools.css";
 import OpacityOutlinedIcon from "@mui/icons-material/OpacityOutlined";
-import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
@@ -11,34 +10,18 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import totalAPRIcon from "../assets/totalAPRIcon.svg";
-import netReturnIcon from "../assets/netReturnIcon.svg";
-import volumeIcon from "../assets/volumeIcon.svg";
-import feesIcon from "../assets/feesIcon.svg";
-import addLiquidityIcon from "../assets/addLiquidityIcon.svg";
-import { useAccount } from 'wagmi'
-import { useWeb3Modal } from '@web3modal/react'
 
 const Pools = () => {
-  const [openIt, setOpenIt] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const [Simadvmodal, setSimadvmodal] = React.useState(true);
-  const [tabActive, setTabActive] = React.useState(false);
-  const [idActive, setIdActive] = React.useState(0);
-  const handleOpen = () => setOpenIt(true);
-  const handleClose = () => setOpenIt(false);
-  const { address, connector: activeConnector, isConnected } = useAccount()
-  const { open, close } = useWeb3Modal();
-  const [value, setValue] = React.useState(1);
+  const [liquidityInfo, setLiquidityInfo] = React.useState();
+  const [upDownbutton, setUpDownButton] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [priceInputMax, setPriceInputMax] = React.useState();
 
+  const [priceInput, setPriceInput] = React.useState();
   const theme = createTheme();
-
-
-  let truncatedAddress;
-
-  if (address) {
-    truncatedAddress =
-      address.substring(0, 7);
-  }
 
   const marks = [
     {
@@ -58,43 +41,6 @@ const Pools = () => {
       label: "11749.0",
     },
   ];
-  const upDownMarks = [
-    {
-      value: 0,
-      label: "Current",
-    },
-    {
-      value: 33.3,
-      label: "+20%",
-    },
-    {
-      value: 66.6,
-      label: "+40%",
-    },
-    {
-      value: 100,
-      label: "+60%",
-    },
-  ];
-  const downUpMarks = [
-    {
-      value: 100,
-      label: "Current",
-    },
-    {
-      value: 66.6,
-      label: "-20%",
-    },
-    {
-      value: 33.3,
-      label: "-40%",
-    },
-    {
-      value: 0,
-      label: "-60%",
-    },
-  ];
-
 
   function valuetext(value) {
     return `${value}°C`;
@@ -104,35 +50,37 @@ const Pools = () => {
     return marks.findIndex((mark) => mark.value === value) + 1;
   }
 
-  const handleSliderChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // useEffect(() => {
+  //   const liquidityInfoValue = liquidityInfoFn();
+  //   setLiquidityInfo(liquidityInfoValue);
+  // });
 
+  // const liquidityInfoFn = async () => {
+  //   return await readFunctions().displayLiquidityInfo();
+  // };
+  // console.log("liqidity info", liquidityInfo);
   return (
     <>
       <span></span>
       <div className="lol" id="derivexlol">
         <div className="poolmaincont">
           <div className="poolmch">
-            <div className="poolmch1">
-              <div
-                className="poolmch11"
-                style={{ display: "flex", flexDirection: "row" }}
-              >
-                <div className="pmch1l">
-                  <img
-                    src="	https://app.perp.com/assets/coins/btc.svg"
-                    alt="BTC"
-                  />
-                </div>
-                &nbsp;&nbsp;&nbsp;
-                <div className="pmch1c">
-                  <span className="pmch1c1">BTC</span>
-                  <span className="pmch1c2">Bitcoin</span>
-                </div>
+            <div
+              className="poolmch11"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <div className="pmch1l">
+                <img
+                  src="	https://app.perp.com/assets/coins/btc.svg"
+                  alt="BTC"
+                />
+              </div>
+              &nbsp;&nbsp;&nbsp;
+              <div className="pmch1c">
+                <span className="pmch1c1">BTC</span>
+                <span className="pmch1c2">Bitcoin</span>
               </div>
             </div>
-            <div className="pmch1s"></div>
           </div>
           <div className="poolinfoliq">
             <div className="poolinfo">
@@ -227,12 +175,11 @@ const Pools = () => {
                   </div>
                   <div className="picont3111">
                     <div>
-                      {/* <OpacityOutlinedIcon
+                      <OpacityOutlinedIcon
                         sx={{ color: "rgba(0,181,216,1)", fontSize: 30 }}
-                      /> */}
-                      <img className="poolIconClass" src={totalAPRIcon} alt={totalAPRIcon} />
+                      />
                     </div>
-                    <span>$29,353.6</span>
+                    &nbsp;<span>$29,353.6</span>
                   </div>
                   <div className="picont11">
                     <span>Bronze - Playing it safe.</span>
@@ -244,10 +191,9 @@ const Pools = () => {
                   </div>
                   <div className="picont3111">
                     <div>
-                      {/* <OpacityOutlinedIcon
+                      <OpacityOutlinedIcon
                         sx={{ color: "rgba(0,181,216,1)", fontSize: 30 }}
-                      /> */}
-                      <img className="poolIconClass" src={netReturnIcon} alt={netReturnIcon} />
+                      />
                     </div>
                     &nbsp;<span>$29,353.6</span>
                   </div>
@@ -288,10 +234,11 @@ const Pools = () => {
                     </div>
                     <div className="picont3111">
                       <div>
-                      <img className="poolIconClass" src={volumeIcon} alt={volumeIcon} />
-                       
+                        <OpacityOutlinedIcon
+                          sx={{ color: "rgba(0,181,216,1)", fontSize: 30 }}
+                        />
                       </div>
-                      <span>$0.0</span>
+                      &nbsp;<span>$0.0</span>
                     </div>
                   </div>
                   <div className="picont312">
@@ -300,7 +247,9 @@ const Pools = () => {
                     </div>
                     <div className="picont3111">
                       <div>
-                      <img className="poolIconClass" src={feesIcon} alt={feesIcon} />
+                        <OpacityOutlinedIcon
+                          sx={{ color: "rgba(0,181,216,1)", fontSize: 30 }}
+                        />
                       </div>
                       &nbsp;<span>$--</span>
                     </div>
@@ -315,16 +264,11 @@ const Pools = () => {
                     (0/3)
                   </span>
                 </p>
-                <div className="addLiquidityButtonHolder  cursor" onClick={handleOpen}>
-                  <img style={{height:'24px', marginRight:'6px'}} src={addLiquidityIcon} alt={addLiquidityIcon} />
-                  <span style={{color:'#26282A', fontWeight:'500'}}>
-                    Add Liquidity
-                  </span> 
-                  </div>
+                <button onClick={handleOpen}>Add Liquidity</button>
               </div>
               {Simadvmodal ? (
                 <Modal
-                  open={openIt}
+                  open={open}
                   onClose={handleClose}
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
@@ -337,7 +281,7 @@ const Pools = () => {
                         left: "50%",
                         transform: "translate(-50%, -50%)",
 
-                        height: 533,
+                        height: 800,
                         bgcolor: "background.paper",
                         border: "2px solid #000",
                         boxShadow: 24,
@@ -357,6 +301,7 @@ const Pools = () => {
                         id="modal-modal-title"
                         variant="h6"
                         component="h2"
+                        style={{ fontWeight: "bolder", paddingBottom: "10px" }}
                       >
                         Add Liquidity
                       </Typography>
@@ -377,22 +322,40 @@ const Pools = () => {
                       <div className="modalsimple">
                         <div className="main">
                           <div className="sabtns">
-                            <div style={{marginRight:'16px'}}
-                              className={`cursor ${!tabActive && "selectedLiquidity"}`}
-                              onClick={() => {
-                                setSimadvmodal(true);setTabActive(false)
-                              }}
-                            >
-                              <span style={{fontWeight:'500'}}>Simple</span>
-                            </div>
-                            
                             <div
-                              className={`cursor ${tabActive && "selectedLiquidity"}`}
+                              className="sa"
                               onClick={() => {
-                                setSimadvmodal(false);setTabActive(true)
+                                setSimadvmodal(true);
                               }}
                             >
-                              <span style={{fontWeight:'500'}}>Advanced</span>
+                              <button
+                                style={{
+                                  backgroundColor: Simadvmodal
+                                    ? "#ffffff"
+                                    : "transparent",
+                                  color: Simadvmodal ? "#000000" : "#ffffff50",
+                                }}
+                              >
+                                Simple
+                              </button>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div
+                              className="sa"
+                              onClick={() => {
+                                setSimadvmodal(false);
+                              }}
+                            >
+                              <button
+                                style={{
+                                  backgroundColor: Simadvmodal
+                                    ? "transparent"
+                                    : "#ffffff",
+                                  color: Simadvmodal ? "#ffffff50" : "#000000",
+                                }}
+                              >
+                                Advanced
+                              </button>
                             </div>
                           </div>
 
@@ -401,13 +364,50 @@ const Pools = () => {
                               I think the price of BTC will...
                             </div>
                             <div className="pi">
-                              <div className="piupdn cursor" onClick={() => setIdActive(0)}> Go down then up</div>
                               <div
-                                className="piupdn cursor"
-                                style={{ backgroundColor: "#62232c" }}
-                                onClick={() => setIdActive(1)}
+                                className={
+                                  upDownbutton
+                                    ? "piupdn greenChart"
+                                    : "piupdn greenChartOFF"
+                                }
+                                onClick={() => {
+                                  setUpDownButton(true);
+                                }}
                               >
-                                Go up then down
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "end",
+                                    alignItems: "end",
+                                    height: "8rem",
+                                  }}
+                                >
+                                  {" "}
+                                  Go down then up
+                                </div>
+                              </div>
+
+                              <div
+                                className={
+                                  upDownbutton
+                                    ? "piupdn redChartOFF"
+                                    : "piupdn redChart"
+                                }
+                                onClick={() => {
+                                  setUpDownButton(false);
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "end",
+                                    height: "8rem",
+                                  }}
+                                >
+                                  {/* // style={{ backgroundColor: "#62232c" }} */}
+                                  <div>Go up then down</div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -436,25 +436,36 @@ const Pools = () => {
                                   ".MuiSlider-markLabel": {
                                     color: "white",
                                     textAlign: "left",
+                                    color: "rgb(148,158,158)",
+                                  },
+                                  ".MuiSlider-track": {
+                                    color: "#52af77",
+                                  },
+                                  ".MuiSlider-thumb": {
+                                    color: "#ffffff",
+                                  },
+                                  ".MuiSlider-rail": {
+                                    color: "#52af7750",
                                   },
                                   [theme.breakpoints.down("sm")]: {
                                     padding: "10px 0px",
                                     width: "100%",
                                   },
                                 }}
-                                track={idActive === 1 ? "" : 'inverted'}
                                 aria-label="Restricted values"
-                                defaultValue={value}
+                                defaultValue={20}
                                 getAriaValueText={valuetext}
-                                onChange={handleSliderChange}
                                 step={null}
-                                marks={idActive === 1 ? upDownMarks : downUpMarks}
-                                value={typeof value === 'number' ? value : 0}
+                                marks={marks}
                               />
                             </Box>
                             <div className="at" style={{ marginTop: "5px" }}>
-                              <span className="smallText" 
-                              // style={{ fontSize: "0.75rem " }}
+                              <span
+                                style={{
+                                  fontSize: "0.75rem ",
+                                  color: "#9199A7",
+                                  fontWeight: "bold",
+                                }}
                               >
                                 I speculate the price will go down as much as
                                 40% below $29,245.6. But ultimately it will go
@@ -467,21 +478,28 @@ const Pools = () => {
                             <div className="pt">Provide Liquidity</div>
                             <div className="pti">
                               <div className="amt">
-                                <span style={{ fontSize: "0.9rem" }}>
+                                <span
+                                  style={{
+                                    fontSize: "0.9rem",
+                                    fontWeight: "bold",
+                                  }}
+                                >
                                   Amount
                                 </span>
                                 <div className="amtm">
-                                  <div className="amtm1" style={{border:'1px solid #383737', padding:'0 8px'}}>
-                                  <div 
-                                    className="amtm1lo" 
-                                    style={{width:'28px', backgroundImage:'none', display:'flex', alignItem:'center'}}
-                                    >
-                                    <img style={{width:'24px'}} src="https://app.perp.com/assets/coins/usd.svg" alt="usdImg" />
-                                    </div>
+                                  <div className="amtm1">
+                                    <div className="amtm1lo"></div>
                                     <div className="amtm1in">
                                       <input
-                                        style={{ color: "white" }}
-                                        type="text"
+                                        style={{
+                                          color: "white",
+                                          backgroundColor: "rgb(47, 48, 50)",
+                                          borderRadius: "15px",
+                                          width: "100%",
+                                          height: "100%",
+                                          paddingLeft: 15,
+                                        }}
+                                        type="number"
                                         placeholder="USD"
                                       ></input>
                                     </div>
@@ -490,7 +508,6 @@ const Pools = () => {
                               </div>
                               <div className="amdt">
                                 <span
-                                className="smallText"
                                   style={{
                                     fontSize: "0.9rem",
                                     paddingLeft: "10px",
@@ -504,9 +521,14 @@ const Pools = () => {
                                     style={{ backgroundColor: "#2F3032" }}
                                   >
                                     <div className="amtm1in">
-                                      <span style={{ paddingLeft: 15, color:'#82828F', fontSize:'16px', fontWeight:'500' }}>
-                                        0.00x
-                                      </span>
+                                      <input
+                                        placeholder="0.00x"
+                                        type="number"
+                                        style={{
+                                          paddingLeft: 15,
+                                          color: "white",
+                                        }}
+                                      ></input>
                                     </div>
                                   </div>
                                 </div>
@@ -520,7 +542,7 @@ const Pools = () => {
                             <div className="pt">Easy LP</div>
 
                             <div className="pt" style={{ marginTop: 10 }}>
-                              <p className="smallText">
+                              <p>
                                 If the price moves as you expected, you will
                                 earn transaction fees and Pool Party rewards
                                 without impermanent loss.
@@ -536,11 +558,11 @@ const Pools = () => {
                                 >
                                   <div style={{ textAlign: "center" }}>
                                     <span
-                                    className="smallText"
                                       style={{
-                                      //   fontSize: "0.75rem",
-                                        fontWeight: "500",
-                                        // textAlign: "center",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold",
+                                        textAlign: "center",
+                                        color: "#9199A7",
                                       }}
                                     >
                                       Overall Risk
@@ -564,11 +586,11 @@ const Pools = () => {
                                 >
                                   <div>
                                     <span
-                                    className="smallText"
                                       style={{
-                                      //   fontSize: "0.75rem",
-                                        fontWeight: "500",
-                                      //   textAlign: "center",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold",
+                                        textAlign: "center",
+                                        color: "#9199A7",
                                       }}
                                     >
                                       Est. Weekly Fees
@@ -592,11 +614,11 @@ const Pools = () => {
                                 >
                                   <div>
                                     <span
-                                    className="smallText"
                                       style={{
-                                      //   fontSize: "0.75rem",
-                                        fontWeight: "500",
-                                      //   textAlign: "center",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold",
+                                        textAlign: "center",
+                                        color: "#9199A7",
                                       }}
                                     >
                                       Est. Weekly Rewards
@@ -623,12 +645,14 @@ const Pools = () => {
                             <div className="hrc">
                               <div className="scobtnli">
                                 <div className="plc4">
-                                  <div className="addLiquidityButtonHolder cursor">
-                                  <img style={{height:'24px', marginRight:'6px'}} src={addLiquidityIcon} alt={addLiquidityIcon} />
-                                  <span style={{color:'#26282A', fontWeight:'500'}}>
+                                  <Button
+                                    style={{
+                                      color: "black",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
                                     Add Liquidity
-                                  </span> 
-                                  </div>
+                                  </Button>
                                 </div>
                               </div>
                               <div className="scoset">
@@ -644,7 +668,7 @@ const Pools = () => {
               ) : (
                 // advanced
                 <Modal
-                  open={openIt}
+                  open={open}
                   onClose={handleClose}
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
@@ -656,7 +680,7 @@ const Pools = () => {
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        height: 533,
+                        height: 733,
                         bgcolor: "background.paper",
                         border: "2px solid #000",
                         boxShadow: 24,
@@ -675,6 +699,7 @@ const Pools = () => {
                         id="modal-modal-title"
                         variant="h6"
                         component="h2"
+                        style={{ fontWeight: "bolder", paddingBottom: "10px" }}
                       >
                         Add Liquidity
                       </Typography>
@@ -694,23 +719,41 @@ const Pools = () => {
 
                       <div className="modalsimple">
                         <div className="main">
-                        <div className="sabtns">
-                            <div style={{marginRight:'16px'}}
-                              className={`cursor ${!tabActive && "selectedLiquidity"}`}
-                              onClick={() => {
-                                setSimadvmodal(true);setTabActive(false)
-                              }}
-                            >
-                              <span style={{fontWeight:'500'}}>Simple</span>
-                            </div>
-                            
+                          <div className="sabtns">
                             <div
-                              className={`cursor ${tabActive && "selectedLiquidity"}`}
+                              className="sa"
                               onClick={() => {
-                                setSimadvmodal(false);setTabActive(true)
+                                setSimadvmodal(true);
                               }}
                             >
-                              <span style={{fontWeight:'500'}}>Advanced</span>
+                              <button
+                                style={{
+                                  backgroundColor: Simadvmodal
+                                    ? "#ffffff"
+                                    : "transparent",
+                                  color: Simadvmodal ? "#000000" : "#ffffff50",
+                                }}
+                              >
+                                Simple
+                              </button>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div
+                              className="sa"
+                              onClick={() => {
+                                setSimadvmodal(false);
+                              }}
+                            >
+                              <button
+                                style={{
+                                  backgroundColor: Simadvmodal
+                                    ? "transparent"
+                                    : "#ffffff",
+                                  color: Simadvmodal ? "#ffffff50" : "#000000",
+                                }}
+                              >
+                                Advanced
+                              </button>
                             </div>
                           </div>
 
@@ -727,16 +770,39 @@ const Pools = () => {
                               <div className="piupdn pia1">
                                 <div className="mbtnt">
                                   <div className="mbtn">
-                                    <button>-</button>
+                                    <button
+                                      onClick={() => {
+                                        setPriceInput(priceInput - 1);
+                                      }}
+                                    >
+                                      -
+                                    </button>
                                   </div>
                                   <div className="mbtn-t">
                                     <span>Min</span>
                                   </div>
                                 </div>
                                 <div className="matxt">
-                                  <input type="text" />
+                                  <input
+                                    type="text"
+                                    className="inputBOX"
+                                    value={priceInput}
+                                    onChange={(e) => {
+                                      const result = e.target.value.replace(
+                                        /\D/g,
+                                        ""
+                                      );
+                                      setPriceInput(Number(result));
+                                    }}
+                                  />
                                   <div className="mbtn">
-                                    <button>+</button>
+                                    <button
+                                      onClick={() => {
+                                        setPriceInput(priceInput + 1);
+                                      }}
+                                    >
+                                      +
+                                    </button>
                                   </div>
                                 </div>
                                 <div className="abtnt"></div>
@@ -744,16 +810,40 @@ const Pools = () => {
                               <div className="piupdn pia1">
                                 <div className="mbtnt">
                                   <div className="mbtn">
-                                    <button>-</button>
+                                    <button
+                                      onClick={() => {
+                                        setPriceInputMax(priceInputMax - 1);
+                                      }}
+                                    >
+                                      -
+                                    </button>
                                   </div>
                                   <div className="mbtn-t">
                                     <span>Max</span>
                                   </div>
                                 </div>
                                 <div className="matxt">
-                                  <input type="text" />
+                                  <input
+                                    type="text"
+                                    className="inputBOX"
+                                    value={priceInputMax}
+                                    onChange={(e) => {
+                                      const result = e.target.value.replace(
+                                        /\D/g,
+                                        ""
+                                      );
+
+                                      setPriceInputMax(Number(result));
+                                    }}
+                                  />
                                   <div className="mbtn">
-                                    <button>+</button>
+                                    <button
+                                      onClick={() => {
+                                        setPriceInputMax(priceInputMax + 1);
+                                      }}
+                                    >
+                                      +
+                                    </button>
                                   </div>
                                 </div>
                                 <div className="abtnt"></div>
@@ -777,39 +867,38 @@ const Pools = () => {
                                 </div>
                               </div>
                               <div className="bumain">
-                                <div className="bumain1" style={{borderBottom: '2px solid rgb(51, 51, 51)'}}>
-                                  <div className="bm1cont" style={{width:'15%', marginLeft:'9px'}}>
-                                    {/* <div className="mbtn"> */}
-                                    <div 
-                                    className="amtm1lo" 
-                                    style={{width:'28px', backgroundImage:'none'}}
-                                    >
-                                    <img style={{width:'24px'}} src="https://gains.trade//_next/static/media/btc.fdaa3ece.svg" alt="bitcoinImg" />
+                                <div className="bumain1">
+                                  <div className="bm1cont">
+                                    <div className="mbtn">
+                                      <button>-</button>
                                     </div>
-                                    {/* </div> */}
-                                    
+                                    &nbsp;
                                     <div className="mbtn-t">
                                       <span>BTC</span>
                                     </div>
                                   </div>
-                                  <input type="text" />
+                                  <input
+                                    type="number"
+                                    style={{ paddingLeft: "35px" }}
+                                  />
                                 </div>
-                                <div className="bumain1" style={{borderBottom: '2px solid rgb(51, 51, 51)'}}>
-                                  <div className="bm1cont" style={{width:'15%', marginLeft:'9px'}}>
-                                    {/* <div className="mbtn"> */}
-                                    <div 
-                                    className="amtm1lo" 
-                                    style={{width:'28px', backgroundImage:'none'}}
-                                    >
-                                    <img style={{width:'24px'}} src="https://app.perp.com/assets/coins/usd.svg" alt="usdImg" />
+                                <div
+                                  className="bumain1"
+                                  style={{ border: "none" }}
+                                >
+                                  <div className="bm1cont">
+                                    <div className="mbtn">
+                                      <button>-</button>
                                     </div>
-                                    {/* </div> */}
-                                    
+                                    &nbsp;
                                     <div className="mbtn-t">
                                       <span>USD</span>
                                     </div>
                                   </div>
-                                  <input type="text" />
+                                  <input
+                                    type="number"
+                                    style={{ paddingLeft: "35px" }}
+                                  />
                                 </div>
                               </div>
                               <div
@@ -835,7 +924,7 @@ const Pools = () => {
                             <div className="pt">Advanced Mode</div>
 
                             <div className="pt" style={{ marginTop: 10 }}>
-                              <p style={{fontWeight:'400'}}>
+                              <p>
                                 Manually set price range and token allocation.
                               </p>
                             </div>
@@ -843,17 +932,19 @@ const Pools = () => {
 
                           <div className="scobtn">
                             <hr
-                              style={{ marginTop: 0 }}
+                              style={{ marginTop: 0, marginBottom: "10px" }}
                             />
                             <div className="hrc">
                               <div className="scobtnli">
                                 <div className="plc4">
-                                <div className="addLiquidityButtonHolder">
-                                  <img style={{height:'24px', marginRight:'6px'}} src={addLiquidityIcon} alt={addLiquidityIcon} />
-                                  <span style={{color:'#26282A', fontWeight:'500'}}>
+                                  <Button
+                                    style={{
+                                      color: "black",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
                                     Add Liquidity
-                                  </span> 
-                                  </div>
+                                  </Button>
                                 </div>
                               </div>
                               <div className="scoset">
@@ -870,24 +961,6 @@ const Pools = () => {
 
               <div className="plc5">
                 <span>You can have up to 3 liquidity positions.</span>
-              </div>
-              <div style={{display:'flex', justifyContent:'center'}}>
-              {isConnected ? <li className="webappconnected" style={{ fontFamily: 'Regular' }} onClick={() => open()} >
-                    <span>0.10tMATIC</span>
-                    <div className="wacd">
-
-                      <span>{truncatedAddress}</span>
-
-                      <img src={process.env.PUBLIC_URL + '/Media/pfp.jpeg'} alt={"Connected Wallet"} style={{
-                        height: 27,
-                        borderRadius: 30
-                      }} />
-                    </div>
-
-                  </li> : <li className="webapp" style={{ fontFamily: 'Regular' }} onClick={() => open()} >
-
-                    <div className="greytack">Connect Wallet&nbsp;<PowerSettingsNewOutlinedIcon fontSize="small" /></div>
-                  </li>}
               </div>
             </div>
           </div>

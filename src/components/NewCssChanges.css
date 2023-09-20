@@ -1,170 +1,168 @@
-.cursor{
-    cursor: pointer;
+.cursor {
+  cursor: pointer;
 }
-.tradeHeadingHolder{
-    width: 33%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.tradeTabHolder{
-    width: 44%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: #383737;
-    border-radius: 12px;
-    margin-left: 36px;
-
+.tradeHeadingHolder {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.newTradeHeading{
-    display: flex;
-    width: 100%;
-    height: 50px;
-    border-bottom: none;
-    margin-top: 12px;
-}
-.tradeTabs{
-    width: 40%;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    height: 30px;
-}
-.longTradeTab{
-    border: 2px solid #3DECA7;   
-}
-.shortTradeTab{
-    border: 2px solid #f34949;   
+.tradeTabHolder {
+  width: 44%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #383737;
+  border-radius: 12px;
+  margin-left: 36px;
 }
 
-.newTradeContainer{
-    border-top: none;
-    background-color: #201f1f;
-    border-radius: 10px;
-    /* height: 95%; */
-    width: 90%;
+.newTradeHeading {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  border-bottom: none;
+  margin-top: 12px;
 }
-.newTradeHolder{
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    /* height: 611px; */
+.tradeTabs {
+  width: 40%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  height: 30px;
 }
-.greenDot{
-    background-color: #17f917;
-    border-radius: 100%;
-    height: 5px;
-    aspect-ratio: 1;
-    margin-right: 5px;
+.longTradeTab {
+  border: 2px solid #3deca7;
 }
-.priceSlippageContainer{
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    align-items: center;
+.shortTradeTab {
+  border: 2px solid #f34949;
 }
-.priceContainer{
-    display: flex;
-    flex-direction: column;
+
+.newTradeContainer {
+  border-top: none;
+  background-color: #111;
+  border-radius: 10px;
+  /* height: 95%; */
+  width: 90%;
 }
-.slippageContainer{
-    display: flex;
-    flex-direction: column;
-    background: black;
-    border: 1px solid #383737;
-    border-radius: 10px;
-    height: 3rem;
-    width: 5rem;
-    contain: content;
-    align-items: center;
+.newTradeHolder {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* height: 611px; */
 }
-.smallText{
-    font-size: small;
-    color: #82828F;
+.greenDot {
+  background-color: #17f917;
+  border-radius: 100%;
+  height: 5px;
+  aspect-ratio: 1;
+  margin-right: 5px;
 }
-.tradeSummaryHolder{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.priceSlippageContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  align-items: center;
 }
-.poolIconClass{
-    height: 26px;
-    aspect-ratio: 1;
-    margin-right: 3px;
+.priceContainer {
+  display: flex;
+  flex-direction: column;
 }
-.marketNewsContainer{
-    display: flex;
+.slippageContainer {
+  display: flex;
+  flex-direction: column;
+  background: black;
+  border: 1px solid #383737;
+  border-radius: 10px;
+  height: 3rem;
+  width: 5rem;
+  contain: content;
+  align-items: center;
 }
-.clickSummaryContainer{
-    display: flex;
-    flex-direction: column;
+.smallText {
+  font-size: small;
+  color: #82828f;
 }
-.confirmTradeButton{
-    /* background-color: #2fcd27; */
-    width: calc(100% - 13px);
-    height: 36px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    border-radius: 7px;
-    font-size: smaller;
+.tradeSummaryHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.selectedLiquidity{
-    background: #dfdbdb;
-    padding: 0px 12px;
-    border-radius: 15px;
-    color: #3f5058;
-    height: 27px;
+.poolIconClass {
+  height: 26px;
+  aspect-ratio: 1;
+  margin-right: 3px;
 }
-.addLiquidityButtonHolder{
-    display: flex;
-    background: #D6BCFA;
-    width: 11rem;
-    border-radius: 15px;
-    height: 2rem;
-    align-items: center;
-    justify-content: center;
+.marketNewsContainer {
+  display: flex;
 }
-.addLiquidityButtonHolder:hover{
-    background: #9e68e9;
-    cursor: pointer;
+.clickSummaryContainer {
+  display: flex;
+  flex-direction: column;
 }
-.transactionHistoryContainer{
-    width: 60%;
-    border: 1px solid #232325;
-    height: inherit;
+.confirmTradeButton {
+  /* background-color: #2fcd27; */
+  width: calc(100% - 13px);
+  height: 36px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  font-size: smaller;
 }
-.blogNewsContainer{
-    width: 40%;
-    border: 1px solid #232325;
-    height: inherit;
+.selectedLiquidity {
+  background: #dfdbdb;
+  padding: 0px 12px;
+  border-radius: 15px;
+  color: #3f5058;
+  height: 27px;
 }
-.blogNewsHeader{
-    display: flex;
-    text-align: center;
-    align-items: center;
-    height: 54px;
-    justify-content: center;
-    border-bottom: 1px solid #232325;
-    width: 100%;
+.addLiquidityButtonHolder {
+  display: flex;
+  background: #d6bcfa;
+  width: 11rem;
+  border-radius: 15px;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
 }
-.newsBlock{
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #232325;
-    padding: 3px 12px;
+.addLiquidityButtonHolder:hover {
+  background: #9e68e9;
+  cursor: pointer;
 }
-.newsHeading{
-    font-size: 18px;
-    font-family: math;
+.transactionHistoryContainer {
+  width: 60%;
+  border: 1px solid #232325;
+  height: inherit;
 }
-.newsTimestamp{
-    font-family: fangsong;
-    color: gray;
+.blogNewsContainer {
+  width: 40%;
+  border: 1px solid #232325;
+  height: inherit;
+}
+.blogNewsHeader {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 54px;
+  justify-content: center;
+  border-bottom: 1px solid #232325;
+  width: 100%;
+}
+.newsBlock {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #232325;
+  padding: 3px 12px;
+}
+.newsHeading {
+  font-size: 18px;
+  font-family: math;
+}
+.newsTimestamp {
+  font-family: fangsong;
+  color: gray;
 }

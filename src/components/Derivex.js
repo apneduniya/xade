@@ -1467,7 +1467,7 @@ const Derivex = () => {
                             ? `${Math.abs(value) - 8}%`
                             : undefined,
                           transform: "translateX(-50%)",
-                          bottom: "30px", // Adjust this value for vertical positioning
+                          bottom: "45%", // Adjust this value for vertical positioning
                           zIndex: 1,
                           color: "white",
                           backgroundColor: "#4e4e4e",

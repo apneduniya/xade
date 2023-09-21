@@ -17,6 +17,8 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import OpacityOutlinedIcon from "@mui/icons-material/OpacityOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Drawer from "@mui/material/Drawer";
+import Typography from "@mui/material/Typography";
+
 import { encodeErrorResult, parseEther, stringToHex } from "viem";
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
@@ -482,26 +484,25 @@ const Derivex = () => {
     },
   ];
 
-  const leverageMarks = [
+  const leverageMarksLong = [
     {
       value: 10,
-      label: "1",
+      label: "1x",
     },
     {
-      value: 30,
-      label: "3",
+      value: 100,
+      label: "10x",
+    },
+  ];
+
+  const leverageMarksShort = [
+    {
+      value: -100,
+      label: "10x",
     },
     {
-      value: 50,
-      label: "5",
-    },
-    {
-      value: 70,
-      label: "7",
-    },
-    {
-      value: 90,
-      label: "9",
+      value: -10,
+      label: "1x",
     },
   ];
 
@@ -511,14 +512,15 @@ const Derivex = () => {
   }
 
   const handleSliderChange = (event, newValue) => {
+    console.log("slider value", newValue);
     setValue(newValue);
     // setValue(Math.floor(event.target.value/10));
     // console.log('Math.floor(event.target.value/10)',Math.floor(event.target.value/10))
-    if (newValue < 10) {
-      setTabActive(true);
-    } else {
-      setTabActive(false);
-    }
+    // if (newValue < 10) {
+    //   setTabActive(true);
+    // } else {
+    //   setTabActive(false);
+    // }
   };
 
   const handleLeftScroll = () => {
@@ -1379,7 +1381,7 @@ const Derivex = () => {
                       <div className="tvwpht2-r1-2">
                         <Col span={4}>
                           <Input
-                            value={Math.floor(value / 10)}
+                            value={Math.floor(Math.abs(value) / 10)}
                             size="small"
                             onChange={onChange}
                             onBlur={handleBlur}
@@ -1411,39 +1413,73 @@ const Derivex = () => {
                         </Col>
                       </div>
                     </div>
-                    <div className="tvwpht2-r2">
+                    <div
+                      className="tvwpht2-r2"
+                      style={{ position: "relative" }}
+                    >
                       <Slider
                         value={typeof value === "number" ? value : 0}
                         onChange={handleSliderChange}
                         aria-labelledby="input-slider"
-                        valueLabelDisplay="off"
-                        marks={leverageMarks}
+                        // valueLabelDisplay="on"
+                        valueLabelFormat={(x) => `${x}%`}
+                        marks={
+                          tabActive ? leverageMarksShort : leverageMarksLong
+                        }
+                        track={tabActive ? "normal" : "inverted"}
                         getAriaValueText={(e) => e}
+                        max={tabActive ? 0 : 100}
+                        min={tabActive ? -100 : 0}
                         sx={{
                           " .MuiSlider-markLabel": {
                             color: "#82828F", // Set the desired mark label color here
                           },
                           ".MuiSlider-rail": {
-                            color: "#282C3B",
+                            background: tabActive
+                              ? "linear-gradient(90deg, #cd2c27, #000000)"
+                              : "#282C3B",
                             height: "10px",
+                            opacity: tabActive ? 1 : 0.38,
                           },
                           "& .MuiSlider-thumb": {
                             width: 15,
                             height: 15,
-                            border: " 2px solid white",
-                            color: "#282C3B",
+                            zIndex: 200,
+                            color: "transparent",
                           },
                           "	.MuiSlider-track": {
                             height: "10px",
                             border: "0px",
-                            background:
-                              "linear-gradient(90deg, #E72654, #3CDF60)", // Apply a gradient for multicolor effect
+                            background: tabActive
+                              ? "#282C3B"
+                              : "linear-gradient(90deg, #000000, #3CDF60)", // Apply a gradient for multicolor effect
                           },
                           ".MuiSlider-valueLabel:before": {
                             width: "0px",
                           },
                         }}
                       />
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: !tabActive ? `${value}%` : undefined,
+                          right: tabActive
+                            ? `${Math.abs(value) - 8}%`
+                            : undefined,
+                          transform: "translateX(-50%)",
+                          bottom: "30px", // Adjust this value for vertical positioning
+                          zIndex: 1,
+                          color: "white",
+                          backgroundColor: "#4e4e4e",
+                          padding: "4px 6px",
+                          display: "flex",
+                          fontSize: "12px",
+                          width: "fit-content",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        {Math.trunc(Math.abs(value) / 10)}
+                      </span>
                     </div>
                   </div>
 

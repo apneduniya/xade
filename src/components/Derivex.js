@@ -908,19 +908,28 @@ const Derivex = () => {
                           height: "calc(100% - 54px)",
                         }}
                       >
-                        {newsValues &&
-                          newsValues.map((item) => {
-                            return (
-                              <div className="newsBlock">
-                                <span className="newsHeading">
-                                  {item.label}
-                                </span>
-                                <span className="newsTimestamp">
-                                  {item.value}
-                                </span>
-                              </div>
-                            );
-                          })}
+                        {/* <script src="https://static.cryptopanic.com/static/js/widgets.min.js"></script>
+                        <a
+                          href="https://cryptopanic.com/"
+                          target="_blank"
+                          data-news_feed="recent"
+                          data-bg_color="#FFFFFF"
+                          data-text_color="#333333"
+                          data-link_color="#0091C2"
+                          data-header_bg_color="#30343B"
+                          data-header_text_color="#FFFFFF"
+                          class="CryptoPanicWidget"
+                        >
+                          Latest News
+                        </a> */}
+                        <iframe
+                          width="100%"
+                          scrolling="yes"
+                          allowtransparency="true"
+                          frameborder="0"
+                          src="https://cryptopanic.com/widgets/news/?bg_color=010000&amp;font_family=sans&amp;header_bg_color=30343B&amp;header_text_color=FFFFFF&amp;link_color=0091C2&amp;news_feed=recent&amp;text_color=FFFFFF&amp;title=Latest%20News"
+                          height="350px"
+                        ></iframe>
                       </div>
                     </div>
                   </div>

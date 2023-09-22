@@ -138,10 +138,28 @@
   border: 1px solid #232325;
   height: inherit;
 }
+@media (max-width: 805px) {
+  .transactionHistoryContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .blogNewsContainer {
   width: 40%;
   border: 1px solid #232325;
   height: inherit;
+}
+@media (max-width: 805px) {
+  .blogNewsContainer {
+    width: 100%;
+  }
+}
+@media (max-width: 805px) {
+  #footerxade {
+    padding-top: 15px;
+  }
 }
 .blogNewsHeader {
   display: flex;

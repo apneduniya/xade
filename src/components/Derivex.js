@@ -645,6 +645,362 @@ const Derivex = () => {
 
                   <TradingViewWidget />
                 </div>
+                <div className="tvhmn" ref={outerRef}>
+                  <div className="tvwhm" ref={Arrow === true ? innerRef : oRef}>
+                    <LeftButton show={showLeft} onClick={handleLeftScroll} />
+                    <div className=" tv tvwch-2">
+                      <span className="oi">Open Interest(L)</span>
+
+                      <span className="oid">14.6M / 22M</span>
+                    </div>
+
+                    <div className=" tv tvwch-2">
+                      <span className="oi">Open Interest(S)</span>
+
+                      <span className="oid">361.6k / 22M</span>
+                    </div>
+
+                    <div className="tv tvwch-2">
+                      <div className="tvwch-3-1">
+                        <span>Borrowing (L)</span>
+                      </div>
+                      <div className="tvwch-4-2">
+                        <span>0.0067%</span>
+                      </div>
+                    </div>
+
+                    <div className="tv tvwch-2">
+                      <div className="tvwch-3-1">
+                        <span>Borrowing (S)</span>
+                      </div>
+                      <div className="tvwch-4-2">
+                        <span>0.0000%</span>
+                      </div>
+                    </div>
+
+                    <div className="tv tvwch-2">
+                      <div className="tvwch-3-1">
+                        <span id="vq1">Rollover</span>
+                      </div>
+                      <div className="tvwch-5-2">
+                        <span>0.0033%</span>
+                      </div>
+                    </div>
+                    <RightButton show={showRight} onClick={handleRightScroll} />
+                  </div>
+                </div>
+                <div className="tvwp" id="tvwp1">
+                  <div className="tvwpht">
+                    <div className="tvwpht1">
+                      <button
+                        onClick={() => setTab(true)}
+                        id={tab ? "tvwphtll" : ""}
+                      >
+                        LONG
+                      </button>
+                      <button
+                        onClick={() => setTab(false)}
+                        id={tab == false ? "tvwphtls" : ""}
+                      >
+                        SHORT
+                      </button>
+                    </div>
+                    <div className="tvwpht2">
+                      <div className="tvwpht2-m">
+                        <button
+                          onClick={() => setMenu(1)}
+                          id={Menu === 1 ? "tvwpht2-mb" : ""}
+                        >
+                          Market
+                        </button>
+                        <button
+                          onClick={() => setMenu(2)}
+                          id={Menu === 2 ? "tvwpht2-mb" : ""}
+                        >
+                          Limit
+                        </button>
+                        <button
+                          onClick={() => setMenu(3)}
+                          id={Menu === 3 ? "tvwpht2-mb" : ""}
+                        >
+                          Stop
+                        </button>
+                      </div>
+                      <div className={Menu !== 1 ? "tscs" : "tscsn"}>
+                        <span>Coming Soon</span>
+                      </div>
+                      <div
+                        className={
+                          Menu === 1 ? "tvwphtcontainer" : "tvwphtcontainer23"
+                        }
+                      >
+                        <div className="tvwpht2-c">
+                          <div className="tvwpht2-c1">
+                            Collateral <span>(50-250k)</span>
+                          </div>
+                          <div className="tvwpht2-c2">
+                            <input type="text" value={50}></input>
+                          </div>
+                        </div>
+                        <div className="tvwpht2-r">
+                          <div className="tvwpht2-r1">
+                            <div className="tvwpht2-r1-1">
+                              Leverage<span> (1-10x)</span>
+                            </div>
+                            <div className="tvwpht2-r1-2">
+                              <Col span={4}>
+                                <Input
+                                  value={value}
+                                  size="small"
+                                  onChange={onChange}
+                                  onBlur={handleBlur}
+                                  inputProps={{
+                                    min: 1,
+                                    max: 10,
+                                    type: "number",
+                                    "aria-labelledby": "Custom marks",
+                                  }}
+                                  sx={{
+                                    "& .MuiInput-input": {
+                                      color: "white",
+                                      backgroundColor: "black",
+                                      width: 82,
+                                      height: 20, // Update the height here
+                                      borderRadius: 1,
+                                    },
+                                    ".MuiInputBase-input": {
+                                      width: 77,
+                                      paddingLeft: 1.8,
+                                    },
+                                    "&.MuiInputBase-root": {
+                                      width: 101,
+                                      marginTop: 0.5,
+                                    },
+                                  }}
+                                />
+                              </Col>
+                            </div>
+                          </div>
+                          <div className="tvwpht2-r2">
+                            {/* <Slider
+                            aria-label="Custom marks"
+                            defaultValue={1}
+                            max={10}
+                            getAriaValueText={valuetext}
+                            onChange={handleSliderChange}
+                            valueLabelDisplay="auto"
+                            marks={marks}
+                            sx={{
+                              " .MuiSlider-markLabel": {
+                                color: "#82828F", // Set the desired mark label color here
+                              },
+                              ".MuiSlider-rail": {
+                                color: "#282C3B",
+                                height: "10px",
+                              },
+                              "& .MuiSlider-thumb": {
+                                width: 15,
+                                height: 15,
+                                border: " 2px solid white",
+                                color: "#282C3B",
+                              },
+                              "	.MuiSlider-track": {
+                                backgroundColor: "#D65CD9",
+                                height: "10px",
+                                border: "0px",
+                              },
+                              ".MuiSlider-valueLabel:before": {
+                                width: "0px",
+                              },
+                            }}
+                          /> */}
+                            <Slider
+                              value={typeof value === "number" ? value : 0}
+                              onChange={handleSliderChange}
+                              aria-labelledby="input-slider"
+                              valueLabelDisplay="auto"
+                              marks={marks}
+                              getAriaValueText={(e) => e}
+                              sx={{
+                                " .MuiSlider-markLabel": {
+                                  color: "#82828F", // Set the desired mark label color here
+                                },
+                                ".MuiSlider-rail": {
+                                  color: "#282C3B",
+                                  height: "10px",
+                                },
+                                "& .MuiSlider-thumb": {
+                                  width: 15,
+                                  height: 15,
+                                  border: " 2px solid white",
+                                  color: "#282C3B",
+                                },
+                                "	.MuiSlider-track": {
+                                  backgroundColor: "#D65CD9",
+                                  height: "10px",
+                                  border: "0px",
+                                },
+                                ".MuiSlider-valueLabel:before": {
+                                  width: "0px",
+                                },
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="tvwpht2-p">
+                          <div className="tvwpht2-p1">
+                            <div className="tvwpht2-p1-1">Price</div>
+                            <div className="tvwpht2-p1-2">Slippage(%)</div>
+                          </div>
+                          <div className="tvwpht2-p2">
+                            <div className="tvwpht2-p2-1">
+                              <span>30415</span>
+                            </div>
+                            <div className="tvwpht2-p2-2">
+                              <InputNumber
+                                min={1}
+                                id="p2-2i"
+                                defaultValue={1}
+                                style={{
+                                  marginRight: 6,
+                                  marginTop: 3,
+                                  backgroundColor: "black",
+                                  outline: "none",
+                                  borderStyle: "none",
+                                  color: "white",
+                                }}
+                                onChange={onIChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        {/* <div className='tvwpht2-s'>
+
+                                            <div className='tvwpht2-s1'>
+                                                <div className='tvwpht2-s1-1'>
+                                                    Stop Loss <span className='tvwpht2-s1-span'>(None)</span>
+                                                </div>
+                                                <div className='tvwpht2-s1-2'>
+                                                    <span className='tvwpht2-s1-span'>None</span>
+                                                </div>
+                                            </div>
+                                            <div className='tvwpht2-s2'>
+
+                                                <div className='tvwpht2-s2-1'>
+
+                                                    <button className='tvwpht2-s2-1-c' >NONE</button>
+                                                    <button className='tvwpht2-s2-1-c' >-10%</button>
+                                                    <button className='tvwpht2-s2-1-c' >-25%</button>
+                                                    <button className='tvwpht2-s2-1-c' >-50%</button>
+                                                    <button className='tvwpht2-s2-1-c' >-75%</button>
+                                                    <input className='tvwpht2-s2-1-c' type='text' placeholder='PRICE' />
+                                                </div>
+                                            </div>
+
+                                        </div> */}
+                        {/* <div className='tvwpht2-t'>
+
+                                            <div className='tvwpht2-t1'>
+                                                <div className='tvwpht2-t1-1'>
+                                                    Take Profit <span className='tvwpht2-t1-span'>(168166)</span>
+                                                </div>
+                                                <div className='tvwpht2-t1-2'>
+                                                    <span className='tvwpht2-t1-span'>None</span>
+                                                </div>
+                                            </div>
+                                            <div className='tvwpht2-t2'>
+
+                                                <div className='tvwpht2-t2-1'>
+
+                                                    <button className='tvwpht2-t2-1-c' >25%</button>
+                                                    <button className='tvwpht2-t2-1-c' >50%%</button>
+                                                    <button className='tvwpht2-t2-1-c' >100%</button>
+                                                    <button className='tvwpht2-t2-1-c' >300%</button>
+                                                    <button className='tvwpht2-t2-1-c' >900%</button>
+                                                    <input className='tvwpht2-t2-1-c' type='text' placeholder='PRICE' />
+                                                </div>
+                                            </div>
+
+                                        </div> */}
+                        {/* onClick={() => submitOpenPositionLong?.()} */}
+                        <div className="tvwpht2-btn">
+                          {isConnected ? (
+                            <button onClick={() => submitOpenPositionLong?.()}>
+                              MARKET (LONG)
+                            </button>
+                          ) : (
+                            <div
+                              className="bcont"
+                              onClick={() => {
+                                open();
+                              }}
+                            >
+                              <span>CONNECT WALLET</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="tvwphyt2-mc">
+                          <div className="tvwphyt2-m">
+                            <span
+                              className="tvwphyt2-m-spanl"
+                              id="tvwphyt2-m-spanl-hl"
+                            >
+                              BTC/USD
+                            </span>
+                            {isConnected ? (
+                              <span
+                                className="tvwphyt2-m-spanr"
+                                id="tvwphyt2-m-spanl-hr"
+                              >
+                                POSITION SIZE {"<"} {"  "} 1,500 DAI
+                              </span>
+                            ) : (
+                              <span
+                                className="tvwphyt2-m-spanr"
+                                id="tvwphyt2-m-spanl-hr"
+                              >
+                                WALLET NOT CONNECTED
+                              </span>
+                            )}
+                          </div>
+                          <div className="tvwphyt2-m">
+                            <span className="tvwphyt2-m-spanl">
+                              EST. EXECUTION PRICE
+                            </span>
+                            <span className="tvwphyt2-m-spanr">30740.6</span>
+                          </div>
+                          <div className="tvwphyt2-m">
+                            <span className="tvwphyt2-m-spanl">SPREAD</span>
+                            <span className="tvwphyt2-m-spanr">0.04%</span>
+                          </div>
+                          <div className="tvwphyt2-m">
+                            <span className="tvwphyt2-m-spanl">
+                              POSITION SIZE
+                            </span>
+                            <span className="tvwphyt2-m-spanr">100 DAI</span>
+                          </div>
+                          <div className="tvwphyt2-m">
+                            <span className="tvwphyt2-m-spanl">FEES</span>
+                            <span className="tvwphyt2-m-spanr">0.1 DAI</span>
+                          </div>
+                          <div className="tvwphyt2-m">
+                            <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
+                            <span className="tvwphyt2-m-spanr">16907.6</span>
+                          </div>
+                          <div className="tvwphyt2-m">
+                            <span className="tvwphyt2-m-spanl">
+                              EST. BORROWING FEE / H
+                            </span>
+                            <span className="tvwphyt2-m-spanr">0.0 DAI</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div
                   className="marketNewsContainer"
                   style={{ height: "22rem" }}
@@ -924,7 +1280,7 @@ const Derivex = () => {
                         </a> */}
                         <iframe
                           width="100%"
-                          // scrolling="yes"
+                          scrolling="yes"
                           allowtransparency="true"
                           frameborder="0"
                           src="https://cryptopanic.com/widgets/news/?bg_color=010000&amp;font_family=sans&amp;header_bg_color=0E0F12&amp;header_text_color=FFFFFF&amp;link_color=C7C7C7&amp;news_feed=recent&amp;text_color=AEAEAE&amp;title=Latest%20News"
@@ -935,7 +1291,8 @@ const Derivex = () => {
                   </div>
                 </div>
               </div>
-              <div className="tvhmn" ref={outerRef}>
+
+              {/* <div className="tvhmn" ref={outerRef}>
                 <div className="tvwhm" ref={Arrow === true ? innerRef : oRef}>
                   <LeftButton show={showLeft} onClick={handleLeftScroll} />
                   <div className=" tv tvwch-2">
@@ -978,318 +1335,7 @@ const Derivex = () => {
                   </div>
                   <RightButton show={showRight} onClick={handleRightScroll} />
                 </div>
-              </div>
-              <div className="tvwp" id="tvwp1">
-                <div className="tvwpht">
-                  <div className="tvwpht1">
-                    <button
-                      onClick={() => setTab(true)}
-                      id={tab ? "tvwphtll" : ""}
-                    >
-                      LONG
-                    </button>
-                    <button
-                      onClick={() => setTab(false)}
-                      id={tab == false ? "tvwphtls" : ""}
-                    >
-                      SHORT
-                    </button>
-                  </div>
-                  <div className="tvwpht2">
-                    <div className="tvwpht2-m">
-                      <button
-                        onClick={() => setMenu(1)}
-                        id={Menu === 1 ? "tvwpht2-mb" : ""}
-                      >
-                        Market
-                      </button>
-                      <button
-                        onClick={() => setMenu(2)}
-                        id={Menu === 2 ? "tvwpht2-mb" : ""}
-                      >
-                        Limit
-                      </button>
-                      <button
-                        onClick={() => setMenu(3)}
-                        id={Menu === 3 ? "tvwpht2-mb" : ""}
-                      >
-                        Stop
-                      </button>
-                    </div>
-                    <div className={Menu !== 1 ? "tscs" : "tscsn"}>
-                      <span>Coming Soon</span>
-                    </div>
-                    <div
-                      className={
-                        Menu === 1 ? "tvwphtcontainer" : "tvwphtcontainer23"
-                      }
-                    >
-                      <div className="tvwpht2-c">
-                        <div className="tvwpht2-c1">
-                          Collateral <span>(50-250k)</span>
-                        </div>
-                        <div className="tvwpht2-c2">
-                          <input type="text" value={50}></input>
-                        </div>
-                      </div>
-                      <div className="tvwpht2-r">
-                        <div className="tvwpht2-r1">
-                          <div className="tvwpht2-r1-1">
-                            Leverage<span> (1-10x)</span>
-                          </div>
-                          <div className="tvwpht2-r1-2">
-                            <Col span={4}>
-                              <Input
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                onBlur={handleBlur}
-                                inputProps={{
-                                  min: 1,
-                                  max: 10,
-                                  type: "number",
-                                  "aria-labelledby": "Custom marks",
-                                }}
-                                sx={{
-                                  "& .MuiInput-input": {
-                                    color: "white",
-                                    backgroundColor: "black",
-                                    width: 82,
-                                    height: 20, // Update the height here
-                                    borderRadius: 1,
-                                  },
-                                  ".MuiInputBase-input": {
-                                    width: 77,
-                                    paddingLeft: 1.8,
-                                  },
-                                  "&.MuiInputBase-root": {
-                                    width: 101,
-                                    marginTop: 0.5,
-                                  },
-                                }}
-                              />
-                            </Col>
-                          </div>
-                        </div>
-                        <div className="tvwpht2-r2">
-                          {/* <Slider
-                            aria-label="Custom marks"
-                            defaultValue={1}
-                            max={10}
-                            getAriaValueText={valuetext}
-                            onChange={handleSliderChange}
-                            valueLabelDisplay="auto"
-                            marks={marks}
-                            sx={{
-                              " .MuiSlider-markLabel": {
-                                color: "#82828F", // Set the desired mark label color here
-                              },
-                              ".MuiSlider-rail": {
-                                color: "#282C3B",
-                                height: "10px",
-                              },
-                              "& .MuiSlider-thumb": {
-                                width: 15,
-                                height: 15,
-                                border: " 2px solid white",
-                                color: "#282C3B",
-                              },
-                              "	.MuiSlider-track": {
-                                backgroundColor: "#D65CD9",
-                                height: "10px",
-                                border: "0px",
-                              },
-                              ".MuiSlider-valueLabel:before": {
-                                width: "0px",
-                              },
-                            }}
-                          /> */}
-                          <Slider
-                            value={typeof value === "number" ? value : 0}
-                            onChange={handleSliderChange}
-                            aria-labelledby="input-slider"
-                            valueLabelDisplay="auto"
-                            marks={marks}
-                            getAriaValueText={(e) => e}
-                            sx={{
-                              " .MuiSlider-markLabel": {
-                                color: "#82828F", // Set the desired mark label color here
-                              },
-                              ".MuiSlider-rail": {
-                                color: "#282C3B",
-                                height: "10px",
-                              },
-                              "& .MuiSlider-thumb": {
-                                width: 15,
-                                height: 15,
-                                border: " 2px solid white",
-                                color: "#282C3B",
-                              },
-                              "	.MuiSlider-track": {
-                                backgroundColor: "#D65CD9",
-                                height: "10px",
-                                border: "0px",
-                              },
-                              ".MuiSlider-valueLabel:before": {
-                                width: "0px",
-                              },
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="tvwpht2-p">
-                        <div className="tvwpht2-p1">
-                          <div className="tvwpht2-p1-1">Price</div>
-                          <div className="tvwpht2-p1-2">Slippage(%)</div>
-                        </div>
-                        <div className="tvwpht2-p2">
-                          <div className="tvwpht2-p2-1">
-                            <span>30415</span>
-                          </div>
-                          <div className="tvwpht2-p2-2">
-                            <InputNumber
-                              min={1}
-                              id="p2-2i"
-                              defaultValue={1}
-                              style={{
-                                marginRight: 6,
-                                marginTop: 3,
-                                backgroundColor: "black",
-                                outline: "none",
-                                borderStyle: "none",
-                                color: "white",
-                              }}
-                              onChange={onIChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      {/* <div className='tvwpht2-s'>
-
-                                            <div className='tvwpht2-s1'>
-                                                <div className='tvwpht2-s1-1'>
-                                                    Stop Loss <span className='tvwpht2-s1-span'>(None)</span>
-                                                </div>
-                                                <div className='tvwpht2-s1-2'>
-                                                    <span className='tvwpht2-s1-span'>None</span>
-                                                </div>
-                                            </div>
-                                            <div className='tvwpht2-s2'>
-
-                                                <div className='tvwpht2-s2-1'>
-
-                                                    <button className='tvwpht2-s2-1-c' >NONE</button>
-                                                    <button className='tvwpht2-s2-1-c' >-10%</button>
-                                                    <button className='tvwpht2-s2-1-c' >-25%</button>
-                                                    <button className='tvwpht2-s2-1-c' >-50%</button>
-                                                    <button className='tvwpht2-s2-1-c' >-75%</button>
-                                                    <input className='tvwpht2-s2-1-c' type='text' placeholder='PRICE' />
-                                                </div>
-                                            </div>
-
-                                        </div> */}
-                      {/* <div className='tvwpht2-t'>
-
-                                            <div className='tvwpht2-t1'>
-                                                <div className='tvwpht2-t1-1'>
-                                                    Take Profit <span className='tvwpht2-t1-span'>(168166)</span>
-                                                </div>
-                                                <div className='tvwpht2-t1-2'>
-                                                    <span className='tvwpht2-t1-span'>None</span>
-                                                </div>
-                                            </div>
-                                            <div className='tvwpht2-t2'>
-
-                                                <div className='tvwpht2-t2-1'>
-
-                                                    <button className='tvwpht2-t2-1-c' >25%</button>
-                                                    <button className='tvwpht2-t2-1-c' >50%%</button>
-                                                    <button className='tvwpht2-t2-1-c' >100%</button>
-                                                    <button className='tvwpht2-t2-1-c' >300%</button>
-                                                    <button className='tvwpht2-t2-1-c' >900%</button>
-                                                    <input className='tvwpht2-t2-1-c' type='text' placeholder='PRICE' />
-                                                </div>
-                                            </div>
-
-                                        </div> */}
-                      {/* onClick={() => submitOpenPositionLong?.()} */}
-                      <div className="tvwpht2-btn">
-                        {isConnected ? (
-                          <button onClick={() => submitOpenPositionLong?.()}>
-                            MARKET (LONG)
-                          </button>
-                        ) : (
-                          <div
-                            className="bcont"
-                            onClick={() => {
-                              open();
-                            }}
-                          >
-                            <span>CONNECT WALLET</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="tvwphyt2-mc">
-                        <div className="tvwphyt2-m">
-                          <span
-                            className="tvwphyt2-m-spanl"
-                            id="tvwphyt2-m-spanl-hl"
-                          >
-                            BTC/USD
-                          </span>
-                          {isConnected ? (
-                            <span
-                              className="tvwphyt2-m-spanr"
-                              id="tvwphyt2-m-spanl-hr"
-                            >
-                              POSITION SIZE {"<"} {"  "} 1,500 DAI
-                            </span>
-                          ) : (
-                            <span
-                              className="tvwphyt2-m-spanr"
-                              id="tvwphyt2-m-spanl-hr"
-                            >
-                              WALLET NOT CONNECTED
-                            </span>
-                          )}
-                        </div>
-                        <div className="tvwphyt2-m">
-                          <span className="tvwphyt2-m-spanl">
-                            EST. EXECUTION PRICE
-                          </span>
-                          <span className="tvwphyt2-m-spanr">30740.6</span>
-                        </div>
-                        <div className="tvwphyt2-m">
-                          <span className="tvwphyt2-m-spanl">SPREAD</span>
-                          <span className="tvwphyt2-m-spanr">0.04%</span>
-                        </div>
-                        <div className="tvwphyt2-m">
-                          <span className="tvwphyt2-m-spanl">
-                            POSITION SIZE
-                          </span>
-                          <span className="tvwphyt2-m-spanr">100 DAI</span>
-                        </div>
-                        <div className="tvwphyt2-m">
-                          <span className="tvwphyt2-m-spanl">FEES</span>
-                          <span className="tvwphyt2-m-spanr">0.1 DAI</span>
-                        </div>
-                        <div className="tvwphyt2-m">
-                          <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
-                          <span className="tvwphyt2-m-spanr">16907.6</span>
-                        </div>
-                        <div className="tvwphyt2-m">
-                          <span className="tvwphyt2-m-spanl">
-                            EST. BORROWING FEE / H
-                          </span>
-                          <span className="tvwphyt2-m-spanr">0.0 DAI</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </div> */}
             </div>
 
             {/* removed tvwns frome here */}

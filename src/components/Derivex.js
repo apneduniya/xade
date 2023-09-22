@@ -566,7 +566,10 @@ const Derivex = () => {
                     <span>BTC/USD</span>
                   </div>
                 </div>
-                <div className="  tvwch-2">
+                <div
+                  className="  tvwch-2"
+                  style={{ display: "flex", flexDirection: "row" }}
+                >
                   <div className="tvwch-2-1">
                     <span>{btcprice}</span>
                   </div>
@@ -899,14 +902,9 @@ const Derivex = () => {
               </div> */}
 
                     <div className="blogNewsContainer">
-                      <div className="blogNewsHeader">
-                        <span>Market Updates</span>
-                      </div>
-
                       <div
                         className="blogNewsBody"
                         style={{
-                          overflow: "scroll",
                           height: "calc(100% - 54px)",
                         }}
                       >
@@ -926,10 +924,10 @@ const Derivex = () => {
                         </a> */}
                         <iframe
                           width="100%"
-                          scrolling="yes"
+                          // scrolling="yes"
                           allowtransparency="true"
                           frameborder="0"
-                          src="https://cryptopanic.com/widgets/news/?bg_color=010000&amp;font_family=sans&amp;header_bg_color=30343B&amp;header_text_color=FFFFFF&amp;link_color=0091C2&amp;news_feed=recent&amp;text_color=FFFFFF&amp;title=Latest%20News"
+                          src="https://cryptopanic.com/widgets/news/?bg_color=010000&amp;font_family=sans&amp;header_bg_color=0E0F12&amp;header_text_color=FFFFFF&amp;link_color=C7C7C7&amp;news_feed=recent&amp;text_color=AEAEAE&amp;title=Latest%20News"
                           height="350px"
                         ></iframe>
                       </div>
@@ -1381,6 +1379,7 @@ const Derivex = () => {
                       <div className="tvwpht2-r1-2">
                         <Col span={4}>
                           <Input
+                            className="leverageInput"
                             value={Math.floor(Math.abs(value) / 10)}
                             size="small"
                             onChange={onChange}
@@ -1436,7 +1435,7 @@ const Derivex = () => {
                           },
                           ".MuiSlider-rail": {
                             background: tabActive
-                              ? "linear-gradient(90deg, #cd2c27, #000000)"
+                              ? "linear-gradient(90deg, #cd2c27, #FFCCCB)"
                               : "#282C3B",
                             height: "10px",
                             opacity: tabActive ? 1 : 0.38,
@@ -1452,7 +1451,7 @@ const Derivex = () => {
                             border: "0px",
                             background: tabActive
                               ? "#282C3B"
-                              : "linear-gradient(90deg, #000000, #3CDF60)", // Apply a gradient for multicolor effect
+                              : "linear-gradient(90deg, #e6ffe1, #3CDF60)", // Apply a gradient for multicolor effect
                           },
                           ".MuiSlider-valueLabel:before": {
                             width: "0px",
@@ -1464,7 +1463,7 @@ const Derivex = () => {
                           position: "absolute",
                           left: !tabActive ? `${value}%` : undefined,
                           right: tabActive
-                            ? `${Math.abs(value) - 8}%`
+                            ? `${Math.abs(value) - 15}%`
                             : undefined,
                           transform: "translateX(-50%)",
                           bottom: "45%", // Adjust this value for vertical positioning
@@ -1474,7 +1473,9 @@ const Derivex = () => {
                           padding: "4px 6px",
                           display: "flex",
                           fontSize: "12px",
-                          width: "fit-content",
+                          width: "15%",
+                          display: "flex",
+                          justifyContent: "center",
                           borderRadius: "4px",
                         }}
                       >
@@ -1482,7 +1483,6 @@ const Derivex = () => {
                       </span>
                     </div>
                   </div>
-
                   <div className="priceSlippageContainer">
                     <div className="priceContainer">
                       <span className="smallText">Price</span>
@@ -1623,102 +1623,61 @@ const Derivex = () => {
                     )}
                   </div>
                   <div
-                    className="tradeSummaryHolder cursor"
-                    onClick={() => setSummaryActive((prev) => !prev)}
+                    className="clickSummaryContainer"
+                    style={{ marginTop: "2.5rem" }}
                   >
-                    <span style={{ marginRight: "6px" }}>
-                      {summaryActive ? (
-                        <svg
-                          width="10"
-                          height="10"
-                          viewBox="0 0 10 6"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0.95752 5.40234L5.1488 1.21094L9.34021 5.40234"
-                            stroke="#82828F"
-                            stroke-linecap="round"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          width="10"
-                          height="10"
-                          viewBox="0 0 10 6"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0.95752 0.770508L5.1488 4.96191L9.34021 0.770508"
-                            stroke="#82828F"
-                            stroke-linecap="round"
-                          />
-                        </svg>
-                      )}
-                    </span>
-                    <span className="smallText">
-                      {summaryActive ? "Hide Summary" : "Click to see Summary"}
-                    </span>
-                  </div>
-                  {summaryActive && (
-                    <div
-                      className="clickSummaryContainer"
-                      style={{ marginTop: "1rem" }}
-                    >
-                      <div className="tvwphyt2-m">
+                    <div className="tvwphyt2-m">
+                      <span
+                        className="tvwphyt2-m-spanl"
+                        id="tvwphyt2-m-spanl-hl"
+                      >
+                        BTC/USD
+                      </span>
+                      {isConnected ? (
                         <span
-                          className="tvwphyt2-m-spanl"
-                          id="tvwphyt2-m-spanl-hl"
+                          className="tvwphyt2-m-spanr"
+                          id="tvwphyt2-m-spanl-hr"
                         >
-                          BTC/USD
+                          POSITION SIZE {"<"} {"  "} 1,500 DAI
                         </span>
-                        {isConnected ? (
-                          <span
-                            className="tvwphyt2-m-spanr"
-                            id="tvwphyt2-m-spanl-hr"
-                          >
-                            POSITION SIZE {"<"} {"  "} 1,500 DAI
-                          </span>
-                        ) : (
-                          <span
-                            className="tvwphyt2-m-spanr"
-                            id="tvwphyt2-m-spanl-hr"
-                          >
-                            WALLET NOT CONNECTED
-                          </span>
-                        )}
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">
-                          EST. EXECUTION PRICE
+                      ) : (
+                        <span
+                          className="tvwphyt2-m-spanr"
+                          id="tvwphyt2-m-spanl-hr"
+                        >
+                          WALLET NOT CONNECTED
                         </span>
-                        <span className="tvwphyt2-m-spanr">30740.6</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">SPREAD</span>
-                        <span className="tvwphyt2-m-spanr">0.04%</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
-                        <span className="tvwphyt2-m-spanr">100 DAI</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">FEES</span>
-                        <span className="tvwphyt2-m-spanr">0.1 DAI</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
-                        <span className="tvwphyt2-m-spanr">16907.6</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">
-                          EST. BORROWING FEE / H
-                        </span>
-                        <span className="tvwphyt2-m-spanr">0.0 DAI</span>
-                      </div>
+                      )}
                     </div>
-                  )}
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">
+                        EST. EXECUTION PRICE
+                      </span>
+                      <span className="tvwphyt2-m-spanr">30740.6</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">SPREAD</span>
+                      <span className="tvwphyt2-m-spanr">0.04%</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
+                      <span className="tvwphyt2-m-spanr">100 DAI</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">FEES</span>
+                      <span className="tvwphyt2-m-spanr">0.1 DAI</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
+                      <span className="tvwphyt2-m-spanr">16907.6</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">
+                        EST. BORROWING FEE / H
+                      </span>
+                      <span className="tvwphyt2-m-spanr">0.0 DAI</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

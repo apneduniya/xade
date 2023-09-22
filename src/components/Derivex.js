@@ -455,32 +455,12 @@ const Derivex = () => {
 
   const marks = [
     {
-      value: 0,
+      value: 10,
       label: "1",
     },
     {
-      value: 16.66666666666667,
-      label: "3",
-    },
-    {
-      value: 33.33333333333334,
-      label: "5",
-    },
-    {
-      value: 50.00000000000001,
-      label: "7",
-    },
-    {
-      value: 66.66666666666668,
-      label: "9",
-    },
-    {
-      value: 83.33333333333335,
-      label: "100",
-    },
-    {
       value: 100,
-      label: "125",
+      label: "10",
     },
   ];
 
@@ -750,7 +730,7 @@ const Derivex = () => {
                             <div className="tvwpht2-r1-2">
                               <Col span={4}>
                                 <Input
-                                  value={value}
+                                  value={Math.trunc(value / 10)}
                                   size="small"
                                   onChange={onChange}
                                   onBlur={handleBlur}
@@ -820,6 +800,7 @@ const Derivex = () => {
                               aria-labelledby="input-slider"
                               valueLabelDisplay="auto"
                               marks={marks}
+                              valueLabelFormat={Math.trunc(value / 10)}
                               getAriaValueText={(e) => e}
                               sx={{
                                 " .MuiSlider-markLabel": {

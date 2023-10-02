@@ -21,7 +21,37 @@
   align-items: center;
   height: 100vh;
 }
+.depositBtn {
+  background-color: #383737;
+  border: none;
+  border-radius: 6px;
+  height: 2rem;
+  color: white;
+  width: 115px;
+}
+.withdrawBtn {
+  background-color: #383737;
+  border: none;
+  border-radius: 6px;
+  height: 2rem;
+  color: white;
+  width: 115px;
+}
+.submitBtn {
+  background-color: #383737;
+  border: none;
+  border-radius: 6px;
+  height: 2rem;
+  color: white;
+  width: 115px;
+}
 
+.subBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+  padding-right: 10px;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -31,7 +61,54 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.app2 {
+.depositModal {
+  position: absolute;
+
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  width: 40rem;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  height: 330px;
+  background-color: #26282a;
+
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  padding: 1.7em;
+  border-radius: 32px;
+  overflow: scroll;
+}
+.withdrawModal {
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  width: 40rem;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  height: 330px;
+  background-color: #26282a;
+
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  padding: 1.7em;
+  border-radius: 32px;
+  overflow: scroll;
+}
+
+.inputBox {
+  color: white;
+  background-color: rgb(22 22 22);
+  border-radius: 47px;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  border: none;
 }
 
 /* left section styles */

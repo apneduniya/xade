@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import TradingViewWidget from "./TradingViewWidget";
 import "../styles/better.css";
 import "./NewCssChanges.css";
 import { Col, InputNumber, Row, Space } from "antd";
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
-import { useAccount, usePrepareContractWrite, useContractWrite } from "wagmi";
+import { useState, useRef, useEffect, useCallback } from "react";
+import {
+  useAccount,
+  usePrepareContractWrite,
+  useContractWrite,
+  useWalletClient,
+  useContractRead,
+} from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
@@ -29,8 +35,6 @@ import ReactPlayer from "react-player";
 import {
   CLEARING_HOUSE_ADDRESS,
   BTC_BASE_TOKEN_ADDRESS,
-  QUOTE_TOKEN_ADDRESS,
-  ORDER_BOOK_ADDRESS,
   VAULT_ADDRESS,
   XUSD_ADDRESS,
 } from "../constants/constants";
@@ -39,6 +43,8 @@ import xusdABI from "../constants/abis/xusdABI.json";
 import vaultABI from "../constants/abis/vaultABI.json";
 import "core-js/features/bigint";
 import VideoPlayer from "./Videoplayer";
+import derivex from "../smartContract/functions.ts";
+import { Flex } from "@chakra-ui/react";
 
 const Derivex = () => {
   const [inputValue, setInputValue] = useState(1);
@@ -57,7 +63,10 @@ const Derivex = () => {
   const [btcprice, setBtcprice] = useState(30083.4);
   const [tabActive, setTabActive] = useState(true);
   const [summaryActive, setSummaryActive] = useState(false);
-
+  const [amount, setAmount] = useState(0);
+  const { data: walletClient } = useWalletClient();
+  const [isDepositModalOpen, setDepositModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const amountArg = 56;
   const deadline = 1912176727;
   // const amount = BigInt("0.000034")
@@ -175,18 +184,19 @@ const Derivex = () => {
     return () => clearInterval(fetchInterval);
   }, []);
 
+  // ----- Ashwath--------
   const params = {
     baseToken: BTC_BASE_TOKEN_ADDRESS,
     isBaseToQuote: true,
     isExactInput: false,
     /* eslint-disable */
-    amount: parseEther("0.000034"),
-    oppositeAmountBound: parseEther("0.5"),
+    amount: Number(amount * Math.trunc(value / 10)) * 1000000,
+    oppositeAmountBound: parseEther("0"),
     deadline: Math.floor(Date.now() / 1000) + 60 * 20, //  20 minutes from now
     sqrtPriceLimitX96: 0,
-    referralCode: stringToHex("Hello world", { size: 32 }), // Convert string referral code to bytes32
+    referralCode: stringToHex("0", { size: 32 }), // Convert string referral code to bytes32
   };
-
+  console.log("params", params, amount);
   const { config: setOpenPositionLongConfig } = usePrepareContractWrite({
     address: CLEARING_HOUSE_ADDRESS,
     abi: clearingHouseABI,
@@ -220,6 +230,85 @@ const Derivex = () => {
       await enqueueSnackbar("Failure");
     },
   });
+
+  //con
+
+  //deposit
+  const { config: setDepositConfig } = usePrepareContractWrite({
+    address: VAULT_ADDRESS,
+    abi: vaultABI,
+    // overrides: {
+    //   gasLimit: 690000, // Keeping this here just in case you need to modify the gas limit
+    // },
+    functionName: "deposit",
+    args: [
+      {
+        token: XUSD_ADDRESS,
+        amount: value,
+      },
+    ], // TODO: Change args from "56" to an amountArg variable
+  });
+
+  const { write: depositToken, isSuccess: isDepositSuccess } = useContractWrite(
+    {
+      ...setDepositConfig,
+      async onSuccess(data) {
+        submitOpenPositionLong();
+        enqueueSnackbar("Deposit Success");
+      },
+      async onError(data) {
+        // You can add Snackbar notifications such as from https://notistack.com/
+        enqueueSnackbar("Deposit Failure");
+      },
+    }
+  );
+
+  const { data: XUSD_ALLOWANCE } = useContractRead({
+    address: XUSD_ADDRESS,
+    abi: xusdABI,
+    functionName: "allowance",
+    args: [address, value],
+  });
+
+  const { config: setAprroveConfig } = usePrepareContractWrite({
+    address: XUSD_ADDRESS,
+    abi: xusdABI,
+    // overrides: {
+    //   gasLimit: 690000, // Keeping this here just in case you need to modify the gas limit
+    // },
+    functionName: "approve",
+    args: [
+      {
+        token: XUSD_ADDRESS,
+        amount: value,
+      },
+    ], // TODO: Change args from "56" to an amountArg variable
+  });
+
+  const { write: approveToken, isSuccess: isApproveSuccess } = useContractWrite(
+    {
+      ...setAprroveConfig,
+      async onSuccess(data) {
+        depositToken();
+        enqueueSnackbar("Approve Success");
+      },
+      async onError(data) {
+        // You can add Snackbar notifications such as from https://notistack.com/
+        enqueueSnackbar("Approve Failure");
+      },
+    }
+  );
+
+  /// ------end-----
+
+  const onPositionSubmitClick = async () => {
+    if (value > XUSD_ALLOWANCE) {
+      approveToken();
+      return;
+    }
+
+    submitOpenPositionLong();
+  };
 
   const [rows1, setRows] = useState([
     {
@@ -487,7 +576,7 @@ const Derivex = () => {
   ];
 
   function valuetext(value) {
-    setInputValue(newValue);
+    setInputValue(value);
     return `${value}°C`;
   }
 
@@ -515,6 +604,22 @@ const Derivex = () => {
       left: innerRef.current.scrollLeft + 100,
       behavior: "smooth",
     });
+  };
+  // JavaScript modal code
+
+  const openDepositModal = () => {
+    setWithdrawModalOpen(false); // Close the Withdraw modal if it's open
+    setDepositModalOpen(true);
+  };
+
+  const openWithdrawModal = () => {
+    setDepositModalOpen(false); // Close the Deposit modal if it's open
+    setWithdrawModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setDepositModalOpen(false);
+    setWithdrawModalOpen(false);
   };
 
   // const getLiveVideoAndMarketNews = async () => {
@@ -590,6 +695,56 @@ const Derivex = () => {
                     </div>
                   </div>
                 </div>
+
+                <div className="dwSection">
+                  <button className="depositBtn" onClick={openDepositModal}>
+                    Deposit
+                  </button>
+                  <button className="withdrawBtn" onClick={openWithdrawModal}>
+                    Withdraw
+                  </button>
+                </div>
+                {/* Deposit Modal */}
+                {isDepositModalOpen && (
+                  <div className="depositModal">
+                    <span className="close" onClick={closeModal}>
+                      &times;
+                    </span>
+                    <div className="dwAmount">Deposit Amount</div>
+                    <div className="modal-content">
+                      <input
+                        className="inputBox"
+                        type="number"
+                        placeholder="Enter deposit amount"
+                      />
+                    </div>
+                    <div className="subBtn">
+                      <button className="submitBtn">Submit</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Withdraw Modal */}
+                {isWithdrawModalOpen && (
+                  <div className="withdrawModal">
+                    <span className="close" onClick={closeModal}>
+                      &times;
+                    </span>
+                    <div className="dwAmount">Withdrawal Amount</div>
+
+                    <div className="modal-content">
+                      <input
+                        className="inputBox"
+                        type="number"
+                        placeholder="Enter withdrawal amount"
+                      />
+                    </div>
+                    <div className="subBtn">
+                      <button className="submitBtn">Submit</button>
+                    </div>
+                  </div>
+                )}
+
                 {Arrow === false ? (
                   <RightButton show={showRight} onClick={handleRightScroll} />
                 ) : null}
@@ -719,7 +874,13 @@ const Derivex = () => {
                             Collateral <span>(50-250k)</span>
                           </div>
                           <div className="tvwpht2-c2">
-                            <input type="text" value={50}></input>
+                            <input
+                              type="text"
+                              value={amount}
+                              onChange={(e) =>
+                                setAmount(Number(e.target.value))
+                              }
+                            ></input>
                           </div>
                         </div>
                         <div className="tvwpht2-r">
@@ -907,7 +1068,7 @@ const Derivex = () => {
                         {/* onClick={() => submitOpenPositionLong?.()} */}
                         <div className="tvwpht2-btn">
                           {isConnected ? (
-                            <button onClick={() => submitOpenPositionLong?.()}>
+                            <button onClick={() => onPositionSubmitClick()}>
                               MARKET (LONG)
                             </button>
                           ) : (
@@ -1338,7 +1499,10 @@ const Derivex = () => {
                     className={`cursor ${
                       !tabActive && "tradeTabs longTradeTab"
                     }`}
-                    onClick={() => setTabActive(false)}
+                    onClick={() => {
+                      setTabActive(false);
+                      setValue(0);
+                    }}
                   >
                     <span style={{ margin: "3px", fontSize: "13px" }}>
                       Long
@@ -1349,7 +1513,10 @@ const Derivex = () => {
                       tabActive && "tradeTabs shortTradeTab"
                     }`}
                     style={{}}
-                    onClick={() => setTabActive(true)}
+                    onClick={() => {
+                      setTabActive(true);
+                      setValue(0);
+                    }}
                   >
                     <span style={{ margin: "3px", fontSize: "13px" }}>
                       Short
@@ -1395,7 +1562,11 @@ const Derivex = () => {
                       <span>(50-250k)</span>
                     </div>
                     <div className="tvwpht2-c2">
-                      <input type="text" value={50}></input>
+                      <input
+                        type="text"
+                        value={amount}
+                        onChange={(e) => setAmount(Number(e.target.value))}
+                      ></input>
                     </div>
                   </div>
                   <div className="tvwpht2-r">
@@ -1635,6 +1806,9 @@ const Derivex = () => {
                             tabActive ? "#cd2c27" : "#3CDF60"
                           }`,
                         }}
+                        onClick={() =>
+                          tabActive ? () => {} : onPositionSubmitClick()
+                        }
                       >
                         Confirm {tabActive ? "Short" : "Long"}
                       </span>

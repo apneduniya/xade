@@ -706,7 +706,7 @@ const Derivex = () => {
                 </div>
                 {/* Deposit Modal */}
                 {isDepositModalOpen && (
-                  <div className="depositModal">
+                  <div className="depositModal" style={{ display: "none" }}>
                     <span className="close" onClick={closeModal}>
                       &times;
                     </span>
@@ -726,7 +726,7 @@ const Derivex = () => {
 
                 {/* Withdraw Modal */}
                 {isWithdrawModalOpen && (
-                  <div className="withdrawModal">
+                  <div className="withdrawModal" style={{ display: "none" }}>
                     <span className="close" onClick={closeModal}>
                       &times;
                     </span>

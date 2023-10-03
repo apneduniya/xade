@@ -5585,12 +5585,15 @@ input[type="button"].btn-block {
 .dwSection {
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 33px;
 }
 
 @media (max-width: 1350px) {
   .dwSection {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 }
 
@@ -12933,9 +12936,9 @@ div#he3 {
   div.greytack span {
   }
 
-  #collapse-button {
+  /* #collapse-button {
     display: none;
-  }
+  } */
 
   .table2 td {
   }

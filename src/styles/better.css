@@ -575,8 +575,8 @@ td {
 
 #derivexlol {
   height: 60vw;
-  margin-top: 6.8em;
   font-family: "Medium";
+  margin-top: 1rem;
 }
 
 .tvwc {
@@ -1574,7 +1574,7 @@ input.tvwpht2-t2-1-c::placeholder {
 
 @media (max-width: 1260px) {
   #derivexlol {
-    margin-top: 7.7rem;
+    margin-top: 1.7rem;
     height: 88vw;
   }
 
@@ -1674,7 +1674,7 @@ input.tvwpht2-t2-1-c::placeholder {
   }
 
   #derivexlol {
-    margin-top: 7.7rem;
+    margin-top: 1.7rem;
     height: 146vw;
   }
 
@@ -1890,7 +1890,7 @@ input.tvwpht2-t2-1-c::placeholder {
 
 @media (max-width: 768px) {
   #derivexlol {
-    margin-top: 6rem;
+    margin-top: 1rem;
   }
 
   .tradingview-widget-container {

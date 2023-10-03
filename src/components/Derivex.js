@@ -67,6 +67,8 @@ const Derivex = () => {
   const { data: walletClient } = useWalletClient();
   const [isDepositModalOpen, setDepositModalOpen] = useState(false);
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  const [depositValue, setDepositValue] = useState("");
+  const [withdrawValue, setWithdrawValue] = useState("");
   const amountArg = 56;
   const deadline = 1912176727;
   // const amount = BigInt("0.000034")
@@ -621,7 +623,18 @@ const Derivex = () => {
     setDepositModalOpen(false);
     setWithdrawModalOpen(false);
   };
-
+  const handleChange = (event) => {
+    setDepositValue(event.target.value);
+  };
+  const handleWChange = (event) => {
+    setWithdrawValue(event.target.value);
+  };
+  const depositValueRecord = (event) => {
+    console.log({ depositValue });
+  };
+  const withdrawValueRecord = (event) => {
+    console.log({ withdrawValue });
+  };
   // const getLiveVideoAndMarketNews = async () => {
   //   try {
   //     const response = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json');
@@ -639,6 +652,63 @@ const Derivex = () => {
   return (
     <>
       <SnackbarProvider />
+      <div className="dwArea">
+        <div className="dwSection">
+          <button className="depositBtn" onClick={openDepositModal}>
+            Deposit
+          </button>
+          <button className="withdrawBtn" onClick={openWithdrawModal}>
+            Withdraw
+          </button>
+        </div>
+
+        {isDepositModalOpen && (
+          <div className="depositModal">
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
+            <div className="dwAmount">Deposit Amount</div>
+            <div className="modal-content">
+              <input
+                className="inputBox"
+                type="number"
+                placeholder="Enter deposit amount"
+                onChange={handleChange}
+                value={depositValue}
+              />
+            </div>
+            <div className="subBtn">
+              <button className="submitBtn" onClick={depositValueRecord}>
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isWithdrawModalOpen && (
+          <div className="withdrawModal">
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
+            <div className="dwAmount">Withdrawal Amount</div>
+
+            <div className="modal-content">
+              <input
+                className="inputBox"
+                type="number"
+                placeholder="Enter withdrawal amount"
+                onChange={handleWChange}
+                value={withdrawValue}
+              />
+            </div>
+            <div className="subBtn">
+              <button className="submitBtn" onClick={withdrawValueRecord}>
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="lol" id="derivexlol">
         {/* twap - trading view widget and panel */}
         <div className="tvwap">
@@ -696,7 +766,7 @@ const Derivex = () => {
                   </div>
                 </div>
 
-                <div className="dwSection">
+                {/* <div className="dwSection">
                   <button className="depositBtn" onClick={openDepositModal}>
                     Deposit
                   </button>
@@ -704,7 +774,7 @@ const Derivex = () => {
                     Withdraw
                   </button>
                 </div>
-                {/* Deposit Modal */}
+                
                 {isDepositModalOpen && (
                   <div className="depositModal" style={{ display: "none" }}>
                     <span className="close" onClick={closeModal}>
@@ -724,7 +794,7 @@ const Derivex = () => {
                   </div>
                 )}
 
-                {/* Withdraw Modal */}
+                
                 {isWithdrawModalOpen && (
                   <div className="withdrawModal" style={{ display: "none" }}>
                     <span className="close" onClick={closeModal}>
@@ -743,7 +813,7 @@ const Derivex = () => {
                       <button className="submitBtn">Submit</button>
                     </div>
                   </div>
-                )}
+                )}  */}
 
                 {Arrow === false ? (
                   <RightButton show={showRight} onClick={handleRightScroll} />

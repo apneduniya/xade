@@ -67,54 +67,7 @@ export default function Header() {
             <a className="navbar-brand heading-black" href="#">
               <div className="name">XADE</div>
             </a>
-            <div className="dwSection">
-              <button className="depositBtn" onClick={openDepositModal}>
-                Deposit
-              </button>
-              <button className="withdrawBtn" onClick={openWithdrawModal}>
-                Withdraw
-              </button>
-            </div>
-            {/* Deposit Modal */}
-            {isDepositModalOpen && (
-              <div className="depositModal">
-                <span className="close" onClick={closeModal}>
-                  &times;
-                </span>
-                <div className="dwAmount">Deposit Amount</div>
-                <div className="modal-content">
-                  <input
-                    className="inputBox"
-                    type="number"
-                    placeholder="Enter deposit amount"
-                  />
-                </div>
-                <div className="subBtn">
-                  <button className="submitBtn">Submit</button>
-                </div>
-              </div>
-            )}
 
-            {/* Withdraw Modal */}
-            {isWithdrawModalOpen && (
-              <div className="withdrawModal">
-                <span className="close" onClick={closeModal}>
-                  &times;
-                </span>
-                <div className="dwAmount">Withdrawal Amount</div>
-
-                <div className="modal-content">
-                  <input
-                    className="inputBox"
-                    type="number"
-                    placeholder="Enter withdrawal amount"
-                  />
-                </div>
-                <div className="subBtn">
-                  <button className="submitBtn">Submit</button>
-                </div>
-              </div>
-            )}
             <div className="wb">
               {isConnected ? (
                 <>

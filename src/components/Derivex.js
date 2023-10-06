@@ -45,6 +45,7 @@ import "core-js/features/bigint";
 import VideoPlayer from "./Videoplayer";
 import derivex from "../smartContract/functions.ts";
 import { Flex } from "@chakra-ui/react";
+import { Approval } from "@mui/icons-material";
 
 const Derivex = () => {
   const [inputValue, setInputValue] = useState(1);
@@ -198,7 +199,6 @@ const Derivex = () => {
     sqrtPriceLimitX96: 0,
     referralCode: stringToHex("0", { size: 32 }), // Convert string referral code to bytes32
   };
-  console.log("params", params, amount);
   const { config: setOpenPositionLongConfig } = usePrepareContractWrite({
     address: CLEARING_HOUSE_ADDRESS,
     abi: clearingHouseABI,
@@ -221,7 +221,7 @@ const Derivex = () => {
     ], // TODO: Change args from "56" to an amountArg variable
   });
 
-  const { write: submitOpenPositionLong } = useContractWrite({
+  const { writeAsync: submitOpenPositionLong } = useContractWrite({
     ...setOpenPositionLongConfig,
     async onSuccess(data) {
       // You can add Snackbar notifications such as from https://notistack.com/
@@ -246,7 +246,7 @@ const Derivex = () => {
     args: [
       {
         token: XUSD_ADDRESS,
-        amount: value,
+        amount: depositValue,
       },
     ], // TODO: Change args from "56" to an amountArg variable
   });
@@ -254,11 +254,12 @@ const Derivex = () => {
   const { write: depositToken, isSuccess: isDepositSuccess } = useContractWrite(
     {
       ...setDepositConfig,
-      async onSuccess(data) {
-        submitOpenPositionLong();
+      onSuccess(data) {
+        submitOpenPositionLong?.();
+        console.log("deposit success called");
         enqueueSnackbar("Deposit Success");
       },
-      async onError(data) {
+      onError(data) {
         // You can add Snackbar notifications such as from https://notistack.com/
         enqueueSnackbar("Deposit Failure");
       },
@@ -290,11 +291,12 @@ const Derivex = () => {
   const { write: approveToken, isSuccess: isApproveSuccess } = useContractWrite(
     {
       ...setAprroveConfig,
-      async onSuccess(data) {
-        depositToken();
+      onSuccess(data) {
+        depositToken?.();
+
         enqueueSnackbar("Approve Success");
       },
-      async onError(data) {
+      onError(data) {
         // You can add Snackbar notifications such as from https://notistack.com/
         enqueueSnackbar("Approve Failure");
       },
@@ -305,7 +307,7 @@ const Derivex = () => {
 
   const onPositionSubmitClick = async () => {
     if (value > XUSD_ALLOWANCE) {
-      approveToken();
+      approveToken?.();
       return;
     }
 
@@ -460,12 +462,8 @@ const Derivex = () => {
     const bodyWidth = document.body.clientWidth;
     if (bodyWidth <= 660) {
       setArrow(true);
-      console.log(displayStatus);
-      console.log(Arrow);
     } else {
       setArrow(false);
-      console.log(Arrow);
-      console.log("a" + displayStatus);
     }
     const handleResize = () => {
       setIsNarrowScreen(window.innerWidth <= 804);
@@ -583,7 +581,6 @@ const Derivex = () => {
   }
 
   const handleSliderChange = (event, newValue) => {
-    console.log("slider value", newValue);
     setValue(newValue);
     // setValue(Math.floor(event.target.value/10));
     // console.log('Math.floor(event.target.value/10)',Math.floor(event.target.value/10))
@@ -629,8 +626,8 @@ const Derivex = () => {
   const handleWChange = (event) => {
     setWithdrawValue(event.target.value);
   };
-  const depositValueRecord = (event) => {
-    console.log({ depositValue });
+  const depositValueRecord = () => {
+    approveToken?.();
   };
   const withdrawValueRecord = (event) => {
     console.log({ withdrawValue });
@@ -1138,9 +1135,7 @@ const Derivex = () => {
                         {/* onClick={() => submitOpenPositionLong?.()} */}
                         <div className="tvwpht2-btn">
                           {isConnected ? (
-                            <button onClick={() => onPositionSubmitClick()}>
-                              MARKET (LONG)
-                            </button>
+                            <button onClick={() => {}}>MARKET (LONG)</button>
                           ) : (
                             <div
                               className="bcont"
@@ -1877,7 +1872,9 @@ const Derivex = () => {
                           }`,
                         }}
                         onClick={() =>
-                          tabActive ? () => {} : onPositionSubmitClick()
+                          // tabActive ? () => {} : onPositionSubmitClick()
+
+                          {}
                         }
                       >
                         Confirm {tabActive ? "Short" : "Long"}

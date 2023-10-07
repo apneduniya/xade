@@ -193,7 +193,7 @@ const Derivex = () => {
     isBaseToQuote: true,
     isExactInput: false,
     /* eslint-disable */
-    amount: Number(amount * Math.trunc(value / 10)) * 1000000,
+    amount: Number(amount * Math.trunc(value / 10)) * 10 ** 18,
     oppositeAmountBound: parseEther("0"),
     deadline: Math.floor(Date.now() / 1000) + 60 * 20, //  20 minutes from now
     sqrtPriceLimitX96: 0,
@@ -243,19 +243,14 @@ const Derivex = () => {
     //   gasLimit: 690000, // Keeping this here just in case you need to modify the gas limit
     // },
     functionName: "deposit",
-    args: [
-      {
-        token: XUSD_ADDRESS,
-        amount: depositValue,
-      },
-    ], // TODO: Change args from "56" to an amountArg variable
+    args: [XUSD_ADDRESS, depositValue * 10 ** 18], // TODO: Change args from "56" to an amountArg variable
   });
 
-  const { write: depositToken, isSuccess: isDepositSuccess } = useContractWrite(
-    {
+  const { writeAsync: depositToken, isSuccess: isDepositSuccess } =
+    useContractWrite({
       ...setDepositConfig,
       onSuccess(data) {
-        submitOpenPositionLong?.();
+        // submitOpenPositionLong?.();
         console.log("deposit success called");
         enqueueSnackbar("Deposit Success");
       },
@@ -263,14 +258,13 @@ const Derivex = () => {
         // You can add Snackbar notifications such as from https://notistack.com/
         enqueueSnackbar("Deposit Failure");
       },
-    }
-  );
+    });
 
   const { data: XUSD_ALLOWANCE } = useContractRead({
     address: XUSD_ADDRESS,
     abi: xusdABI,
     functionName: "allowance",
-    args: [address, value],
+    args: [address, VAULT_ADDRESS],
   });
 
   const { config: setAprroveConfig } = usePrepareContractWrite({
@@ -280,28 +274,20 @@ const Derivex = () => {
     //   gasLimit: 690000, // Keeping this here just in case you need to modify the gas limit
     // },
     functionName: "approve",
-    args: [
-      {
-        token: XUSD_ADDRESS,
-        amount: value,
-      },
-    ], // TODO: Change args from "56" to an amountArg variable
+    args: [VAULT_ADDRESS, depositValue * 10 ** 18], // TODO: Change args from "56" to an amountArg variable
   });
 
-  const { write: approveToken, isSuccess: isApproveSuccess } = useContractWrite(
-    {
+  const { writeAsync: approveToken, isSuccess: isApproveSuccess } =
+    useContractWrite({
       ...setAprroveConfig,
-      onSuccess(data) {
-        depositToken?.();
-
+      async onSuccess(data) {
         enqueueSnackbar("Approve Success");
       },
       onError(data) {
         // You can add Snackbar notifications such as from https://notistack.com/
         enqueueSnackbar("Approve Failure");
       },
-    }
-  );
+    });
 
   /// ------end-----
 
@@ -626,8 +612,14 @@ const Derivex = () => {
   const handleWChange = (event) => {
     setWithdrawValue(event.target.value);
   };
-  const depositValueRecord = () => {
-    approveToken?.();
+  const depositValueRecord = async () => {
+    console.log("deposit fn call", depositValue, XUSD_ALLOWANCE);
+    // if (depositValue > XUSD_ALLOWANCE) {
+    //   await approveToken?.();
+    //   return;
+    // }
+
+    // await depositToken?.();
   };
   const withdrawValueRecord = (event) => {
     console.log({ withdrawValue });
@@ -1872,9 +1864,7 @@ const Derivex = () => {
                           }`,
                         }}
                         onClick={() =>
-                          // tabActive ? () => {} : onPositionSubmitClick()
-
-                          {}
+                          tabActive ? () => {} : onPositionSubmitClick()
                         }
                       >
                         Confirm {tabActive ? "Short" : "Long"}

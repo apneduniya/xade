@@ -9,13 +9,15 @@
 }
 
 .tradeTabHolder {
-  width: 44%;
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  border: 1px solid #292929;
   align-items: center;
-  background-color: #383737;
-  border-radius: 12px;
-  margin-left: 36px;
+  background-color: #191919;
+  border-radius: 8px;
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 6px;
 }
 
 .newTradeHeading {
@@ -26,14 +28,22 @@
   margin-top: 12px;
 }
 .tradeTabs {
-  width: 40%;
-  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
-  height: 30px;
+  border-radius: 4px;
+  height: 35px;
+  margin-right: 3px;
+  margin-left: 3px;
+  flex: 1;
 }
+.shortTradeTabs {
+  background-color: #610000;
+}
+.longTradeTabs {
+  background-color: #3ec15b;
+}
+
 .longTradeTab {
   border: 2px solid #3deca7;
 }
@@ -70,21 +80,23 @@
 .priceContainer {
   display: flex;
   flex-direction: column;
+  margin-left: 8px;
 }
 .slippageContainer {
   display: flex;
   flex-direction: column;
-  background: black;
-  border: 1px solid #383737;
-  border-radius: 10px;
-  height: 3rem;
-  width: 5rem;
+  border-radius: 8px;
+  border: 1px solid #292929;
+  background: #191919;
+  height: 3.5rem;
+  width: 5.5rem;
   contain: content;
   align-items: center;
 }
 .smallText {
-  font-size: small;
+  font-size: 15px;
   color: #82828f;
+  margin-top: 2px;
 }
 .tradeSummaryHolder {
   display: flex;

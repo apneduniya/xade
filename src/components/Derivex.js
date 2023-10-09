@@ -1547,27 +1547,24 @@ const Derivex = () => {
           >
             <div className="tvwpht newTradeContainer">
               <div className="tvwpht1 newTradeHeading">
-                <div className="tradeHeadingHolder">
-                  <span>Actions</span>
-                </div>
-                <div className="tradeTabHolder">
+                <div className=" tradeTabHolder">
                   {/* <div onClick={() => setTab(true)} id={tab ? "tvwphtll" : ""}> */}
                   <div
-                    className={`cursor ${
-                      !tabActive && "tradeTabs longTradeTab"
+                    className={`cursor tradeTabs ${
+                      !tabActive && " longTradeTabs"
                     }`}
                     onClick={() => {
                       setTabActive(false);
                       setValue(0);
                     }}
                   >
-                    <span style={{ margin: "3px", fontSize: "13px" }}>
+                    <span style={{ margin: "3px", fontSize: "16px" }}>
                       Long
                     </span>
                   </div>
                   <div
-                    className={`cursor ${
-                      tabActive && "tradeTabs shortTradeTab"
+                    className={`cursor tradeTabs ${
+                      tabActive && " shortTradeTabs"
                     }`}
                     style={{}}
                     onClick={() => {
@@ -1575,7 +1572,7 @@ const Derivex = () => {
                       setValue(0);
                     }}
                   >
-                    <span style={{ margin: "3px", fontSize: "13px" }}>
+                    <span style={{ margin: "3px", fontSize: "16px" }}>
                       Short
                     </span>
                   </div>
@@ -1587,21 +1584,18 @@ const Derivex = () => {
                     onClick={() => setMenu(1)}
                     id={Menu === 1 ? "tvwpht2-mb" : ""}
                   >
-                    <span className={`${Menu === 1 && "greenDot"}`}></span>
                     <span>Market</span>
                   </button>
                   <button
                     onClick={() => setMenu(2)}
                     id={Menu === 2 ? "tvwpht2-mb" : ""}
                   >
-                    <span className={`${Menu === 2 && "greenDot"}`}></span>
                     <span>Limit</span>
                   </button>
                   <button
                     onClick={() => setMenu(3)}
                     id={Menu === 3 ? "tvwpht2-mb" : ""}
                   >
-                    <span className={`${Menu === 3 && "greenDot"}`}></span>
                     <span>Stop</span>
                   </button>
                 </div>
@@ -1629,7 +1623,7 @@ const Derivex = () => {
                   <div className="tvwpht2-r">
                     <div className="tvwpht2-r1">
                       <div className="tvwpht2-r1-1">
-                        <span> Leverage </span>
+                        <span> Leverage (1-10x)</span>
                       </div>
                       <div className="tvwpht2-r1-2">
                         <Col span={4}>

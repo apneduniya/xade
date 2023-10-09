@@ -31,6 +31,7 @@ import Fab from "@mui/material/Fab";
 import { ethers } from "ethers";
 import axios from "axios";
 import ReactPlayer from "react-player";
+import summaryDown from "../assets/summaryDown.png";
 
 import {
   CLEARING_HOUSE_ADDRESS,
@@ -70,6 +71,7 @@ const Derivex = () => {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const [depositValue, setDepositValue] = useState("");
   const [withdrawValue, setWithdrawValue] = useState("");
+
   const amountArg = 56;
   const deadline = 1912176727;
   // const amount = BigInt("0.000034")
@@ -92,6 +94,9 @@ const Derivex = () => {
     } catch (error) {
       console.error("An error occurred:", error);
     }
+  };
+  const toggleSummary = () => {
+    setSummaryActive(!summaryActive);
   };
 
   //   const getNewsData = async () => {
@@ -542,22 +547,46 @@ const Derivex = () => {
   const leverageMarksLong = [
     {
       value: 10,
-      label: "1x",
+      label: "1",
     },
     {
-      value: 100,
-      label: "10x",
+      value: 30,
+      label: "3",
+    },
+    {
+      value: 50,
+      label: "5",
+    },
+    {
+      value: 70,
+      label: "7",
+    },
+    {
+      value: 90,
+      label: "9",
     },
   ];
 
   const leverageMarksShort = [
     {
-      value: -100,
-      label: "10x",
+      value: -90,
+      label: "9",
+    },
+    {
+      value: -70,
+      label: "7",
+    },
+    {
+      value: -50,
+      label: "5",
+    },
+    {
+      value: -30,
+      label: "3",
     },
     {
       value: -10,
-      label: "1x",
+      label: "1",
     },
   ];
 
@@ -921,7 +950,7 @@ const Derivex = () => {
                         </button>
                       </div>
                       <div className={Menu !== 1 ? "tscs" : "tscsn"}>
-                        <span>Coming Soon</span>
+                        <span style={{ padding: "10px" }}>Coming Soon</span>
                       </div>
                       <div
                         className={
@@ -1023,14 +1052,20 @@ const Derivex = () => {
                               valueLabelFormat={Math.trunc(value / 10)}
                               getAriaValueText={(e) => e}
                               sx={{
-                                " .MuiSlider-markLabel": {
+                                ".MuiSlider-markLabel": {
                                   color: "#82828F", // Set the desired mark label color here
                                 },
-                                ".MuiSlider-rail": {
-                                  color: "#282C3B",
-                                  height: "10px",
+                                ".MuiSlider-mark": {
+                                  display: "none",
                                 },
-                                "& .MuiSlider-thumb": {
+
+                                ".MuiSlider-rail": {
+                                  color: "#1D1D1D",
+                                  height: "10px",
+                                  opacity: 1,
+                                  zIndex: 1,
+                                },
+                                ".MuiSlider-thumb": {
                                   width: 15,
                                   height: 15,
                                   border: " 2px solid white",
@@ -1540,11 +1575,7 @@ const Derivex = () => {
             {/* removed tvwns frome here */}
           </div>
 
-          <div
-            className="tvwp newTradeHolder"
-            id="tvwp2"
-            style={{ height: "611px" }}
-          >
+          <div className="tvwp newTradeHolder" id="tvwp2">
             <div className="tvwpht newTradeContainer">
               <div className="tvwpht1 newTradeHeading">
                 <div className=" tradeTabHolder">
@@ -1600,7 +1631,7 @@ const Derivex = () => {
                   </button>
                 </div>
                 <div className={Menu !== 1 ? "tscs" : "tscsn"}>
-                  <span>Coming Soon</span>
+                  <span style={{ padding: "10px" }}>Coming Soon</span>
                 </div>
                 <div
                   className={
@@ -1642,8 +1673,7 @@ const Derivex = () => {
                             sx={{
                               "& .MuiInput-input": {
                                 color: "white",
-                                backgroundColor: "black",
-                                border: "1px solid #383737",
+
                                 // width: 82,
                                 // height: 20, // Update the height here
                                 borderRadius: 1,
@@ -1671,43 +1701,42 @@ const Derivex = () => {
                         aria-labelledby="input-slider"
                         // valueLabelDisplay="on"
                         valueLabelFormat={(x) => `${x}%`}
-                        marks={
-                          tabActive ? leverageMarksShort : leverageMarksLong
-                        }
-                        track={tabActive ? "normal" : "inverted"}
+                        marks={leverageMarksLong}
+                        track={"normal"}
                         getAriaValueText={(e) => e}
-                        max={tabActive ? 0 : 100}
-                        min={tabActive ? -100 : 0}
+                        max={100}
+                        min={0}
                         sx={{
                           " .MuiSlider-markLabel": {
                             color: "#82828F", // Set the desired mark label color here
                           },
                           ".MuiSlider-rail": {
-                            background: tabActive
-                              ? "linear-gradient(90deg, #cd2c27, #FFCCCB)"
-                              : "#282C3B",
+                            background: "#1D1D1D",
                             height: "10px",
-                            opacity: tabActive ? 1 : 0.38,
+                            opacity: tabActive ? 1 : 1,
+                            zIndex: 1,
                           },
                           "& .MuiSlider-thumb": {
                             width: 15,
                             height: 15,
                             zIndex: 200,
-                            color: "transparent",
+                            background:
+                              "linear-gradient(150deg, #d7d7d7 40%, rgba(169, 169, 169, 0) 152.01%)",
                           },
                           "	.MuiSlider-track": {
                             height: "10px",
                             border: "0px",
+                            zIndex: 200,
                             background: tabActive
-                              ? "#282C3B"
-                              : "linear-gradient(90deg, #e6ffe1, #3CDF60)", // Apply a gradient for multicolor effect
+                              ? "linear-gradient(270deg, #E72654 10.45%, #E72654 50.25%)"
+                              : "linear-gradient(270deg, #3CDF60 10.45%, #26E773 50.25%)",
                           },
                           ".MuiSlider-valueLabel:before": {
                             width: "0px",
                           },
                         }}
                       />
-                      <span
+                      {/* <span
                         style={{
                           position: "absolute",
                           left: !tabActive ? `${value}%` : undefined,
@@ -1729,7 +1758,7 @@ const Derivex = () => {
                         }}
                       >
                         {Math.trunc(Math.abs(value) / 10)}
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   <div className="priceSlippageContainer">
@@ -1779,8 +1808,10 @@ const Derivex = () => {
                           id="p2-2i"
                           defaultValue={1}
                           style={{
-                            width: "3rem",
+                            width: "4rem",
                             height: 27,
+                            fontSize: "20px",
+
                             display: "flex",
                             alignSelf: "center",
                             backgroundColor: "black",
@@ -1852,10 +1883,8 @@ const Derivex = () => {
                       <span
                         className="confirmTradeButton cursor"
                         style={{
-                          color: "#232325",
-                          backgroundColor: `${
-                            tabActive ? "#cd2c27" : "#3CDF60"
-                          }`,
+                          background: tabActive ? "#E72654" : "#3EC15B",
+                          color: "white",
                         }}
                         onClick={() =>
                           tabActive ? () => {} : onPositionSubmitClick()
@@ -1874,62 +1903,68 @@ const Derivex = () => {
                       </div>
                     )}
                   </div>
-                  <div
-                    className="clickSummaryContainer"
-                    style={{ marginTop: "2.5rem" }}
-                  >
-                    <div className="tvwphyt2-m">
-                      <span
-                        className="tvwphyt2-m-spanl"
-                        id="tvwphyt2-m-spanl-hl"
-                      >
-                        BTC/USD
-                      </span>
-                      {isConnected ? (
-                        <span
-                          className="tvwphyt2-m-spanr"
-                          id="tvwphyt2-m-spanl-hr"
-                        >
-                          POSITION SIZE {"<"} {"  "} 1,500 DAI
-                        </span>
-                      ) : (
-                        <span
-                          className="tvwphyt2-m-spanr"
-                          id="tvwphyt2-m-spanl-hr"
-                        >
-                          WALLET NOT CONNECTED
-                        </span>
-                      )}
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">
-                        EST. EXECUTION PRICE
-                      </span>
-                      <span className="tvwphyt2-m-spanr">30740.6</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">SPREAD</span>
-                      <span className="tvwphyt2-m-spanr">0.04%</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
-                      <span className="tvwphyt2-m-spanr">100 DAI</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">FEES</span>
-                      <span className="tvwphyt2-m-spanr">0.1 DAI</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
-                      <span className="tvwphyt2-m-spanr">16907.6</span>
-                    </div>
-                    <div className="tvwphyt2-m">
-                      <span className="tvwphyt2-m-spanl">
-                        EST. BORROWING FEE / H
-                      </span>
-                      <span className="tvwphyt2-m-spanr">0.0 DAI</span>
-                    </div>
+                  <div className="summaryDrop" onClick={toggleSummary}>
+                    <img src={summaryDown} />
+                    Click to see summary
                   </div>
+                  {summaryActive && (
+                    <div
+                      className="clickSummaryContainer"
+                      style={{ marginTop: "2rem" }}
+                    >
+                      <div className="tvwphyt2-m">
+                        <span
+                          className="tvwphyt2-m-spanl"
+                          id="tvwphyt2-m-spanl-hl"
+                        >
+                          BTC/USD
+                        </span>
+                        {isConnected ? (
+                          <span
+                            className="tvwphyt2-m-spanr"
+                            id="tvwphyt2-m-spanl-hr"
+                          >
+                            POSITION SIZE {"<"} {"  "} 1,500 DAI
+                          </span>
+                        ) : (
+                          <span
+                            className="tvwphyt2-m-spanr"
+                            id="tvwphyt2-m-spanl-hr"
+                          >
+                            WALLET NOT CONNECTED
+                          </span>
+                        )}
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">
+                          EST. EXECUTION PRICE
+                        </span>
+                        <span className="tvwphyt2-m-spanr">30740.6</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">SPREAD</span>
+                        <span className="tvwphyt2-m-spanr">0.04%</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
+                        <span className="tvwphyt2-m-spanr">100 DAI</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">FEES</span>
+                        <span className="tvwphyt2-m-spanr">0.1 DAI</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
+                        <span className="tvwphyt2-m-spanr">16907.6</span>
+                      </div>
+                      <div className="tvwphyt2-m">
+                        <span className="tvwphyt2-m-spanl">
+                          EST. BORROWING FEE / H
+                        </span>
+                        <span className="tvwphyt2-m-spanr">0.0 DAI</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

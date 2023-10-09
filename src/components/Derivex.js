@@ -1764,7 +1764,7 @@ const Derivex = () => {
                   <div className="priceSlippageContainer">
                     <div className="priceContainer">
                       <span className="smallText">Price</span>
-                      <span>$30,415.4</span>
+                      <span style={{ fontSize: "24px" }}>$30,415.4</span>
                     </div>
                     <div className="slippageContainer">
                       <div className="smallText">
@@ -1903,68 +1903,67 @@ const Derivex = () => {
                       </div>
                     )}
                   </div>
-                  <div className="summaryDrop" onClick={toggleSummary}>
+                  {/* <div className="summaryDrop" onClick={toggleSummary}>
                     <img src={summaryDown} />
                     Click to see summary
                   </div>
-                  {summaryActive && (
-                    <div
-                      className="clickSummaryContainer"
-                      style={{ marginTop: "2rem" }}
-                    >
-                      <div className="tvwphyt2-m">
+                  {summaryActive && ( */}
+                  <div
+                    className="clickSummaryContainer"
+                    style={{ marginTop: "2rem" }}
+                  >
+                    <div className="tvwphyt2-m">
+                      <span
+                        className="tvwphyt2-m-spanl"
+                        id="tvwphyt2-m-spanl-hl"
+                      >
+                        BTC/USD
+                      </span>
+                      {isConnected ? (
                         <span
-                          className="tvwphyt2-m-spanl"
-                          id="tvwphyt2-m-spanl-hl"
+                          className="tvwphyt2-m-spanr"
+                          id="tvwphyt2-m-spanl-hr"
                         >
-                          BTC/USD
+                          POSITION SIZE {"<"} {"  "} 1,500 DAI
                         </span>
-                        {isConnected ? (
-                          <span
-                            className="tvwphyt2-m-spanr"
-                            id="tvwphyt2-m-spanl-hr"
-                          >
-                            POSITION SIZE {"<"} {"  "} 1,500 DAI
-                          </span>
-                        ) : (
-                          <span
-                            className="tvwphyt2-m-spanr"
-                            id="tvwphyt2-m-spanl-hr"
-                          >
-                            WALLET NOT CONNECTED
-                          </span>
-                        )}
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">
-                          EST. EXECUTION PRICE
+                      ) : (
+                        <span
+                          className="tvwphyt2-m-spanr"
+                          id="tvwphyt2-m-spanl-hr"
+                        >
+                          WALLET NOT CONNECTED
                         </span>
-                        <span className="tvwphyt2-m-spanr">30740.6</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">SPREAD</span>
-                        <span className="tvwphyt2-m-spanr">0.04%</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
-                        <span className="tvwphyt2-m-spanr">100 DAI</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">FEES</span>
-                        <span className="tvwphyt2-m-spanr">0.1 DAI</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
-                        <span className="tvwphyt2-m-spanr">16907.6</span>
-                      </div>
-                      <div className="tvwphyt2-m">
-                        <span className="tvwphyt2-m-spanl">
-                          EST. BORROWING FEE / H
-                        </span>
-                        <span className="tvwphyt2-m-spanr">0.0 DAI</span>
-                      </div>
+                      )}
                     </div>
-                  )}
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">
+                        EST. EXECUTION PRICE
+                      </span>
+                      <span className="tvwphyt2-m-spanr">30740.6</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">SPREAD</span>
+                      <span className="tvwphyt2-m-spanr">0.04%</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">POSITION SIZE</span>
+                      <span className="tvwphyt2-m-spanr">100 DAI</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">FEES</span>
+                      <span className="tvwphyt2-m-spanr">0.1 DAI</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">LIQ. PRICE</span>
+                      <span className="tvwphyt2-m-spanr">16907.6</span>
+                    </div>
+                    <div className="tvwphyt2-m">
+                      <span className="tvwphyt2-m-spanl">
+                        EST. BORROWING FEE / H
+                      </span>
+                      <span className="tvwphyt2-m-spanr">0.0 DAI</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

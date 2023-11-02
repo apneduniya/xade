@@ -8,6 +8,8 @@ import OpacityOutlinedIcon from "@mui/icons-material/OpacityOutlined";
 import { Web3Button } from "@web3modal/react";
 import { useNavigate } from "react-router-dom";
 import KeyboardBackspaceOutlinedIcon from "@mui/icons-material/KeyboardBackspaceOutlined";
+import { ArrowDropDownOutlined, ArrowDropUpOutlined } from "@mui/icons-material";
+import { Group } from "@mantine/core";
 
 export default function Header() {
   const { open, close } = useWeb3Modal();
@@ -135,8 +137,16 @@ export default function Header() {
               <ul className="navbar-nav ml-auto desktop-arrangement-navbar">
                 <div>
                   <li className="nav-item">
-                    <a className="nav-link page-scroll" href="#">
-                      Home
+                    <a className="nav-link page-scroll" href="/">
+                      Trade
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      href="pools/BTC:USD"
+                      className="nav-link page-scroll"
+                    >
+                      Pools
                     </a>
                   </li>
                   <li className="nav-item">
@@ -149,23 +159,15 @@ export default function Header() {
                   </li>
                   <li className="nav-item">
                     <a
-                      href="http://explorers.xade.finance/"
                       className="nav-link page-scroll"
+                      href="http://app.xade.finance/"
                     >
-                      Premium
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link page-scroll"
-                      href="https://medium.com/@XadeFinance/what-is-xade-and-why-do-you-need-it-b483f46ba5a1"
-                    >
-                      Blog
+                      App
                     </a>
                   </li>
                 </div>
 
-                {PoolBack ? (
+                {/* {PoolBack ? (
                   <li
                     className="poolsbtn"
                     onClick={() => {
@@ -191,10 +193,30 @@ export default function Header() {
                     </span>
                     <span style={{ fontWeight: "bolder" }}>Back</span>
                   </li>
-                )}
+                )} */}
 
-                <div>
-                  &nbsp; &nbsp;
+                <Group>
+                  {/* &nbsp; &nbsp;
+                   <li
+                    className="webapp"
+                    style={{ fontFamily: "Regular" }}
+                    onClick={() => open()}
+                  >
+                    <div className="greytack">
+                      <ArrowDropUpOutlined fontSize="small" />
+                      &nbsp;Deposit
+                    </div>
+                  </li>
+                  <li
+                    className="webapp"
+                    style={{ fontFamily: "Regular" }}
+                    onClick={() => open()}
+                  >
+                    <div className="greytack">
+                      <ArrowDropDownOutlined fontSize="small" />
+                      &nbsp;Withdraw
+                    </div>
+                  </li> */}
                   {isConnected ? (
                     <li
                       className="webappconnected"
@@ -227,7 +249,7 @@ export default function Header() {
                       </div>
                     </li>
                   )}
-                </div>
+                </Group>
               </ul>
             </div>
           </nav>

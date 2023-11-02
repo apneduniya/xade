@@ -29,8 +29,15 @@ import {
 import { Web3Modal } from "@web3modal/react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
-import { Routes, Router, Route,useNavigate } from "react-router-dom";
+import { Routes, Router, Route, useNavigate } from "react-router-dom";
 import Pools from "./components/Pools";
+import '@mantine/core/styles/global.css';
+import '@mantine/core/styles/Button.css';
+import '@mantine/core/styles/Anchor.css';
+import '@mantine/core/styles/Group.css';
+import '@mantine/core/styles/Spoiler.css';
+import '@mantine/core/styles/Anchor.css';
+import { MantineProvider } from "@mantine/core";
 
 const chains = [polygonMumbai];
 const projectId = "397a95937ac0b7fce6cedb9aea9665f6";
@@ -46,7 +53,7 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
   const [pooltoggle, setpooltoggle] = useState(false);
-  const [PoolBack,setPoolBack] = useState(true)
+  const [PoolBack, setPoolBack] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -64,42 +71,44 @@ function App() {
 
   return (
     <div>
-      <WagmiConfig config={wagmiConfig}>
-        <Header />
-        <Routes>
-          <Route path="/pools/BTC:USD" element={<Pools />} />
-          <Route path="/" element={<Derivex />} />
-        </Routes>
-        {/* <Derivex/> */}
-        <Footer />
-        <Box
-          sx={{
-            "& > :not(style)": { m: 1 },
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            position: "sticky",
-            bottom: 0,
-            paddingBottom : 0.5,
-            borderWidth : 0
+      <MantineProvider defaultColorScheme="dark">
+        <WagmiConfig config={wagmiConfig}>
+          <Header />
+          <Routes>
+            <Route path="/pools/BTC:USD" element={<Pools />} />
+            <Route path="/" element={<Derivex />} />
+          </Routes>
+          {/* <Derivex/> */}
+          <Footer />
+          <Box
+            sx={{
+              "& > :not(style)": { m: 1 },
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              position: "sticky",
+              bottom: 0,
+              paddingBottom: 0.5,
+              borderWidth: 0
+            }}
+          >
+            {PoolBack ? <Fab variant="extended" onClick={() => { navigate("/pools/BTC:USD"); setPoolBack(false) }}>
+              <OpacityOutlinedIcon sx={{ mr: 1 }} />
+              Pools
+            </Fab> : <Fab variant="extended" onClick={() => { navigate("/"); setPoolBack(true) }}>
+              <KeyboardBackspaceOutlinedIcon sx={{ mr: 1 }} />
+              Back
+            </Fab>}
+          </Box>
+        </WagmiConfig>
+        <Web3Modal
+          themeVariables={{
+            "--w3m-z-index": "1",
           }}
-        >
-         {PoolBack ?  <Fab variant="extended" onClick={()=>{navigate("/pools/BTC:USD");setPoolBack(false)}}>
-            <OpacityOutlinedIcon sx={{ mr: 1 }} />
-            Pools
-          </Fab> :<Fab variant="extended" onClick={()=>{navigate("/");setPoolBack(true)}}>
-            <KeyboardBackspaceOutlinedIcon sx={{ mr: 1 }} />
-            Back
-          </Fab> }
-        </Box>
-      </WagmiConfig>
-      <Web3Modal
-        themeVariables={{
-          "--w3m-z-index": "1",
-        }}
-        projectId={projectId}
-        ethereumClient={ethereumClient}
-      />
+          projectId={projectId}
+          ethereumClient={ethereumClient}
+        />
+      </MantineProvider>
     </div>
   );
 }

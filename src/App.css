@@ -1,5 +1,11 @@
+
 .css-10mozfj {
   display: none !important;
+}
+
+html.theme-dark .group-BfVZxb4b {
+  /* Adarsh Added for Changing TradingViewWidget Color */
+  --tv-color-pane-background: #000000;
 }
 
 @media(max-width : 804px) {

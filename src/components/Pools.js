@@ -85,16 +85,14 @@ const Pools = () => {
           <div className="poolinfoliq">
             <div className="poolinfo">
               <div className="infocont">
-                <div className="infocont1">Pool Party</div>
+                <div className="infocont1">Provide Liquidty</div>
                 <div className="picont11">
                   <span>
-                    Earn PERP+OP by providing liquidity! The more trading fees
-                    you earn proportionately in a week, the higher % you can
-                    claim from the liquidity mining rewards.
+                    Provide liquidity to earn trading fees from the BTC/USD pair 
                   </span>
                 </div>
                 <div className="infocont2">
-                  <button>Claim Here</button>
+                  <button style={{ cursor: "not-allowed" }} >Comming Soon</button>
                 </div>
               </div>
               <p>Pool Info</p>
@@ -264,7 +262,7 @@ const Pools = () => {
                     (0/3)
                   </span>
                 </p>
-                <button onClick={handleOpen}>Add Liquidity</button>
+                <button onClick={handleOpen} style={{ cursor: "pointer" }} >Add Liquidity</button>
               </div>
               {Simadvmodal ? (
                 <Modal

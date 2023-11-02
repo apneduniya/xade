@@ -23,6 +23,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import OpacityOutlinedIcon from "@mui/icons-material/OpacityOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Drawer from "@mui/material/Drawer";
+import { Anchor, Spoiler } from '@mantine/core';
 import Typography from "@mui/material/Typography";
 
 import { encodeErrorResult, parseEther, stringToHex } from "viem";
@@ -46,7 +47,9 @@ import "core-js/features/bigint";
 import VideoPlayer from "./Videoplayer";
 import derivex from "../smartContract/functions.ts";
 import { Flex } from "@chakra-ui/react";
-import { Approval } from "@mui/icons-material";
+import { Approval, LaunchOutlined } from "@mui/icons-material";
+import Indicator from "./Indicator";
+import { Group, NativeSelect } from "@mantine/core";
 
 const Derivex = () => {
   const [inputValue, setInputValue] = useState(1);
@@ -66,11 +69,14 @@ const Derivex = () => {
   const [tabActive, setTabActive] = useState(true);
   const [summaryActive, setSummaryActive] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [USDamount, setUSDAmount] = useState(0);
   const { data: walletClient } = useWalletClient();
   const [isDepositModalOpen, setDepositModalOpen] = useState(false);
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const [depositValue, setDepositValue] = useState("");
   const [withdrawValue, setWithdrawValue] = useState("");
+  const [marketTradetabActive, setMarketTradeTabActive] = useState(1);
+  const [swapGetResponse, setSwapGetResponse] = useState({});
 
   const amountArg = 56;
   const deadline = 1912176727;
@@ -193,49 +199,55 @@ const Derivex = () => {
   }, []);
 
   // ----- Ashwath--------
-  const params = {
-    baseToken: BTC_BASE_TOKEN_ADDRESS,
-    isBaseToQuote: true,
-    isExactInput: false,
-    /* eslint-disable */
-    amount: Number(amount * Math.trunc(value / 10)) * 10 ** 18,
-    oppositeAmountBound: parseEther("0"),
-    deadline: Math.floor(Date.now() / 1000) + 60 * 20, //  20 minutes from now
-    sqrtPriceLimitX96: 0,
-    referralCode: stringToHex("0", { size: 32 }), // Convert string referral code to bytes32
-  };
-  const { config: setOpenPositionLongConfig } = usePrepareContractWrite({
+  // const params = {
+  //   baseToken: BTC_BASE_TOKEN_ADDRESS,
+  //   isBaseToQuote: true,
+  //   isExactInput: false,
+  //   /* eslint-disable */
+  //   amount: parseEther(amount * Math.trunc(value / 10)),
+  //   oppositeAmountBound: parseEther("0"),
+  //   deadline: Math.floor(Date.now() / 1000) + 60 * 20, //  20 minutes from now
+  //   sqrtPriceLimitX96: 0,
+  //   referralCode: stringToHex("0", { size: 32 }), // Convert string referral code to bytes32
+  // };
+  // const { config: setOpenPositionLongConfig } = usePrepareContractWrite({
+  //   address: CLEARING_HOUSE_ADDRESS,
+  //   abi: clearingHouseABI,
+  //   // overrides: {
+  //   //   gasLimit: 690000, // Keeping this here just in case you need to modify the gas limit
+  //   // },
+  //   functionName: "openPosition",
+  //   args: [
+  //     params,
+  //     // {
+  //     //   baseToken:  BTC_BASE_TOKEN_ADDRESS,
+  //     //   isBaseToQuote: false,
+  //     //   isExactInput: true,
+  //     //   amount: amountArg,
+  //     //   oppositeAmountBound: 0,
+  //     //   deadline : deadline,
+  //     //   sqrtPriceLimitX96: 0,
+  //     //   referralCode: ethers.constants.HashZero,
+  //     // },
+  //   ], // TODO: Change args from "56" to an amountArg variable
+  // });
+
+  const { writeAsync: submitOpenPositionLong } = useContractWrite({
     address: CLEARING_HOUSE_ADDRESS,
     abi: clearingHouseABI,
     // overrides: {
     //   gasLimit: 690000, // Keeping this here just in case you need to modify the gas limit
     // },
     functionName: "openPosition",
-    args: [
-      params,
-      // {
-      //   baseToken:  BTC_BASE_TOKEN_ADDRESS,
-      //   isBaseToQuote: false,
-      //   isExactInput: true,
-      //   amount: amountArg,
-      //   oppositeAmountBound: 0,
-      //   deadline : deadline,
-      //   sqrtPriceLimitX96: 0,
-      //   referralCode: ethers.constants.HashZero,
-      // },
-    ], // TODO: Change args from "56" to an amountArg variable
-  });
-
-  const { writeAsync: submitOpenPositionLong } = useContractWrite({
-    ...setOpenPositionLongConfig,
-    async onSuccess(data) {
-      // You can add Snackbar notifications such as from https://notistack.com/
-      await enqueueSnackbar("Success");
-    },
-    async onError(data) {
-      // You can add Snackbar notifications such as from https://notistack.com/
-      await enqueueSnackbar("Failure");
-    },
+    // ...setOpenPositionLongConfig,
+    // async onSuccess(data) {
+    //   // You can add Snackbar notifications such as from https://notistack.com/
+    //   await enqueueSnackbar("Success");
+    // },
+    // async onError(data) {
+    //   // You can add Snackbar notifications such as from https://notistack.com/
+    //   await enqueueSnackbar("Failure");
+    // },
   });
 
   //con
@@ -298,11 +310,22 @@ const Derivex = () => {
 
   const onPositionSubmitClick = async () => {
     if (value > XUSD_ALLOWANCE) {
-      approveToken?.();
+      await approveToken?.();
       return;
     }
+    const params = {
+      baseToken: XUSD_ADDRESS,
+      isBaseToQuote: true,
+      isExactInput: true, // true for xusd, false for btc ---> long
+      /* eslint-disable */
+      amount: Number(amount * Math.trunc(value / 10)), // for decimal value *10**18 -> 18 decimals
+      oppositeAmountBound: parseEther("0"),
+      deadline: Math.floor(Date.now() / 1000) + 60 * 20, //  20 minutes from now
+      sqrtPriceLimitX96: 0,
+      referralCode: stringToHex("0", { size: 32 }), // Convert string referral code to bytes32
+    };
 
-    submitOpenPositionLong();
+    await submitOpenPositionLong({ args: [params] });
   };
 
   const [rows1, setRows] = useState([
@@ -357,23 +380,26 @@ const Derivex = () => {
     // Add more data objects here if needed
   ]);
 
-  const createData = (size, time, price) => {
-    return { size, time, price };
+  const createData = (price, size, time) => {
+    return { price, size, time };
   };
 
   const rows = [
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
-    createData(0.0904743, "7/19 15:17", "30,020.9"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
+    createData("34,844", 0.18174, "18:12:20"),
   ];
 
   const handleDeleteRow = (index, event) => {
@@ -400,17 +426,17 @@ const Derivex = () => {
       <table className="table2">
         <thead>
           <tr>
-            <th>Size</th>
-            <th>Time</th>
             <th>Price</th>
+            <th>Size (BTC)</th>
+            <th>Time</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item, index) => (
             <tr key={index}>
-              <td style={{ color: "rgba(94,217,151,1)" }}>{item.size}</td>
-              <td style={{ color: "#747677" }}>{item.time}</td>
-              <td>{item.price}</td>
+              <td style={{ color: "rgba(94,217,151,1)" }}>{item.price}</td>
+              <td>{item.size}</td>
+              <td style={{ color: "#747677", display: "flex", gap: "5px" }}>{item.time} <LaunchOutlined fontSize="small" htmlColor="#3A8477" /></td>
               {/* Add your Market Trade data here, e.g., <td>{item.marketTrade}</td> */}
             </tr>
           ))}
@@ -474,7 +500,7 @@ const Derivex = () => {
 
       if (
         innerRef.current.scrollLeft + innerRef.current.clientWidth ===
-          innerRef.current.scrollWidth ||
+        innerRef.current.scrollWidth ||
         innerRef.current.scrollLeft !== 0
       ) {
         setShowRight(false);
@@ -643,12 +669,12 @@ const Derivex = () => {
   };
   const depositValueRecord = async () => {
     console.log("deposit fn call", depositValue, XUSD_ALLOWANCE);
-    // if (depositValue > XUSD_ALLOWANCE) {
-    //   await approveToken?.();
-    //   return;
-    // }
+    if (depositValue > XUSD_ALLOWANCE) {
+      await approveToken?.();
+      return;
+    }
 
-    // await depositToken?.();
+    await depositToken?.();
   };
   const withdrawValueRecord = (event) => {
     console.log({ withdrawValue });
@@ -671,14 +697,14 @@ const Derivex = () => {
     <>
       <SnackbarProvider />
       <div className="dwArea">
-        <div className="dwSection">
+        {/* <div className="dwSection">
           <button className="depositBtn" onClick={openDepositModal}>
             Deposit
           </button>
           <button className="withdrawBtn" onClick={openWithdrawModal}>
             Withdraw
           </button>
-        </div>
+        </div> */}
 
         {isDepositModalOpen && (
           <div className="depositModal">
@@ -741,9 +767,18 @@ const Derivex = () => {
                 </div>
                 <div
                   className="  tvwch-2"
-                  style={{ display: "flex", flexDirection: "row" }}
+                  style={{ display: "flex", flexDirection: "row", width: "auto", fontFamily: "Montreal" }}
                 >
-                  <div className="tvwch-2-1">
+                  <div
+                    className="tvwch-2-1"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <span>$</span>
                     <span>{btcprice}</span>
                   </div>
                   <div className="tvwch-2-2">
@@ -753,35 +788,42 @@ const Derivex = () => {
 
                 <div className="tvwhm" ref={Arrow === false ? innerRef : oRef}>
                   <LeftButton show={showLeft} onClick={handleLeftScroll} />
-                  <div className=" tv tvwch-2">
-                    <span className="oi">Mark Price</span>
+                  {
+                    Menu != 1 ?
+                      <>
+                        <div className=" tv tvwch-2">
+                          <span className="oi">Mark Price</span>
 
-                    <span className="oid">14.6M / 22M</span>
-                  </div>
+                          <span className="oid">14.6M / 22M</span>
+                        </div>
 
-                  <div className=" tv tvwch-2">
-                    <span className="oi">Index Price</span>
+                        <div className=" tv tvwch-2">
+                          <span className="oi">Index Price</span>
 
-                    <span className="oid">361.6k / 22M</span>
-                  </div>
+                          <span className="oid">361.6k / 22M</span>
+                        </div>
 
-                  <div className="tv tvwch-2">
-                    <div className="tvwch-3-1">
-                      <span>Volume (24h)</span>
-                    </div>
-                    <div className="tvwch-4-2">
-                      <span>0.0067%</span>
-                    </div>
-                  </div>
+                        <div className="tv tvwch-2">
+                          <div className="tvwch-3-1">
+                            <span>Volume (24h)</span>
+                          </div>
+                          <div className="tvwch-4-2">
+                            <span>0.0067%</span>
+                          </div>
+                        </div>
 
-                  <div className="tv tvwch-2">
-                    <div className="tvwch-3-1">
-                      <span id="vq1">Funding Rate (8h)</span>
-                    </div>
-                    <div className="tvwch-5-2">
-                      <span>0.0033%</span>
-                    </div>
-                  </div>
+                        <div className="tv tvwch-2">
+                          <div className="tvwch-3-1">
+                            <span id="vq1">Funding Rate (8h)</span>
+                          </div>
+                          <div className="tvwch-5-2">
+                            <span>0.0033%</span>
+                          </div>
+                        </div>
+                      </>
+                      :
+                      null
+                  }
                 </div>
 
                 {/* <div className="dwSection">
@@ -855,7 +897,8 @@ const Derivex = () => {
                       style={{
                         textAlign: "center",
                         alignItems: "center",
-                        height: "125px",
+                        height: "auto",
+                        padding: "14px 0"
                       }}
                     >
                       Market Trades
@@ -914,47 +957,90 @@ const Derivex = () => {
                 </div>
                 <div className="tvwp" id="tvwp1">
                   <div className="tvwpht">
-                    <div className="tvwpht1">
+                    <div className="tvwpht2-m">
                       <button
-                        onClick={() => setTab(true)}
-                        id={tab ? "tvwphtll" : ""}
+                        onClick={() => setMenu(1)}
+                        id={Menu === 1 ? "tvwpht2-mb" : ""}
                       >
-                        LONG
+                        Spot
                       </button>
                       <button
-                        onClick={() => setTab(false)}
-                        id={tab == false ? "tvwphtls" : ""}
+                        onClick={() => setMenu(2)}
+                        id={Menu === 2 ? "tvwpht2-mb" : ""}
                       >
-                        SHORT
+                        Margin
+                      </button>
+                      <button
+                        onClick={() => setMenu(3)}
+                        id={Menu === 3 ? "tvwpht2-mb" : ""}
+                      >
+                        Algo
                       </button>
                     </div>
                     <div className="tvwpht2">
-                      <div className="tvwpht2-m">
+                      <Group mt={10} justify="center">
+                        <NativeSelect w={100} data={["Market", "Limit", "Stop"]} />
+                        {/* <div className=" tradeTabHolder">
+                          <div
+                            className={`cursor tradeTabs ${marketTradetabActive === 1 && " longTradeTabs"
+                              }`}
+                            onClick={() => {
+                              setMarketTradeTabActive(1);
+                              // setValue(0);
+                            }}
+                          >
+                            <span style={{ margin: "3px", fontSize: "16px" }}>
+                              Market
+                            </span>
+                          </div>
+                          <div
+                            className={`cursor tradeTabs ${marketTradetabActive === 2 && " shortTradeTabs"
+                              }`}
+                            style={{}}
+                            onClick={() => {
+                              setMarketTradeTabActive(2);
+                              // setValue(0);
+                            }}
+                          >
+                            <span style={{ margin: "3px", fontSize: "16px" }}>
+                              Limit
+                            </span>
+                          </div>
+                          <div
+                            className={`cursor tradeTabs ${marketTradetabActive === 3 && " shortTradeTabs"
+                              }`}
+                            style={{}}
+                            onClick={() => {
+                              setMarketTradeTabActive(3);
+                              // setValue(0);
+                            }}
+                          >
+                            <span style={{ margin: "3px", fontSize: "16px" }}>
+                              Stop
+                            </span>
+                          </div>
+                        </div> */}
+                      </Group>
+                      <div className="tvwpht1">
                         <button
-                          onClick={() => setMenu(1)}
-                          id={Menu === 1 ? "tvwpht2-mb" : ""}
+                          onClick={() => setTab(true)}
+                          id={tab ? "tvwphtll" : ""}
                         >
-                          Market
+                          BUY
                         </button>
                         <button
-                          onClick={() => setMenu(2)}
-                          id={Menu === 2 ? "tvwpht2-mb" : ""}
+                          onClick={() => setTab(false)}
+                          id={tab == false ? "tvwphtls" : ""}
                         >
-                          Limit
-                        </button>
-                        <button
-                          onClick={() => setMenu(3)}
-                          id={Menu === 3 ? "tvwpht2-mb" : ""}
-                        >
-                          Stop
+                          SELL
                         </button>
                       </div>
-                      <div className={Menu !== 1 ? "tscs" : "tscsn"}>
+                      <div className={Menu === 3 ? "tscs" : "tscsn"}>
                         <span style={{ padding: "10px" }}>Coming Soon</span>
                       </div>
                       <div
                         className={
-                          Menu === 1 ? "tvwphtcontainer" : "tvwphtcontainer23"
+                          Menu !== 3 ? "tvwphtcontainer" : "tvwphtcontainer23"
                         }
                       >
                         <div className="tvwpht2-c">
@@ -971,47 +1057,48 @@ const Derivex = () => {
                             ></input>
                           </div>
                         </div>
-                        <div className="tvwpht2-r">
-                          <div className="tvwpht2-r1">
-                            <div className="tvwpht2-r1-1">
-                              Leverage<span> (1-10x)</span>
+                        {Menu === 2 ?
+                          <div className="tvwpht2-r">
+                            <div className="tvwpht2-r1">
+                              <div className="tvwpht2-r1-1">
+                                Leverage<span> (1-10x)</span>
+                              </div>
+                              <div className="tvwpht2-r1-2">
+                                <Col span={4}>
+                                  <Input
+                                    value={Math.trunc(value / 10)}
+                                    size="small"
+                                    onChange={onChange}
+                                    onBlur={handleBlur}
+                                    inputProps={{
+                                      min: 1,
+                                      max: 10,
+                                      type: "number",
+                                      "aria-labelledby": "Custom marks",
+                                    }}
+                                    sx={{
+                                      "& .MuiInput-input": {
+                                        color: "white",
+                                        backgroundColor: "black",
+                                        width: 82,
+                                        height: 20, // Update the height here
+                                        borderRadius: 1,
+                                      },
+                                      ".MuiInputBase-input": {
+                                        width: 77,
+                                        paddingLeft: 1.8,
+                                      },
+                                      "&.MuiInputBase-root": {
+                                        width: 101,
+                                        marginTop: 0.5,
+                                      },
+                                    }}
+                                  />
+                                </Col>
+                              </div>
                             </div>
-                            <div className="tvwpht2-r1-2">
-                              <Col span={4}>
-                                <Input
-                                  value={Math.trunc(value / 10)}
-                                  size="small"
-                                  onChange={onChange}
-                                  onBlur={handleBlur}
-                                  inputProps={{
-                                    min: 1,
-                                    max: 10,
-                                    type: "number",
-                                    "aria-labelledby": "Custom marks",
-                                  }}
-                                  sx={{
-                                    "& .MuiInput-input": {
-                                      color: "white",
-                                      backgroundColor: "black",
-                                      width: 82,
-                                      height: 20, // Update the height here
-                                      borderRadius: 1,
-                                    },
-                                    ".MuiInputBase-input": {
-                                      width: 77,
-                                      paddingLeft: 1.8,
-                                    },
-                                    "&.MuiInputBase-root": {
-                                      width: 101,
-                                      marginTop: 0.5,
-                                    },
-                                  }}
-                                />
-                              </Col>
-                            </div>
-                          </div>
-                          <div className="tvwpht2-r2">
-                            {/* <Slider
+                            <div className="tvwpht2-r2">
+                              {/* <Slider
                             aria-label="Custom marks"
                             defaultValue={1}
                             max={10}
@@ -1043,46 +1130,49 @@ const Derivex = () => {
                               },
                             }}
                           /> */}
-                            <Slider
-                              value={typeof value === "number" ? value : 0}
-                              onChange={handleSliderChange}
-                              aria-labelledby="input-slider"
-                              valueLabelDisplay="auto"
-                              marks={marks}
-                              valueLabelFormat={Math.trunc(value / 10)}
-                              getAriaValueText={(e) => e}
-                              sx={{
-                                ".MuiSlider-markLabel": {
-                                  color: "#82828F", // Set the desired mark label color here
-                                },
-                                ".MuiSlider-mark": {
-                                  display: "none",
-                                },
+                              <Slider
+                                value={typeof value === "number" ? value : 0}
+                                onChange={handleSliderChange}
+                                aria-labelledby="input-slider"
+                                valueLabelDisplay="auto"
+                                marks={marks}
+                                valueLabelFormat={Math.trunc(value / 10)}
+                                getAriaValueText={(e) => e}
+                                sx={{
+                                  ".MuiSlider-markLabel": {
+                                    color: "#82828F", // Set the desired mark label color here
+                                  },
+                                  ".MuiSlider-mark": {
+                                    display: "none",
+                                  },
 
-                                ".MuiSlider-rail": {
-                                  color: "#1D1D1D",
-                                  height: "10px",
-                                  opacity: 1,
-                                  zIndex: 1,
-                                },
-                                ".MuiSlider-thumb": {
-                                  width: 15,
-                                  height: 15,
-                                  border: " 2px solid white",
-                                  color: "#282C3B",
-                                },
-                                "	.MuiSlider-track": {
-                                  backgroundColor: "#D65CD9",
-                                  height: "10px",
-                                  border: "0px",
-                                },
-                                ".MuiSlider-valueLabel:before": {
-                                  width: "0px",
-                                },
-                              }}
-                            />
+                                  ".MuiSlider-rail": {
+                                    color: "#1D1D1D",
+                                    height: "10px",
+                                    opacity: 1,
+                                    zIndex: 1,
+                                  },
+                                  ".MuiSlider-thumb": {
+                                    width: 15,
+                                    height: 15,
+                                    border: " 2px solid white",
+                                    color: "#282C3B",
+                                  },
+                                  "	.MuiSlider-track": {
+                                    backgroundColor: "#D65CD9",
+                                    height: "10px",
+                                    border: "0px",
+                                  },
+                                  ".MuiSlider-valueLabel:before": {
+                                    width: "0px",
+                                  },
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
+                          :
+                          null
+                        }
 
                         <div className="tvwpht2-p">
                           <div className="tvwpht2-p1">
@@ -1161,18 +1251,28 @@ const Derivex = () => {
                                         </div> */}
                         {/* onClick={() => submitOpenPositionLong?.()} */}
                         <div className="tvwpht2-btn">
-                          {isConnected ? (
-                            <button onClick={() => {}}>MARKET (LONG)</button>
-                          ) : (
-                            <div
-                              className="bcont"
-                              onClick={() => {
-                                open();
-                              }}
-                            >
-                              <span>CONNECT WALLET</span>
-                            </div>
-                          )}
+                          {
+                            Menu === 1 ?
+                              isConnected ? (
+                                <button onClick={() => { }}>MARKET (LONG)</button>
+                              ) : (
+                                <div
+                                  className="bcont"
+                                  onClick={() => {
+                                    open();
+                                  }}
+                                >
+                                  <span>CONNECT WALLET</span>
+                                </div>
+                              )
+                              :
+                              <div
+                                className="bcont"
+                                style={{ backgroundColor: "#1D1D1D", cursor: "not-allowed" }}
+                              >
+                                <span>COMING SOON</span>
+                              </div>
+                          }
                         </div>
 
                         <div className="tvwphyt2-mc">
@@ -1246,7 +1346,13 @@ const Derivex = () => {
                       borderBottom: "1px solid #232325",
                     }}
                   >
-                    <div className="transactionHistoryContainer">
+                    <div
+                      className="transactionHistoryContainer"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
                       <div className="tvwnshl">
                         &nbsp;&nbsp;&nbsp;
                         <button
@@ -1254,7 +1360,7 @@ const Derivex = () => {
                             setTohmenu(1);
                           }}
                         >
-                          Trades
+                          Portfolio
                         </button>
                         <button
                           onClick={() => {
@@ -1268,7 +1374,7 @@ const Derivex = () => {
                             setTohmenu(3);
                           }}
                         >
-                          History
+                          Deposits
                         </button>
                       </div>
 
@@ -1379,18 +1485,45 @@ const Derivex = () => {
                           </div>
                         </>
                       ) : (
-                        <div className="tvwnshr">
-                          <span style={{ color: "#82828F" }}>
-                            Wallet not connected
-                          </span>{" "}
-                          &nbsp;&nbsp;{" "}
+                        <div
+                          className="tvwnshr"
+                          style={{
+                            alignSelf: "center",
+                            height: "100%",
+                          }}
+                        >
+                          {
+                            tohmenu === 1 ?
+                              <span style={{ color: "#82828F" }}>
+                                Your positions and investments appear here
+                              </span>
+                              :
+                              null
+                          }
+                          {
+                            tohmenu === 2 ?
+                              <span style={{ color: "#82828F" }}>
+                                Your order history appears here
+                              </span>
+                              :
+                              null
+                          }
+                          {
+                            tohmenu === 3 ?
+                              <span style={{ color: "#82828F" }}>
+                                Your deposits appear here
+                              </span>
+                              :
+                              null
+                          }
+                          {/* {" "}&nbsp;&nbsp;{" "}
                           <button
                             onClick={() => {
                               open();
                             }}
                           >
                             Connect
-                          </button>
+                          </button> */}
                         </div>
                       )}
 
@@ -1524,6 +1657,7 @@ const Derivex = () => {
                     </div>
                   </div>
                 </div>
+                <Indicator />
               </div>
 
               {/* <div className="tvhmn" ref={outerRef}>
@@ -1576,167 +1710,285 @@ const Derivex = () => {
           </div>
 
           <div className="tvwp newTradeHolder" id="tvwp2">
-            <div className="tvwpht newTradeContainer">
-              <div className="tvwpht1 newTradeHeading">
-                <div className=" tradeTabHolder">
-                  {/* <div onClick={() => setTab(true)} id={tab ? "tvwphtll" : ""}> */}
-                  <div
-                    className={`cursor tradeTabs ${
-                      !tabActive && " longTradeTabs"
-                    }`}
-                    onClick={() => {
-                      setTabActive(false);
-                      setValue(0);
-                    }}
-                  >
-                    <span style={{ margin: "3px", fontSize: "16px" }}>
-                      Long
-                    </span>
+            <div
+              className="tvwpht newTradeContainer"
+              style={{
+                backgroundColor: "transparent"
+              }}
+            >
+              {/* <div className="tvwpht1 newTradeHeading">
+                
+              </div> */}
+              <div
+                className="tvwpht2"
+                style={{
+                  backgroundColor: "#111111"
+                }}
+              >
+                <Group mt={10} justify="flex-end">
+                  <div className="tvwpht2-m">
+                    <button
+                      onClick={() => setMenu(1)}
+                      id={Menu === 1 ? "tvwpht2-mb" : ""}
+                    >
+                      <span>Spot</span>
+                    </button>
+                    <button
+                      onClick={() => setMenu(2)}
+                      id={Menu === 2 ? "tvwpht2-mb" : ""}
+                    >
+                      <span>Margin</span>
+                    </button>
+                    <button
+                      onClick={() => setMenu(3)}
+                      id={Menu === 3 ? "tvwpht2-mb" : ""}
+                    >
+                      <span>Algo</span>
+                    </button>
                   </div>
-                  <div
-                    className={`cursor tradeTabs ${
-                      tabActive && " shortTradeTabs"
-                    }`}
-                    style={{}}
-                    onClick={() => {
-                      setTabActive(true);
-                      setValue(0);
-                    }}
-                  >
-                    <span style={{ margin: "3px", fontSize: "16px" }}>
-                      Short
-                    </span>
+                  {/* <NativeSelect w={100} data={["Market", "Limit", "Stop"]} /> */}
+                  <div className="tvwpht1">
+                    <button
+                      onClick={() => setMarketTradeTabActive(1)}
+                      style={marketTradetabActive === 1 ? { backgroundColor: "#111111", borderBottom: "3px solid #089981", color: "#089981" } : { backgroundColor: "#111111" }}
+                    >
+                      Market
+                    </button>
+                    <button
+                      onClick={() => setMarketTradeTabActive(2)}
+                      style={marketTradetabActive == 2 ? { backgroundColor: "#111111", borderBottom: "3px solid #089981", color: "#089981" } : { backgroundColor: "#111111" }}
+                    >
+                      Limit
+                    </button>
+                    <button
+                      onClick={() => setMarketTradeTabActive(3)}
+                      style={marketTradetabActive == 3 ? { backgroundColor: "#111111", borderBottom: "3px solid #089981", color: "#089981" } : { backgroundColor: "#111111" }}
+                    >
+                      Stop
+                    </button>
                   </div>
-                </div>
-              </div>
-              <div className="tvwpht2">
-                <div className="tvwpht2-m">
-                  <button
-                    onClick={() => setMenu(1)}
-                    id={Menu === 1 ? "tvwpht2-mb" : ""}
-                  >
-                    <span>Market</span>
-                  </button>
-                  <button
-                    onClick={() => setMenu(2)}
-                    id={Menu === 2 ? "tvwpht2-mb" : ""}
-                  >
-                    <span>Limit</span>
-                  </button>
-                  <button
-                    onClick={() => setMenu(3)}
-                    id={Menu === 3 ? "tvwpht2-mb" : ""}
-                  >
-                    <span>Stop</span>
-                  </button>
-                </div>
-                <div className={Menu !== 1 ? "tscs" : "tscsn"}>
+                  <div className="tradeTabHolder">
+                    {/* <div onClick={() => setTab(true)} id={tab ? "tvwphtll" : ""}> */}
+                    <div
+                      className={`cursor tradeTabs ${!tabActive && " longTradeTabs"
+                        }`}
+                      onClick={() => {
+                        setTabActive(false);
+                        setValue(0);
+                      }}
+                    >
+                      <span style={{ margin: "3px", fontSize: "16px" }}>
+                        Buy
+                      </span>
+                    </div>
+                    <div
+                      className={`cursor tradeTabs ${tabActive && " shortTradeTabs"
+                        }`}
+                      style={{}}
+                      onClick={() => {
+                        setTabActive(true);
+                        setValue(0);
+                      }}
+                    >
+                      <span style={{ margin: "3px", fontSize: "16px" }}>
+                        Sell
+                      </span>
+                    </div>
+                  </div>
+                </Group>
+                <div
+                  className={Menu === 3 ? "tscs" : "tscsn"}
+                  style={
+                    Menu === 3 ?
+                      {
+                        marginTop: 0,
+                        height: "300px",
+                        width: "100%",
+                        alignSelf: "center",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }
+                      :
+                      {}
+                  }
+                >
                   <span style={{ padding: "10px" }}>Coming Soon</span>
                 </div>
                 <div
                   className={
-                    Menu === 1 ? "tvwphtcontainer" : "tvwphtcontainer23"
+                    Menu !== 3 ? "tvwphtcontainer" : "tvwphtcontainer23"
                   }
                 >
-                  <div className="tvwpht2-c">
-                    <div className="tvwpht2-c1">
-                      <span style={{ marginRight: "3px" }}>Collateral</span>
-                      <span>(50-250k)</span>
-                    </div>
+                  <div
+                    className="tvwpht2-c1"
+                    style={{
+                      paddingLeft: 2,
+                    }}
+                  >
+                    <span>Enter Trade Amount</span>
+                    {/* <span>(50-250k)</span> */}
+                  </div>
+                  <div
+                    className="tvwpht2-c"
+                    style={{
+                      marginTop: 4,
+                    }}
+                  >
                     <div className="tvwpht2-c2">
                       <input
                         type="text"
                         value={amount}
                         onChange={(e) => setAmount(Number(e.target.value))}
                       ></input>
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "#303044",
+                          borderRadius: 2,
+                          lineHeight: "1.3rem",
+                          letterSpacing: "0.06rem",
+                          padding: "0 3px 0 4px",
+                          marginLeft: 5,
+                          marginTop: -2,
+                          marginBottom: -2,
+                          fontSize: "0.9rem",
+                          color: "#82828F",
+                          textTransform: "uppercase",
+                          height: "fit-content",
+                          userSelect: "none"
+                        }}
+                      >
+                        BTC
+                      </div>
                     </div>
                   </div>
-                  <div className="tvwpht2-r">
-                    <div className="tvwpht2-r1">
-                      <div className="tvwpht2-r1-1">
-                        <span> Leverage (1-10x)</span>
+                  <div
+                    className="tvwpht2-c"
+                    style={{
+                      marginTop: 4,
+                    }}
+                  >
+                    <div className="tvwpht2-c2">
+                      <input
+                        type="text"
+                        value={USDamount}
+                        onChange={(e) => setUSDAmount(Number(e.target.value))}
+                      ></input>
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "#303044",
+                          borderRadius: 2,
+                          lineHeight: "1.3rem",
+                          letterSpacing: "0.06rem",
+                          padding: "0 3px 0 4px",
+                          marginLeft: 5,
+                          marginTop: -2,
+                          marginBottom: -2,
+                          fontSize: "0.9rem",
+                          color: "#82828F",
+                          textTransform: "uppercase",
+                          height: "fit-content",
+                          userSelect: "none"
+                        }}
+                      >
+                        USD
                       </div>
-                      <div className="tvwpht2-r1-2">
-                        <Col span={4}>
-                          <Input
-                            className="leverageInput"
-                            value={Math.floor(Math.abs(value) / 10)}
-                            size="small"
-                            onChange={onChange}
-                            onBlur={handleBlur}
-                            inputProps={{
-                              min: 1,
-                              max: 10,
-                              type: "number",
-                              "aria-labelledby": "Custom marks",
-                            }}
-                            sx={{
-                              "& .MuiInput-input": {
-                                color: "white",
+                    </div>
+                  </div>
+                  {
+                    Menu === 2 ?
+                      <div className="tvwpht2-r">
+                        <div className="tvwpht2-r1">
+                          <div className="tvwpht2-r1-1">
+                            <span> Leverage (1-10x)</span>
+                          </div>
+                          <div className="tvwpht2-r1-2">
+                            <Col span={4}>
+                              <Input
+                                className="leverageInput"
+                                value={Math.floor(Math.abs(value) / 10)}
+                                size="small"
+                                onChange={onChange}
+                                onBlur={handleBlur}
+                                inputProps={{
+                                  min: 1,
+                                  max: 10,
+                                  type: "number",
+                                  "aria-labelledby": "Custom marks",
+                                }}
+                                sx={{
+                                  "& .MuiInput-input": {
+                                    color: "white",
 
-                                // width: 82,
-                                // height: 20, // Update the height here
-                                borderRadius: 1,
+                                    // width: 82,
+                                    // height: 20, // Update the height here
+                                    borderRadius: 1,
+                                  },
+                                  ".MuiInputBase-input": {
+                                    // width: 77,
+                                    paddingLeft: 1.8,
+                                  },
+                                  "&.MuiInputBase-root": {
+                                    width: 48,
+                                    marginTop: 0.5,
+                                  },
+                                }}
+                              />
+                            </Col>
+                          </div>
+                        </div>
+                        <div
+                          className="tvwpht2-r2"
+                          style={{ position: "relative" }}
+                        >
+                          <Slider
+                            value={typeof value === "number" ? value : 0}
+                            onChange={handleSliderChange}
+                            aria-labelledby="input-slider"
+                            // valueLabelDisplay="on"
+                            valueLabelFormat={(x) => `${x}%`}
+                            marks={leverageMarksLong}
+                            track={"normal"}
+                            getAriaValueText={(e) => e}
+                            max={100}
+                            min={0}
+                            sx={{
+                              " .MuiSlider-markLabel": {
+                                color: "#82828F", // Set the desired mark label color here
                               },
-                              ".MuiInputBase-input": {
-                                // width: 77,
-                                paddingLeft: 1.8,
+                              ".MuiSlider-rail": {
+                                background: "#1D1D1D",
+                                height: "10px",
+                                opacity: tabActive ? 1 : 1,
+                                zIndex: 1,
                               },
-                              "&.MuiInputBase-root": {
-                                width: 48,
-                                marginTop: 0.5,
+                              "& .MuiSlider-thumb": {
+                                width: 15,
+                                height: 15,
+                                zIndex: 200,
+                                background:
+                                  "linear-gradient(150deg, #d7d7d7 40%, rgba(169, 169, 169, 0) 152.01%)",
+                              },
+                              "	.MuiSlider-track": {
+                                height: "10px",
+                                border: "0px",
+                                zIndex: 200,
+                                background: tabActive
+                                  ? "linear-gradient(270deg, #E72654 10.45%, #E72654 50.25%)"
+                                  : "linear-gradient(270deg, #3CDF60 10.45%, #26E773 50.25%)",
+                              },
+                              ".MuiSlider-valueLabel:before": {
+                                width: "0px",
                               },
                             }}
                           />
-                        </Col>
-                      </div>
-                    </div>
-                    <div
-                      className="tvwpht2-r2"
-                      style={{ position: "relative" }}
-                    >
-                      <Slider
-                        value={typeof value === "number" ? value : 0}
-                        onChange={handleSliderChange}
-                        aria-labelledby="input-slider"
-                        // valueLabelDisplay="on"
-                        valueLabelFormat={(x) => `${x}%`}
-                        marks={leverageMarksLong}
-                        track={"normal"}
-                        getAriaValueText={(e) => e}
-                        max={100}
-                        min={0}
-                        sx={{
-                          " .MuiSlider-markLabel": {
-                            color: "#82828F", // Set the desired mark label color here
-                          },
-                          ".MuiSlider-rail": {
-                            background: "#1D1D1D",
-                            height: "10px",
-                            opacity: tabActive ? 1 : 1,
-                            zIndex: 1,
-                          },
-                          "& .MuiSlider-thumb": {
-                            width: 15,
-                            height: 15,
-                            zIndex: 200,
-                            background:
-                              "linear-gradient(150deg, #d7d7d7 40%, rgba(169, 169, 169, 0) 152.01%)",
-                          },
-                          "	.MuiSlider-track": {
-                            height: "10px",
-                            border: "0px",
-                            zIndex: 200,
-                            background: tabActive
-                              ? "linear-gradient(270deg, #E72654 10.45%, #E72654 50.25%)"
-                              : "linear-gradient(270deg, #3CDF60 10.45%, #26E773 50.25%)",
-                          },
-                          ".MuiSlider-valueLabel:before": {
-                            width: "0px",
-                          },
-                        }}
-                      />
-                      {/* <span
+                          {/* <span
                         style={{
                           position: "absolute",
                           left: !tabActive ? `${value}%` : undefined,
@@ -1759,8 +2011,11 @@ const Derivex = () => {
                       >
                         {Math.trunc(Math.abs(value) / 10)}
                       </span> */}
-                    </div>
-                  </div>
+                        </div>
+                      </div>
+                      :
+                      null
+                  }
                   <div className="priceSlippageContainer">
                     <div className="priceContainer">
                       <span className="smallText">Price</span>
@@ -1879,29 +2134,40 @@ const Derivex = () => {
                       justifyContent: "center",
                     }}
                   >
-                    {isConnected ? (
-                      <span
-                        className="confirmTradeButton cursor"
-                        style={{
-                          background: tabActive ? "#E72654" : "#3EC15B",
-                          color: "white",
-                        }}
-                        onClick={() =>
-                          tabActive ? () => {} : onPositionSubmitClick()
-                        }
-                      >
-                        Confirm {tabActive ? "Short" : "Long"}
-                      </span>
-                    ) : (
-                      <div
-                        className="bcont"
-                        onClick={() => {
-                          open();
-                        }}
-                      >
-                        <span>CONNECT WALLET</span>
-                      </div>
-                    )}
+                    {
+                      Menu === 1 ?
+                        isConnected ? (
+                          <span
+                            className="confirmTradeButton cursor"
+                            style={{
+                              background: tabActive ? "#E72654" : "#3EC15B",
+                              color: "white",
+                            }}
+                            onClick={() =>
+                              tabActive ? () => { } : onPositionSubmitClick()
+                            }
+                          >
+                            Confirm {tabActive ? "Sell" : "Buy"}
+                          </span>
+                        ) : (
+                          <div
+                            className="bcont"
+                            onClick={() => {
+                              open();
+                              console.log("wallet connected");
+                            }}
+                          >
+                            <span>CONNECT WALLET</span>
+                          </div>
+                        )
+                        :
+                        <div
+                          className="bcont"
+                          style={{ backgroundColor: "#1D1D1D", cursor: "not-allowed" }}
+                        >
+                          <span>COMING SOON</span>
+                        </div>
+                    }
                   </div>
                   {/* <div className="summaryDrop" onClick={toggleSummary}>
                     <img src={summaryDown} />
@@ -1965,6 +2231,94 @@ const Derivex = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div
+                style={{
+                  marginTop: "16px",
+                  padding: "12px 20px",
+                  width: "100%",
+                  backgroundColor: "#111111",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <span
+                  style={{
+                    color: "#ffffff",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    fontFamily: "Montreal",
+                    letterSpacing: "0.1rem",
+                  }}
+                >
+                  About
+                </span>
+                <Group>
+                  <Spoiler
+                    maxHeight={115}
+                    showLabel="Read more"
+                    hideLabel="Show less"
+                    style={{
+                      color: "#ffffff",
+                      fontSize: ".9rem",
+                      fontWeight: "normal",
+                      textAlign: "justify",
+                    }}
+                  >
+                    Bitcoin is a cryptocurrency launched in January 2009, where the first genesis block was mined on 9th January 2009. It is a decentralized digital currency that is based on cryptography. As such, it can operate without the need of a central authority like a central bank or a company. It is unlike government-issued or fiat currencies such as US Dollars or Euro in which they are controlled by the country’s central bank. The decentralized nature allows it to operate on a peer-to-peer network whereby users are able to send funds to each other without going through intermediaries.
+                  </Spoiler>
+                </Group>
+                <div className="tvwphyt2-m">
+                  <span className="tvwphyt-2-m-spanl" style={{ border: 0 }}>Token address</span>
+                  <span className="tvwphyt-2-m-spanr" style={{ color: "white" }}>0x0000...1010</span>
+                </div>
+                <div style={{ height: "1px", width: "100%", backgroundColor: "#282A2F", margin: "12px 0" }}></div>
+                <span
+                  style={{
+                    color: "#ffffff",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    fontFamily: "Montreal",
+                    letterSpacing: "0.1rem",
+                  }}
+                >
+                  Market Stats
+                </span>
+                <div className="tvwphyt2-m">
+                  <span className="tvwphyt-2-m-spanl" style={{ border: 0 }}>Market Cap</span>
+                  <span className="tvwphyt-2-m-spanr" style={{ color: "white" }}>$4,842,278,239.00</span>
+                </div>
+                <div className="tvwphyt2-m">
+                  <span className="tvwphyt-2-m-spanl" style={{ border: 0 }}>All Time Hight</span>
+                  <span className="tvwphyt-2-m-spanr" style={{ color: "white" }}>$2.92</span>
+                </div>
+                <div className="tvwphyt2-m">
+                  <span className="tvwphyt-2-m-spanl" style={{ border: 0 }}>All Time Low</span>
+                  <span className="tvwphyt-2-m-spanr" style={{ color: "white" }}>$0.00</span>
+                </div>
+                <div className="tvwphyt2-m">
+                  <span className="tvwphyt-2-m-spanl" style={{ border: 0 }}>Fully Diluted Value</span>
+                  <span className="tvwphyt-2-m-spanr" style={{ color: "white" }}>$5,206,861,073.00</span>
+                </div>
+                <div className="tvwphyt2-m">
+                  <span className="tvwphyt-2-m-spanl" style={{ border: 0 }}>Total Volume Locked</span>
+                  <span className="tvwphyt-2-m-spanr" style={{ color: "white" }}>$185,038,398.00</span>
+                </div>
+                <div style={{ height: "1px", width: "100%", backgroundColor: "#282A2F", margin: "12px 0" }}></div>
+                <span
+                  style={{
+                    color: "#ffffff",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    fontFamily: "Montreal",
+                    letterSpacing: "0.1rem",
+                  }}
+                >
+                  Resources
+                </span>
+                <Anchor style={{ color: "var(--mantine-color-anchor)", fontSize: "0.9rem" }} >https://bitcoin.org/</Anchor>
+                <Anchor style={{ color: "var(--mantine-color-anchor)", fontSize: "0.9rem" }} >https://blog.bitcoin.com/</Anchor>
               </div>
             </div>
           </div>

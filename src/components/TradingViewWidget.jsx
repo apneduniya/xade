@@ -115,6 +115,7 @@ export default function TradingViewWidget() {
           hide_side_toolbar: false,
           allow_symbol_change: true,
           container_id: "tradingview_87f1e",
+          custom_css_url: './custom.css',
         });
       }
     }
